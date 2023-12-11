@@ -13,12 +13,15 @@ class RegisterContent extends StatefulWidget {
 }
 
 class _RegisterContentState extends State<RegisterContent> {
+
   @override
   Widget build(BuildContext context) {
-     final loginCubit = context.watch<LoginCubit>();
+    final loginCubit = context.watch<LoginCubit>();
     final password = loginCubit.state.password;
     final email = loginCubit.state.email;
-        final titleStyle = Theme.of(context).textTheme;
+    final titleStyle = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
+    final size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Form(
@@ -67,10 +70,14 @@ class _RegisterContentState extends State<RegisterContent> {
               label: 'Password',
               prefixIcon: const Icon(Icons.lock),
              ),
-             //Birthdate
 
+             //Birthdate
+             
              //Gender
 
+            const SizedBox(height: 16),
+
+            const CustomExpansionTile(),
              Padding(
                padding: const EdgeInsets.symmetric(vertical: 16),
                child: CustomElevatedButton(
