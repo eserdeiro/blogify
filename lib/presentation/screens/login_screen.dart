@@ -8,12 +8,14 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-       return (constraints.maxWidth > 600 )
-          ?  const LoginLandscape()
-          :  const LoginPortrait(); 
-        },
+      body: Material(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+         return (constraints.maxWidth > 600 )
+            ?  const LoginLandscape()
+            :  const LoginPortrait(); 
+          },
+        ),
       ),
     );
   }

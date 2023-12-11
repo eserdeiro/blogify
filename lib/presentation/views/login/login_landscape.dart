@@ -14,27 +14,38 @@ class _LoginLandscapeState extends State<LoginLandscape> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Row(
-            children: [
-              ClipPath(
-                clipper: OvalRightBorderClipper(),
-                child: Container(
-                  width: size.width * 0.4,
-                  color: Colors.white,
-                  child: const Center(
-                    child: AppTitle(),
-                  ),
-                ),
-              ),
-              const Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Row(
                   children: [
-                    LoginContent(),
+                    ClipPath(
+                      clipper: OvalRightBorderClipper(),
+                      child: Container(
+                        width: size.width * 0.4,
+                        height: size.height,
+                        color: Colors.white,
+                        child: const Center(
+                          child: AppTitle(),
+                        ),
+                      ),
+                    ),
+                    SafeArea(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: size.width * 0.6,
+                            child: LoginContent()),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
-          );
+          ],
+        ),
+      ),
+    );
   }
 }

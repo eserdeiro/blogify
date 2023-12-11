@@ -31,7 +31,7 @@ class _LoginPortraitState extends State<LoginPortrait> {
                     ),
                   ),
                 ),
-                const SafeArea(child: SingleChildScrollView(child: LoginContent())),          
+                LoginContent(),          
               ],
             ),
     );
