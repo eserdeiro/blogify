@@ -35,9 +35,9 @@ class _LoginLandscapeState extends State<LoginLandscape> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
+                          SizedBox(
                             width: size.width * 0.6,
-                            child: LoginContent()),
+                            child: const LoginContent()),
                         ],
                       ),
                     ),

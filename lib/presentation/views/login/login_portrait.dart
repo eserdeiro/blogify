@@ -31,7 +31,7 @@ class _LoginPortraitState extends State<LoginPortrait> {
                     ),
                   ),
                 ),
-                LoginContent(),          
+                const LoginContent(),          
               ],
             ),
     );
