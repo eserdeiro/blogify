@@ -57,8 +57,6 @@ class _LoginContentState extends State<LoginContent> {
                 text: "Les't go", 
                 onPressed: () {
                 loginCubit.onSubmit();
-                print(email.value);
-                print(password.value);
                 }),
              ),
               Padding(

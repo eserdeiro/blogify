@@ -1,12 +1,8 @@
-import 'package:blogify/infrastructure/inputs/gender.dart';
-import 'package:blogify/infrastructure/inputs/lastname.dart';
-import 'package:blogify/infrastructure/inputs/name.dart';
-import 'package:blogify/infrastructure/inputs/username.dart';
-import 'package:blogify/presentation/widgets.dart';
+import 'package:blogify/infrastructure/inputs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:blogify/infrastructure/inputs/inputs.dart';
+import 'package:blogify/presentation/widgets.dart';
 
 part 'register_state.dart';
 
@@ -31,7 +27,6 @@ class RegisterCubit extends Cubit<RegisterFormState> {
         state.gender,
       ])
     ));
-    print('onSubmit $state');
   }
 
   void  nameChanged(String value){

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:blogify/infrastructure/inputs/inputs.dart';
+import 'package:blogify/infrastructure/inputs.dart';
 
 part 'login_state.dart';
 
