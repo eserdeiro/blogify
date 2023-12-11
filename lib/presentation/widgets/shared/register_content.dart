@@ -20,8 +20,6 @@ class _RegisterContentState extends State<RegisterContent> {
     final password = loginCubit.state.password;
     final email = loginCubit.state.email;
     final titleStyle = Theme.of(context).textTheme;
-    final colors = Theme.of(context).colorScheme;
-    final size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Form(

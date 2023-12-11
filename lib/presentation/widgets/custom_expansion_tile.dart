@@ -13,7 +13,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
 
     Gender? selectedGender;
     bool isExpanded = false;
-
+ 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -26,12 +26,12 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
                 ),
               ),
               child: ExpansionTile(
+                key: GlobalKey(),
                //  maintainState: true,
               shape: const Border(),
-              title: Text('${getSelectedText(selectedGender)}'),
+              title: Text(getSelectedText(selectedGender)),
               onExpansionChanged: (expanded) {
                 setState(() {
-                  print('expanded $expanded');
                   isExpanded = expanded;
                 });
               },
@@ -43,8 +43,8 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
                     groupValue: selectedGender, 
                     onChanged: (value) {
                       setState(() {
-                        selectedGender = Gender.male; 
-                        isExpanded = false;
+                          selectedGender = Gender.male; 
+                          isExpanded = !isExpanded;
                       });
                     }
                     ),
@@ -55,13 +55,12 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
                     onChanged: (value) {
                       setState(() {
                         selectedGender = Gender.female;
-                        isExpanded = false;
-                      });
-                    }
-                    )
-                ],
-                ),
-            );
+                        isExpanded = !isExpanded;
+                });
+              })
+        ],
+      ),
+    );
   }
 
 String getSelectedText(Gender? gender) {
@@ -72,6 +71,7 @@ String getSelectedText(Gender? gender) {
       return 'Female';
     case null:
       return 'Gender';
-  } 
+   } 
   }
+
 }
