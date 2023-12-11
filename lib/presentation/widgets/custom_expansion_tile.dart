@@ -21,6 +21,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
+                  //on error, color : Colors.red
                   color: colors.primary,
                   width:1,
                 ),

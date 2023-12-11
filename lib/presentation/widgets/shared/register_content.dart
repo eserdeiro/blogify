@@ -49,6 +49,15 @@ class _RegisterContentState extends State<RegisterContent> {
                 ),
               ],
             ),
+            
+            const SizedBox(height: 16),
+
+            CustomTextFormField(
+              label: 'Username',
+              onChanged: loginCubit.emailChanged,
+              errorText: email.errorMessage,
+              prefixIcon: const Icon(Icons.mail_outlined),
+             ),
 
              const SizedBox(height: 16),
             
