@@ -10,6 +10,7 @@ part of 'register_cubit.dart';
   final Username userName;
   final Email    email;
   final Password password;
+  final Gender   gender;
 
   const RegisterFormState({
     this.isValid = false,
@@ -19,16 +20,18 @@ part of 'register_cubit.dart';
     this.userName = const Username.pure(),
     this.email    = const Email.pure(), 
     this.password = const Password.pure(),
+    this.gender   = const Gender.pure(),
    });
 
   RegisterFormState copyWith({
-  bool? isValid,
+  bool?    isValid,
   FormStatus? formStatus,
-  Name? name,
+  Name?     name,
   LastName? lastName,
   Username? userName,
-  Email? email,
+  Email?    email,
   Password? password,
+  Gender?   gender,
   }) => RegisterFormState(
     isValid: isValid ?? this.isValid,
     formStatus: formStatus ?? this.formStatus,
@@ -36,11 +39,12 @@ part of 'register_cubit.dart';
     lastName: lastName ?? this.lastName,
     userName: userName ?? this.userName,
     email: email ?? this.email,
-    password: password ?? this.password 
+    password: password ?? this.password,
+    gender: gender ?? this.gender
   );
 
 
   @override
-  List<Object> get props => [formStatus, name, lastName, userName,  email, password];
+  List<Object> get props => [formStatus, name, lastName, userName,  email, password, gender];
 }
 

@@ -23,6 +23,7 @@ class _RegisterContentState extends State<RegisterContent> {
     final userName = registerCubit.state.userName;
     final email    = registerCubit.state.email;
     final password = registerCubit.state.password;
+    final gender   = registerCubit.state.gender;
     final titleStyle = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -94,7 +95,10 @@ class _RegisterContentState extends State<RegisterContent> {
 
             const SizedBox(height: 16),
 
-            const CustomExpansionTile(),
+            CustomExpansionTile(
+              onChanged: registerCubit.genderChanged,
+              errorText: gender.errorMessage,
+            ),
              Padding(
                padding: const EdgeInsets.symmetric(vertical: 16),
                child: CustomElevatedButton(
@@ -106,6 +110,7 @@ class _RegisterContentState extends State<RegisterContent> {
                 print(userName.value);
                 print(email.value);
                 print(password.value);
+                print(gender.value);
                 }),
              ),
 

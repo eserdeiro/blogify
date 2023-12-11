@@ -1,6 +1,8 @@
+import 'package:blogify/infrastructure/inputs/gender.dart';
 import 'package:blogify/infrastructure/inputs/lastname.dart';
 import 'package:blogify/infrastructure/inputs/name.dart';
 import 'package:blogify/infrastructure/inputs/username.dart';
+import 'package:blogify/presentation/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
@@ -19,12 +21,14 @@ class RegisterCubit extends Cubit<RegisterFormState> {
       userName : Username.dirty(state.userName.value),
       email    : Email.dirty(state.email.value),
       password : Password.dirty(state.password.value),
+      gender : Gender.dirty(state.gender.value),
       isValid  : Formz.validate([
         state.name,
         state.lastName,
         state.userName,
         state.email,
-        state.password
+        state.password,
+        state.gender,
       ])
     ));
     print('onSubmit $state');
@@ -36,7 +40,7 @@ class RegisterCubit extends Cubit<RegisterFormState> {
      
       state.copyWith(
         name : name,
-        isValid: Formz.validate([name, state.lastName, state.userName, state.email, state.password]))
+        isValid: Formz.validate([name, state.lastName, state.userName, state.email, state.password, state.gender]))
     );
   }
 
@@ -45,7 +49,7 @@ class RegisterCubit extends Cubit<RegisterFormState> {
     emit(
       state.copyWith(
         lastName : lastName,
-        isValid: Formz.validate([lastName, state.name, state.userName, state.email, state.password]))
+        isValid: Formz.validate([lastName, state.name, state.userName, state.email, state.password, state.gender]))
     );
   }
 
@@ -54,7 +58,7 @@ class RegisterCubit extends Cubit<RegisterFormState> {
     emit(
       state.copyWith(
         userName : userName,
-        isValid: Formz.validate([userName, state.lastName, state.name, state.email, state.password]))
+        isValid: Formz.validate([userName, state.lastName, state.name, state.email, state.password, state.gender]))
     );
   }
 
@@ -64,7 +68,7 @@ class RegisterCubit extends Cubit<RegisterFormState> {
      
       state.copyWith(
         email : email,
-        isValid: Formz.validate([email,state.lastName, state.name, state.userName, state.password]))
+        isValid: Formz.validate([email,state.lastName, state.name, state.userName, state.password, state.gender]))
     );
   }
 
@@ -74,7 +78,16 @@ class RegisterCubit extends Cubit<RegisterFormState> {
     emit(
       state.copyWith(
         password: password,
-        isValid: Formz.validate([password, state.email, state.name, state.lastName, state.userName]))
+        isValid: Formz.validate([password, state.email, state.name, state.lastName, state.userName, state.gender]))
+    );
+  }
+
+  void  genderChanged(GenderType? value){
+    final gender = Gender.dirty(value.toString());
+    emit(
+      state.copyWith(
+        gender: gender,
+        isValid: Formz.validate([gender, state.password, state.email, state.name, state.lastName, state.userName]))
     );
   }
 }
