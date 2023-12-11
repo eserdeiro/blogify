@@ -1,15 +1,16 @@
 import 'package:blogify/presentation/widgets.dart';
+import 'package:blogify/presentation/widgets/shared/register_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
-class LoginLandscape extends StatefulWidget {
-  const LoginLandscape({super.key});
+class RegisterLandscape extends StatefulWidget {
+  const RegisterLandscape({super.key});
 
   @override
-  State<LoginLandscape> createState() => _LoginLandscapeState();
+  State<RegisterLandscape> createState() => RegisterLandscapeState();
 }
 
-class _LoginLandscapeState extends State<LoginLandscape> {
+class RegisterLandscapeState extends State<RegisterLandscape> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -36,7 +37,7 @@ class _LoginLandscapeState extends State<LoginLandscape> {
                         children: [
                           SizedBox(
                             width: size.width * 0.6,
-                            child: const LoginContent()),
+                            child: const RegisterContent()),
                         ],
                       ),
                     ),

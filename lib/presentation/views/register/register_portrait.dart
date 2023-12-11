@@ -1,15 +1,16 @@
 import 'package:blogify/presentation/widgets.dart';
+import 'package:blogify/presentation/widgets/shared/register_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
-class LoginPortrait extends StatefulWidget {
-  const LoginPortrait({super.key});
+class RegisterPortrait extends StatefulWidget {
+  const RegisterPortrait({super.key});
 
   @override
-  State<LoginPortrait> createState() => _LoginPortraitState();
+  State<RegisterPortrait> createState() => _RegisterPortraitState();
 }
 
-class _LoginPortraitState extends State<LoginPortrait> {
+class _RegisterPortraitState extends State<RegisterPortrait> {
   @override
   Widget build(BuildContext context) {
      final size = MediaQuery.of(context).size;
@@ -30,7 +31,7 @@ class _LoginPortraitState extends State<LoginPortrait> {
                     ),
                   ),
                 ),
-                const LoginContent(),          
+                const RegisterContent(),          
               ],
             ),
     );

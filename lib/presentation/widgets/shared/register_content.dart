@@ -2,24 +2,22 @@ import 'package:blogify/presentation/blocs/login_cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:blogify/presentation/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-class LoginContent extends StatefulWidget {
-  const LoginContent({
+class RegisterContent extends StatefulWidget {
+  const RegisterContent({
     super.key,
   });
 
   @override
-  State<LoginContent> createState() => _LoginContentState();
+  State<RegisterContent> createState() => _RegisterContentState();
 }
 
-class _LoginContentState extends State<LoginContent> {
+class _RegisterContentState extends State<RegisterContent> {
   @override
   Widget build(BuildContext context) {
      final loginCubit = context.watch<LoginCubit>();
     final password = loginCubit.state.password;
     final email = loginCubit.state.email;
-
         final titleStyle = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -29,10 +27,29 @@ class _LoginContentState extends State<LoginContent> {
           children: [
              Padding(
                padding: const EdgeInsets.symmetric(vertical: 16),
-               child: Text('Login',
+               child: Text('Register',
                 style: titleStyle.headlineMedium
                   ),
              ),
+              const Row(
+              children: [
+                Expanded(
+                  child: CustomTextFormField(
+                    label: 'Name',
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: CustomTextFormField(
+                    label: 'Lastname',
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                ),
+              ],
+            ),
+
+             const SizedBox(height: 16),
             
             CustomTextFormField(
               label: 'Email',
@@ -50,25 +67,22 @@ class _LoginContentState extends State<LoginContent> {
               label: 'Password',
               prefixIcon: const Icon(Icons.lock),
              ),
-             
+             //Birthdate
+
+             //Gender
+
              Padding(
                padding: const EdgeInsets.symmetric(vertical: 16),
                child: CustomElevatedButton(
-                text: "Les't go", 
+                text: "Check in", 
                 onPressed: () {
                 loginCubit.onSubmit();
                 print(email.value);
                 print(password.value);
                 }),
              ),
-              Padding(
-               padding: const EdgeInsets.only(bottom: 20),
-               child: GestureDetector(
-                onTap: () {
-                  context.push('/register');
-                },
-                child: const Center(child: Text('Dont have account? Sign up'))),
-             )
+
+
           ],
         ),
       ),
