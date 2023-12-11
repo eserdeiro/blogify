@@ -83,7 +83,7 @@ class RegisterCubit extends Cubit<RegisterFormState> {
   }
 
   void  genderChanged(GenderType? value){
-    final gender = Gender.dirty(value.toString());
+    final gender = Gender.dirty(value!);
     emit(
       state.copyWith(
         gender: gender,

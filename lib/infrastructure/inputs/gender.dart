@@ -1,17 +1,18 @@
+import 'package:blogify/presentation/widgets.dart';
 import 'package:formz/formz.dart';
 
 // Define input validation errors
 enum GenderError { empty }
 
 // Extend FormzInput and provide the input type and error type.
-class Gender extends FormzInput<String, GenderError> {
+class Gender extends FormzInput<GenderType, GenderError> {
   // Call super.pure to represent an unmodified form input.
    //Initial value
-  const Gender.pure() : super.pure('');
+  const Gender.pure() : super.pure(GenderType.nn);
 
   // Call super.dirty to represent a modified form input.
  
-  const Gender.dirty(String value) : super.dirty(value);
+  const Gender.dirty(GenderType value) : super.dirty(value);
 
   // Override validator to handle validating a given input value.
 
@@ -23,9 +24,9 @@ class Gender extends FormzInput<String, GenderError> {
   }
 
   @override
-  GenderError? validator(String value) {
+  GenderError? validator(GenderType value) {
 
-      if(value.isEmpty || value.trim().isEmpty) return GenderError.empty;
+      if(value == GenderType.nn) return GenderError.empty;
     return null;
   }
 }

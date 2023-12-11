@@ -2,24 +2,28 @@ import 'package:blogify/config/helpers/formats.dart';
 import 'package:flutter/material.dart';
 
 class CustomExpansionTile extends StatefulWidget {
+
   final Function(GenderType?)? onChanged;
   final String? errorText;
-  const CustomExpansionTile({super.key, this.onChanged, this.errorText});
+
+  const CustomExpansionTile({
+    super.key, 
+    this.onChanged, 
+    this.errorText});
 
   @override
   State<CustomExpansionTile> createState() => _CustomExpansionTileState();
 }
-enum GenderType{male, female}
+enum GenderType{male, female, nn}
 
 class _CustomExpansionTileState extends State<CustomExpansionTile> {
 
-    GenderType? gender;
+    GenderType gender = GenderType.nn;
     bool isExpanded = false;
     
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-
     return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -49,9 +53,10 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
                     title: const Text('Male'),
                     value: GenderType.male,
                     groupValue: gender,
-                    onChanged: (gender) {
+                    onChanged: (value) {
                     setState(() {
-                        widget.onChanged?.call(gender);
+                      gender = value!;
+                        widget.onChanged?.call(value);
                         isExpanded = !isExpanded;
                       });
                     }),
@@ -59,9 +64,10 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
                     title: const Text('Female'),
                     value: GenderType.female, 
                     groupValue: gender, 
-                    onChanged: (gender) {
+                    onChanged: (value) {
                     setState(() {
-                      widget.onChanged?.call(gender);
+                      gender = value!;
+                      widget.onChanged?.call(value);
                       isExpanded = !isExpanded;
                     });
                   }),

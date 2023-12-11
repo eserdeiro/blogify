@@ -1,4 +1,5 @@
 
+import 'package:blogify/config/helpers/formats.dart';
 import 'package:blogify/presentation/blocs/register_cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:blogify/presentation/widgets.dart';
@@ -89,10 +90,6 @@ class _RegisterContentState extends State<RegisterContent> {
               prefixIcon: const Icon(Icons.lock),
              ),
 
-             //Birthdate
-             
-             //Gender
-
             const SizedBox(height: 16),
 
             CustomExpansionTile(
@@ -110,7 +107,7 @@ class _RegisterContentState extends State<RegisterContent> {
                 print(userName.value);
                 print(email.value);
                 print(password.value);
-                print(gender.value);
+                print(Formats.getGenderSelected(gender.value));
                 }),
              ),
 
