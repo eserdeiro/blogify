@@ -1,4 +1,5 @@
-import 'package:blogify/presentation/blocs/login_cubit/login_cubit.dart';
+
+import 'package:blogify/presentation/blocs/register_cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:blogify/presentation/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,9 +17,12 @@ class _RegisterContentState extends State<RegisterContent> {
 
   @override
   Widget build(BuildContext context) {
-    final loginCubit = context.watch<LoginCubit>();
-    final password = loginCubit.state.password;
-    final email = loginCubit.state.email;
+    final registerCubit = context.watch<RegisterCubit>();
+    final name = registerCubit.state.name;
+    final lastName = registerCubit.state.lastName;
+    final userName = registerCubit.state.userName;
+    final email    = registerCubit.state.email;
+    final password = registerCubit.state.password;
     final titleStyle = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -32,19 +36,25 @@ class _RegisterContentState extends State<RegisterContent> {
                 style: titleStyle.headlineMedium
                   ),
              ),
-              const Row(
+              Row(
               children: [
                 Expanded(
                   child: CustomTextFormField(
                     label: 'Name',
-                    prefixIcon: Icon(Icons.person),
+                    onChanged: registerCubit.nameChanged,
+                    errorText: name.errorMessage,
+                    prefixIcon: const Icon(Icons.person),
                   ),
                 ),
-                SizedBox(width: 16),
+
+                const SizedBox(width: 16),
+
                 Expanded(
                   child: CustomTextFormField(
                     label: 'Lastname',
-                    prefixIcon: Icon(Icons.person),
+                    onChanged: registerCubit.lastNameChanged,
+                    errorText: lastName.errorMessage,
+                    prefixIcon: const Icon(Icons.person),
                   ),
                 ),
               ],
@@ -54,8 +64,8 @@ class _RegisterContentState extends State<RegisterContent> {
 
             CustomTextFormField(
               label: 'Username',
-              onChanged: loginCubit.emailChanged,
-              errorText: email.errorMessage,
+              onChanged: registerCubit.userNameChanged,
+              errorText: userName.errorMessage,
               prefixIcon: const Icon(Icons.mail_outlined),
              ),
 
@@ -63,7 +73,7 @@ class _RegisterContentState extends State<RegisterContent> {
             
             CustomTextFormField(
               label: 'Email',
-              onChanged: loginCubit.emailChanged,
+              onChanged: registerCubit.emailChanged,
               errorText: email.errorMessage,
               prefixIcon: const Icon(Icons.mail_outlined),
              ),
@@ -72,7 +82,7 @@ class _RegisterContentState extends State<RegisterContent> {
       
             CustomTextFormField(
               obscureText: true,
-              onChanged: loginCubit.passwordChanged,
+              onChanged: registerCubit.passwordChanged,
               errorText: password.errorMessage,
               label: 'Password',
               prefixIcon: const Icon(Icons.lock),
@@ -90,12 +100,14 @@ class _RegisterContentState extends State<RegisterContent> {
                child: CustomElevatedButton(
                 text: "Check in", 
                 onPressed: () {
-                loginCubit.onSubmit();
+                registerCubit.onSubmit();
+                print(name.value);
+                print(lastName.value);
+                print(userName.value);
                 print(email.value);
                 print(password.value);
                 }),
              ),
-
 
           ],
         ),

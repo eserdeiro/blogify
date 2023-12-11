@@ -76,3 +76,6 @@ String getSelectedText(Gender? gender) {
   }
 
 }
+
+//TODO REGISTER CUBIT 
+// TODO USERNAME, GEN, NAME USERNAME INPUTS
