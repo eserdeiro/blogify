@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "640500884987",
+    "project_id": "blogify-66154",
+    "storage_bucket": "blogify-66154.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640500884987:android:0807255094cb65fab7575e",
+        "android_client_info": {
+          "package_name": "com.example.blogify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL41q0_AEVicbupadr-tM3b6MpjkTE68A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

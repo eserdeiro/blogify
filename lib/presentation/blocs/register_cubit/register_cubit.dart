@@ -27,6 +27,8 @@ class RegisterCubit extends Cubit<RegisterFormState> {
         state.gender,
       ])
     ));
+        print('onSubmit $state');
+
   }
 
   void  nameChanged(String value){
