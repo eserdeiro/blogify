@@ -1,4 +1,4 @@
-import 'package:blogify/infrastructure/inputs.dart';
+import 'package:blogify/infrastructure/index.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';

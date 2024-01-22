@@ -2,14 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:blogify/infrastructure/inputs.dart';
+import 'package:blogify/infrastructure/index.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginFormState> {
   LoginCubit() : super(const LoginFormState());
 
-  //FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   void onSubmit() async {
     emit(state.copyWith(
@@ -21,13 +21,20 @@ class LoginCubit extends Cubit<LoginFormState> {
         state.password
       ])
     ));
-    // print('onSubmit $state');
-    // if(state.isValid){
-    // final data = await _firebaseAuth.signInWithEmailAndPassword(
-    //     email: state.email.value, 
-    //     password: state.password.value);
-    //   print("firebase data $data");   
-    // }
+    print('onSubmit $state');
+    //TODO add try catch 'An error has occurred'
+    if (state.isValid) {
+      try {
+        final data = await _firebaseAuth.signInWithEmailAndPassword(
+          email: state.email.value,
+          password: state.password.value,
+        );
+        print("firebase data ${data.credential}");
+      } catch (e) {
+        print("Firebase authentication error: ${e}");
+        // Handle the error appropriately
+      }
+    }
    
   }
 
