@@ -25,7 +25,7 @@ class CustomTextFormField extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     final inputBorder = OutlineInputBorder(
       borderSide: BorderSide(color: colors.primary),
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(8),
     );
 
     return TextFormField(

@@ -1,3 +1,4 @@
+import 'package:blogify/config/constants/strings.dart';
 import 'package:blogify/config/helpers/formats.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
     final colors = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: colors.primary,
         ),
@@ -37,7 +38,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
         title: Text(
           Formats.getGenderSelected(gender),
           style: TextStyle(
-            color: widget.errorText == 'Required' ? Colors.red : Colors.white,
+            color: widget.errorText == Strings.required ? Colors.red : Colors.white,
           ),
         ),
         initiallyExpanded: isExpanded,

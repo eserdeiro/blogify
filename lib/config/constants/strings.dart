@@ -11,5 +11,6 @@ class Strings {
   static String loginScreenName = 'login_screen';
   static String registerUrl = '/register';
   static String username = 'Username';
+  static String required = 'Required';
 
 }
