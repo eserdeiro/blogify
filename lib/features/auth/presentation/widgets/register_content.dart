@@ -1,40 +1,26 @@
-import 'package:blogify/config/helpers/formats.dart';
-import 'package:blogify/features/auth/presentation/blocs/register_cubit/register_cubit.dart';
+import 'package:blogify/config/constants/strings.dart';
+import 'package:blogify/features/auth/presentation/providers/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RegisterContent extends StatefulWidget {
-  const RegisterContent({
-    super.key,
-  });
-
+class RegisterContent extends ConsumerWidget {
+  const RegisterContent({super.key});
   @override
-  State<RegisterContent> createState() => _RegisterContentState();
-}
-
-class _RegisterContentState extends State<RegisterContent> {
-  @override
-  Widget build(BuildContext context) {
-    final registerCubit = context.watch<RegisterCubit>();
-    final registerCubitState = registerCubit.state;
-    final name = registerCubitState.name;
-    final lastName = registerCubitState.lastName;
-    final userName = registerCubitState.userName;
-    final email = registerCubitState.email;
-    final password = registerCubitState.password;
-    final gender = registerCubitState.gender;
+  Widget build(BuildContext context, WidgetRef ref) {
     final titleStyle = Theme.of(context).textTheme;
+    final registerForm = ref.watch(registerFormProvider);
+    final registerFormNotifier = ref.read(registerFormProvider.notifier);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Form(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 12),
               child: Text(
-                'Register',
+                Strings.register,
                 style: titleStyle.headlineMedium,
               ),
             ),
@@ -42,62 +28,68 @@ class _RegisterContentState extends State<RegisterContent> {
               children: [
                 Expanded(
                   child: CustomTextFormField(
-                    label: 'Name',
-                    onChanged: registerCubit.nameChanged,
-                    errorText: name.errorMessage,
+                    label: Strings.name,
+                    onChanged: registerFormNotifier.onNameChange,
+                    errorText: registerForm.isFormPosted
+                        ? registerForm.name.errorMessage
+                        : null,
                     prefixIcon: const Icon(Icons.person),
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 12),
                 Expanded(
                   child: CustomTextFormField(
-                    label: 'Lastname',
-                    onChanged: registerCubit.lastNameChanged,
-                    errorText: lastName.errorMessage,
+                    label: Strings.lastname,
+                    onChanged: registerFormNotifier.onLastnameChange,
+                    errorText: registerForm.isFormPosted
+                        ? registerForm.lastname.errorMessage
+                        : null,
                     prefixIcon: const Icon(Icons.person),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             CustomTextFormField(
-              label: 'Username',
-              onChanged: registerCubit.userNameChanged,
-              errorText: userName.errorMessage,
+              label: Strings.username,
+              onChanged: registerFormNotifier.onUsernameChange,
+              errorText: registerForm.isFormPosted
+                  ? registerForm.username.errorMessage
+                  : null,
               prefixIcon: const Icon(Icons.mail_outlined),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             CustomTextFormField(
-              label: 'Email',
-              onChanged: registerCubit.emailChanged,
-              errorText: email.errorMessage,
+              label: Strings.email,
+              onChanged: registerFormNotifier.onEmailChange,
+              errorText: registerForm.isFormPosted
+                  ? registerForm.email.errorMessage
+                  : null,
               prefixIcon: const Icon(Icons.mail_outlined),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             CustomTextFormField(
               obscureText: true,
-              onChanged: registerCubit.passwordChanged,
-              errorText: password.errorMessage,
-              label: 'Password',
+              onChanged: registerFormNotifier.onPasswordChange,
+              errorText: registerForm.isFormPosted
+                  ? registerForm.password.errorMessage
+                  : null,
+              label: Strings.password,
               prefixIcon: const Icon(Icons.lock),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             CustomExpansionTile(
-              onChanged: registerCubit.genderChanged,
-              errorText: gender.errorMessage,
+              onChanged: registerFormNotifier.onGenderChange,
+              errorText: registerForm.isFormPosted
+                  ? registerForm.gender.errorMessage
+                  : null,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 12),
               child: CustomElevatedButton(
                 text: 'Check in',
                 onPressed: () {
-                  registerCubit.onSubmit();
-                  // print(name.value);
-                  // print(lastName.value);
-                  // print(userName.value);
-                  // print(email.value);
-                  // print(password.value);
-                  // print(Formats.getGenderSelected(gender.value));
+                  registerFormNotifier.onSubmit();
                 },
               ),
             ),

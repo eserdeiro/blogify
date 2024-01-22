@@ -1,4 +1,5 @@
-import 'package:blogify/features/auth/presentation/providers/login_form_provider.dart';
+import 'package:blogify/config/constants/strings.dart';
+import 'package:blogify/features/auth/presentation/providers/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,12 +21,12 @@ class LoginContent extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: Text(
-                'Login',
+                Strings.login,
                 style: titleStyle.headlineMedium,
               ),
             ),
             CustomTextFormField(
-              label: 'Email',
+              label: Strings.email,
               // onChanged:(value) => ref.read(loginFormProvider.notifier).onEmailChange(value),
               onChanged: ref.read(loginFormProvider.notifier).onEmailChange,
               errorText:
@@ -39,7 +40,7 @@ class LoginContent extends ConsumerWidget {
               errorText: loginForm.isFormPosted
                   ? loginForm.password.errorMessage
                   : null,
-              label: 'Password',
+              label: Strings.password,
               prefixIcon: const Icon(Icons.lock),
             ),
             Padding(
@@ -55,7 +56,7 @@ class LoginContent extends ConsumerWidget {
               padding: const EdgeInsets.only(bottom: 20),
               child: GestureDetector(
                 onTap: () {
-                  context.push('/register');
+                  context.push(Strings.registerUrl);
                 },
                 child: const Center(child: Text('Dont have account? Sign up')),
               ),

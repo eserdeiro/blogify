@@ -4,14 +4,14 @@ import 'package:formz/formz.dart';
 enum LastNameError { empty }
 
 // Extend FormzInput and provide the input type and error type.
-class LastName extends FormzInput<String, LastNameError> {
+class Lastname extends FormzInput<String, LastNameError> {
   // Call super.pure to represent an unmodified form input.
   //Initial value
-  const LastName.pure() : super.pure('');
+  const Lastname.pure() : super.pure('');
 
   // Call super.dirty to represent a modified form input.
 
-  const LastName.dirty(super.value) : super.dirty();
+  const Lastname.dirty(super.value) : super.dirty();
 
   // Override validator to handle validating a given input value.
 

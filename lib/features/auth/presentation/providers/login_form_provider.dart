@@ -27,12 +27,26 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
   }
 
   void onSubmit() {
-    validateEveryForm();
+    validateEveryone();
     if (!state.isValid) return;
     print(state);
+
+    //Firebase impl
+    //     if (state.isValid) {
+    //   try {
+    //     final data = await _firebaseAuth.signInWithEmailAndPassword(
+    //       email: state.email.value,
+    //       password: state.password.value,
+    //     );
+    //     print('firebase data ${data.credential}');
+    //   } catch (e) {
+    //     print('Firebase authentication error: $e');
+    // Handle the error appropriately
+    //   }
+    // }
   }
 
-  void validateEveryForm() {
+  void validateEveryone() {
     final email = Email.dirty(state.email.value);
     final password = Password.dirty(state.password.value);
 

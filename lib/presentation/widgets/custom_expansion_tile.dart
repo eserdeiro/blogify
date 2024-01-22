@@ -2,7 +2,7 @@ import 'package:blogify/config/helpers/formats.dart';
 import 'package:flutter/material.dart';
 
 class CustomExpansionTile extends StatefulWidget {
-  final Function(GenderType?)? onChanged;
+  final Function(GenderType)? onChanged;
   final String? errorText;
 
   const CustomExpansionTile({
