@@ -1,4 +1,4 @@
-import 'package:blogify/presentation/widgets.dart';
+import 'package:blogify/presentation/index.dart';
 import 'package:formz/formz.dart';
 
 // Define input validation errors

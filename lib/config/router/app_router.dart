@@ -1,5 +1,4 @@
-import 'package:blogify/features/auth/presentation/screens/login_screen.dart';
-import 'package:blogify/features/auth/presentation/screens/register_screen.dart';
+import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:go_router/go_router.dart';
 
 

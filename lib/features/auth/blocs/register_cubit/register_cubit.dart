@@ -1,5 +1,5 @@
-import 'package:blogify/infrastructure/index.dart';
-import 'package:blogify/presentation/widgets.dart';
+import 'package:blogify/features/infrastructure/index.dart';
+import 'package:blogify/presentation/index.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';

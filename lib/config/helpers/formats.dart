@@ -1,4 +1,4 @@
-import 'package:blogify/presentation/widgets.dart';
+import 'package:blogify/presentation/index.dart';
 
 class Formats {
   static String getGenderSelected(GenderType gender) {
