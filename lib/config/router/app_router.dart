@@ -1,3 +1,4 @@
+import 'package:blogify/config/constants/strings.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,7 +18,7 @@ final appRouter = GoRouter(
       builder: (context, state) => const LoginScreen(),
     ),
       GoRoute(
-      path: '/register',
+      path: Strings.registerUrl,
       name: RegisterScreen.name,
       builder: (context, state) => const RegisterScreen(),
     ),
