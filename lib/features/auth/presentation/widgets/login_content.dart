@@ -11,6 +11,7 @@ class LoginContent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loginForm = ref.watch(loginFormProvider);
+    final loginFormNotifier = ref.read(loginFormProvider.notifier);
     final titleStyle = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -28,7 +29,7 @@ class LoginContent extends ConsumerWidget {
             CustomTextFormField(
               label: Strings.email,
               // onChanged:(value) => ref.read(loginFormProvider.notifier).onEmailChange(value),
-              onChanged: ref.read(loginFormProvider.notifier).onEmailChange,
+              onChanged: loginFormNotifier.onEmailChange,
               errorText:
                   loginForm.isFormPosted ? loginForm.email.errorMessage : null,
               prefixIcon: const Icon(Icons.mail_outlined),
@@ -36,7 +37,7 @@ class LoginContent extends ConsumerWidget {
             const SizedBox(height: 16),
             CustomTextFormField(
               obscureText: true,
-              onChanged: ref.read(loginFormProvider.notifier).onPasswordChange,
+              onChanged: loginFormNotifier.onPasswordChange,
               errorText: loginForm.isFormPosted
                   ? loginForm.password.errorMessage
                   : null,
@@ -48,7 +49,7 @@ class LoginContent extends ConsumerWidget {
               child: CustomElevatedButton(
                 text: "Les't go",
                 onPressed: () {
-                  ref.read(loginFormProvider.notifier).onSubmit();
+                  loginFormNotifier.onSubmit();
                 },
               ),
             ),
