@@ -1,5 +1,5 @@
 import 'package:blogify/config/helpers/formats.dart';
-import 'package:blogify/presentation/blocs/register_cubit/register_cubit.dart';
+import 'package:blogify/features/auth/blocs/register_cubit/register_cubit.dart';
 import 'package:blogify/presentation/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,4 +1,4 @@
-import 'package:blogify/presentation/blocs/login_cubit/login_cubit.dart';
+import 'package:blogify/features/auth/blocs/login_cubit/login_cubit.dart';
 import 'package:blogify/presentation/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
