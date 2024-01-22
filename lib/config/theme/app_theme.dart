@@ -22,7 +22,7 @@ class AppTheme{
       background: Color(0xff1f1d2b),
       onBackground: Colors.white,
       surface: Color(0xff1f1d2b),
-      onSurface: Colors.white), //
-      primaryColorDark: const Color(0xff1f1d2b)
+      onSurface: Colors.white,),
+      primaryColorDark: const Color(0xff1f1d2b),
   );
 }

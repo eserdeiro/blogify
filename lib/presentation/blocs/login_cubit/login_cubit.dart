@@ -1,8 +1,8 @@
+import 'package:blogify/infrastructure/index.dart';
+import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:blogify/infrastructure/index.dart';
 
 part 'login_state.dart';
 
@@ -11,16 +11,18 @@ class LoginCubit extends Cubit<LoginFormState> {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  void onSubmit() async {
-    emit(state.copyWith(
-      formStatus: FormStatus.validating,
-      password: Password.dirty(state.password.value),
-      email   : Email.dirty(state.email.value),
-      isValid: Formz.validate([
-        state.email,
-        state.password
-      ])
-    ));
+  Future<void> onSubmit() async {
+    emit(
+      state.copyWith(
+        formStatus: FormStatus.validating,
+        password: Password.dirty(state.password.value),
+        email: Email.dirty(state.email.value),
+        isValid: Formz.validate([
+          state.email,
+          state.password,
+        ]),
+      ),
+    );
     print('onSubmit $state');
     //TODO add try catch 'An error has occurred'
     if (state.isValid) {
@@ -29,33 +31,31 @@ class LoginCubit extends Cubit<LoginFormState> {
           email: state.email.value,
           password: state.password.value,
         );
-        print("firebase data ${data.credential}");
+        print('firebase data ${data.credential}');
       } catch (e) {
-        print("Firebase authentication error: ${e}");
+        print('Firebase authentication error: $e');
         // Handle the error appropriately
       }
     }
-   
   }
 
-  void  emailChanged(String value){
+  void emailChanged(String value) {
     final email = Email.dirty(value);
     emit(
-     
       state.copyWith(
-        email : email,
-        isValid: Formz.validate([email, state.password]))
+        email: email,
+        isValid: Formz.validate([email, state.password]),
+      ),
     );
   }
 
-  
-  void  passwordChanged(String value){
+  void passwordChanged(String value) {
     final password = Password.dirty(value);
     emit(
       state.copyWith(
         password: password,
-        isValid: Formz.validate([password, state.email]))
+        isValid: Formz.validate([password, state.email]),
+      ),
     );
   }
 }
-

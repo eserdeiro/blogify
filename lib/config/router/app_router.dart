@@ -1,5 +1,6 @@
+import 'package:blogify/presentation/screens.dart';
 import 'package:go_router/go_router.dart';
-import '../../presentation/screens.dart';
+
 
 // GoRouter configuration
 final appRouter = GoRouter(

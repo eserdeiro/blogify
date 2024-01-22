@@ -11,24 +11,21 @@ class Password extends FormzInput<String, PasswordError> {
 
   // Call super.dirty to represent a modified form input.
   //
-  const Password.dirty(String value) : super.dirty(value);
+  const Password.dirty(super.value) : super.dirty();
 
-    String? get errorMessage{
-    if(isValid || isPure) return null;
-    if(displayError == PasswordError.empty) return 'Required';
-    if(displayError == PasswordError.length) return 'Min 6 characters';
+  String? get errorMessage {
+    if (isValid || isPure) return null;
+    if (displayError == PasswordError.empty) return 'Required';
+    if (displayError == PasswordError.length) return 'Min 6 characters';
 
-     return null;
+    return null;
   }
 
   // Override validator to handle validating a given input value.
   @override
   PasswordError? validator(String value) {
-        if(value.isEmpty || value.trim().isEmpty) return PasswordError.empty;
-      if(value.length < 6) return PasswordError.length;
+    if (value.isEmpty || value.trim().isEmpty) return PasswordError.empty;
+    if (value.length < 6) return PasswordError.length;
     return null;
-
   }
-
-
 }

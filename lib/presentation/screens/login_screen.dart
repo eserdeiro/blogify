@@ -13,15 +13,15 @@ class LoginScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) => LoginCubit(),
         child: Material(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-         return (constraints.maxWidth > 600 )
-            ?  const LoginLandscape()
-            :  const LoginPortrait(); 
-          },
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return (constraints.maxWidth > 600)
+                  ? const LoginLandscape()
+                  : const LoginPortrait();
+            },
+          ),
         ),
       ),
-      )
     );
   }
 }

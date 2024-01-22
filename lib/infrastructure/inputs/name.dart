@@ -6,26 +6,25 @@ enum NameError { empty }
 // Extend FormzInput and provide the input type and error type.
 class Name extends FormzInput<String, NameError> {
   // Call super.pure to represent an unmodified form input.
-   //Initial value
+  //Initial value
   const Name.pure() : super.pure('');
 
   // Call super.dirty to represent a modified form input.
- 
-  const Name.dirty(String value) : super.dirty(value);
+
+  const Name.dirty(super.value) : super.dirty();
 
   // Override validator to handle validating a given input value.
 
-  String? get errorMessage{
-    if(isValid || isPure) return null;
-    if(displayError == NameError.empty) return 'Required';
+  String? get errorMessage {
+    if (isValid || isPure) return null;
+    if (displayError == NameError.empty) return 'Required';
 
-     return null;
+    return null;
   }
 
   @override
   NameError? validator(String value) {
-
-      if(value.isEmpty || value.trim().isEmpty) return NameError.empty;
+    if (value.isEmpty || value.trim().isEmpty) return NameError.empty;
     return null;
   }
 }

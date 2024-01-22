@@ -13,27 +13,27 @@ class RegisterPortrait extends StatefulWidget {
 class _RegisterPortraitState extends State<RegisterPortrait> {
   @override
   Widget build(BuildContext context) {
-     final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
-              children: [
-                ClipPath(
-                  clipper: ArcClipper(),
-                  child: Container(
-                    height: size.height * 0.4,
-                    width: double.infinity,
-                    color: Colors.white,
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: size.height * 0.15),
-                        child: const AppTitle(),
-                      ),
-                    ),
-                  ),
+        children: [
+          ClipPath(
+            clipper: ArcClipper(),
+            child: Container(
+              height: size.height * 0.4,
+              width: double.infinity,
+              color: Colors.white,
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: size.height * 0.15),
+                  child: const AppTitle(),
                 ),
-                const RegisterContent(),          
-              ],
+              ),
             ),
+          ),
+          const RegisterContent(),
+        ],
+      ),
     );
   }
 }

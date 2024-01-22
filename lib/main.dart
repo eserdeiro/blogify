@@ -1,8 +1,8 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:blogify/config/router/app_router.dart';
 import 'package:blogify/config/theme/app_theme.dart';
 import 'package:blogify/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
