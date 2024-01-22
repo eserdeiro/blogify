@@ -1,25 +1,15 @@
-import 'package:blogify/features/auth/presentation/blocs/login_cubit/login_cubit.dart';
+import 'package:blogify/features/auth/presentation/providers/login_form_provider.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginContent extends StatefulWidget {
-  const LoginContent({
-    super.key,
-  });
+class LoginContent extends ConsumerWidget {
+  const LoginContent({super.key});
 
   @override
-  State<LoginContent> createState() => _LoginContentState();
-}
-
-class _LoginContentState extends State<LoginContent> {
-  @override
-  Widget build(BuildContext context) {
-    final loginCubit = context.watch<LoginCubit>();
-    final password = loginCubit.state.password;
-    final email = loginCubit.state.email;
-
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loginForm = ref.watch(loginFormProvider);
     final titleStyle = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -36,15 +26,19 @@ class _LoginContentState extends State<LoginContent> {
             ),
             CustomTextFormField(
               label: 'Email',
-              onChanged: loginCubit.emailChanged,
-              errorText: email.errorMessage,
+              // onChanged:(value) => ref.read(loginFormProvider.notifier).onEmailChange(value),
+              onChanged: ref.read(loginFormProvider.notifier).onEmailChange,
+              errorText:
+                  loginForm.isFormPosted ? loginForm.email.errorMessage : null,
               prefixIcon: const Icon(Icons.mail_outlined),
             ),
             const SizedBox(height: 16),
             CustomTextFormField(
               obscureText: true,
-              onChanged: loginCubit.passwordChanged,
-              errorText: password.errorMessage,
+              onChanged: ref.read(loginFormProvider.notifier).onPasswordChange,
+              errorText: loginForm.isFormPosted
+                  ? loginForm.password.errorMessage
+                  : null,
               label: 'Password',
               prefixIcon: const Icon(Icons.lock),
             ),
@@ -53,7 +47,7 @@ class _LoginContentState extends State<LoginContent> {
               child: CustomElevatedButton(
                 text: "Les't go",
                 onPressed: () {
-                  loginCubit.onSubmit();
+                  ref.read(loginFormProvider.notifier).onSubmit();
                 },
               ),
             ),

@@ -29,7 +29,6 @@ class RegisterCubit extends Cubit<RegisterFormState> {
         ]),
       ),
     );
-    print('onSubmit $state');
   }
 
   void nameChanged(String value) {

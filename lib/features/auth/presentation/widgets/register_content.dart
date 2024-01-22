@@ -92,12 +92,12 @@ class _RegisterContentState extends State<RegisterContent> {
                 text: 'Check in',
                 onPressed: () {
                   registerCubit.onSubmit();
-                  print(name.value);
-                  print(lastName.value);
-                  print(userName.value);
-                  print(email.value);
-                  print(password.value);
-                  print(Formats.getGenderSelected(gender.value));
+                  // print(name.value);
+                  // print(lastName.value);
+                  // print(userName.value);
+                  // print(email.value);
+                  // print(password.value);
+                  // print(Formats.getGenderSelected(gender.value));
                 },
               ),
             ),
