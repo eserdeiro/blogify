@@ -1,15 +1,35 @@
 import 'package:blogify/config/constants/strings.dart';
+import 'package:blogify/config/utils/resource.dart';
+import 'package:blogify/features/auth/presentation/index.dart';
+import 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
 import 'package:blogify/features/auth/presentation/providers/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterContent extends ConsumerWidget {
   const RegisterContent({super.key});
+
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+ 
     final titleStyle = Theme.of(context).textTheme;
     final registerForm = ref.watch(registerFormProvider);
+     ref.listen(authProvider, (previous, next) {
+      switch (next.user) {
+        case Success _:
+        print('SUCESSSSSSSSSS');
+        //Replacement para que no se pueda volver al login.
+        context.pushReplacement('/home');
+          return;
+        case Error _:
+          showSnackBar(context, (next.user! as Error).getErrorMessage());
+        case Loading _:
+          //TODO ADD LOADING 
+      }
+    });
     final registerFormNotifier = ref.read(registerFormProvider.notifier);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),

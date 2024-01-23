@@ -13,9 +13,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final AuthRepository authRepositoryImpl;
 
   AuthNotifier({required this.authRepositoryImpl}) : super(AuthState());
+
   Future<void> loginUser(String email, String password) async {
     final user = await authRepositoryImpl.login(email, password);
-    
+
     switch (user) {
       case Loading _:
         state = state.copyWith(
@@ -35,7 +36,48 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> registerUser(String email, String password) async {}
+  Future<void> registerUser(
+    String email,
+    String password,
+    String name,
+    String lastname,
+    String username,
+  ) async {
+    final user = await authRepositoryImpl.register(
+      email,
+      password,
+      name,
+      lastname,
+      username,
+    );
+
+    print('''
+AUTH PROVIDER REGISTER 
+          email: $email,
+           password: $password,
+           name:$name,
+           lastname: $lastname,
+           username: $username,
+''');
+
+    switch (user) {
+      case Loading _:
+        state = state.copyWith(
+          user: user,
+          authStatus: AuthStatus.checking,
+        );
+      case Success _:
+        state = state.copyWith(
+          user: user,
+          authStatus: AuthStatus.authenticated,
+        );
+      case Error _:
+        state = state.copyWith(
+          user: user,
+          authStatus: AuthStatus.notAuthenticated,
+        );
+    }
+  }
 
   Future<void> checkAuthStatus() async {}
 }

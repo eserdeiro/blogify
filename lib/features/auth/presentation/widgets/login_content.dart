@@ -1,5 +1,6 @@
 import 'package:blogify/config/constants/strings.dart';
 import 'package:blogify/config/utils/resource.dart';
+import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
 import 'package:blogify/features/auth/presentation/providers/index.dart';
 import 'package:blogify/presentation/index.dart';
@@ -10,19 +11,14 @@ import 'package:go_router/go_router.dart';
 class LoginContent extends ConsumerWidget {
   const LoginContent({super.key});
 
-  void showSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loginForm = ref.watch(loginFormProvider);
     ref.listen(authProvider, (previous, next) {
       switch (next.user) {
         case Success _:
+        print('SUCESSSSSSSSSS');
+        context.pushReplacement('/home');
           return;
         case Error _:
           showSnackBar(context, (next.user! as Error).getErrorMessage());

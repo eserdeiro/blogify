@@ -1,4 +1,5 @@
 import 'package:blogify/config/helpers/formats.dart';
+import 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
 import 'package:blogify/infrastructure/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,11 +8,15 @@ import 'package:formz/formz.dart';
 final registerFormProvider =
     StateNotifierProvider.autoDispose<RegisterFormNotifier, RegisterFormState>(
         (ref) {
-  return RegisterFormNotifier();
+  final registerUserCallback = ref.watch(authProvider.notifier).registerUser;
+  return RegisterFormNotifier(registerUserCallback: registerUserCallback);
 });
 
 class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
-  RegisterFormNotifier() : super(RegisterFormState());
+  final Function(String, String, String, String, String) registerUserCallback;
+  RegisterFormNotifier({
+    required this.registerUserCallback,
+  }) : super(RegisterFormState());
 
   void onNameChange(String value) {
     final name = Name.dirty(value);
@@ -103,10 +108,13 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
     );
   }
 
-  void onSubmit() {
+  Future<void> onSubmit() async {
     validateEveryone();
     if (!state.isValid) return;
     print(state);
+    //register firebase working
+    await registerUserCallback(
+        state.email.value, state.password.value, state.name.value, state.lastname.value, state.username.value,);
   }
 
   void validateEveryone() {
@@ -119,19 +127,19 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
 
     state = state.copyWith(
       isFormPosted: true,
+      isValid: Formz.validate([email, password]),
       name: name,
       lastname: lastname,
       username: username,
       email: email,
       password: password,
       gender: gender,
-      isValid: Formz.validate([email, password]),
+      
     );
   }
 }
 
 class RegisterFormState {
-  final bool isPosting;
   final bool isFormPosted;
   final bool isValid;
   final Name name;
@@ -142,7 +150,6 @@ class RegisterFormState {
   final Gender gender;
 
   RegisterFormState({
-    this.isPosting = false,
     this.isFormPosted = false,
     this.isValid = false,
     this.name = const Name.pure(),
@@ -154,7 +161,6 @@ class RegisterFormState {
   });
 
   RegisterFormState copyWith({
-    bool? isPosting,
     bool? isFormPosted,
     bool? isValid,
     Name? name,
@@ -165,7 +171,6 @@ class RegisterFormState {
     Gender? gender,
   }) =>
       RegisterFormState(
-        isPosting: isPosting ?? this.isPosting,
         isFormPosted: isFormPosted ?? this.isFormPosted,
         isValid: isValid ?? this.isValid,
         name: name ?? this.name,
@@ -181,7 +186,6 @@ class RegisterFormState {
     return '''
 RegisterFormState: 
 
-isPosting: $isPosting
 isFormPosted: $isFormPosted
 isValid: $isValid
 name: $name

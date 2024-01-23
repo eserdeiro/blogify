@@ -2,6 +2,8 @@ import 'package:blogify/config/utils/resource.dart';
 import 'package:blogify/features/auth/domain/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+//Here you will find the firebase implementation
+
 class AuthDatasourceImpl extends AuthDataSource {
   @override
   Future<Resource> checkAuthStatus(String token) {
@@ -18,6 +20,7 @@ class AuthDatasourceImpl extends AuthDataSource {
         email: email,
         password: password,
       );
+      print('DATA FIREBASE LOGIN $data');
       return Success(data);
     } on FirebaseAuthException catch (e) {
       return Error(e.code);
@@ -31,8 +34,24 @@ class AuthDatasourceImpl extends AuthDataSource {
     String name,
     String lastname,
     String username,
-  ) {
-    // TODO: implement register
-    throw UnimplementedError();
+  ) async {
+    try {
+      print('''
+DATA FIREBASE REGISTER 
+           email: $email,
+           password: $password,
+           name:$name,
+           lastname: $lastname,
+           username: $username,
+''');
+      final firebaseAuth = FirebaseAuth.instance;
+      final data = await firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return Success(data);
+    } on FirebaseAuthException catch (e) {
+      return Error(e.code);
+    }
   }
 }

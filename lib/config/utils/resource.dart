@@ -26,6 +26,8 @@ class Error<T> extends Resource<T> {
         return 'Timeout';
       case 'invalid-credential':
         return 'Invalid credentials';
+      case 'email-already-in-use':
+        return 'Email already in use';
       default:
         return 'Something went wrong';
     }

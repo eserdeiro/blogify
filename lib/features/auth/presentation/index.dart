@@ -6,3 +6,4 @@ export 'package:blogify/features/auth/presentation/views/register/register_lands
 export 'package:blogify/features/auth/presentation/views/register/register_portrait.dart';
 export 'package:blogify/features/auth/presentation/widgets/login_content.dart';
 export 'package:blogify/features/auth/presentation/widgets/register_content.dart';
+export 'package:blogify/features/auth/presentation/widgets/show_snackbar.dart';
