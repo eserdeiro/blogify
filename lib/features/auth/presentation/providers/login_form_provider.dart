@@ -1,4 +1,5 @@
 import 'package:blogify/features/infrastructure/index.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 
@@ -8,6 +9,9 @@ final loginFormProvider =
 });
 
 class LoginFormNotifier extends StateNotifier<LoginFormState> {
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   LoginFormNotifier() : super(LoginFormState());
 
   void onEmailChange(String value) {
@@ -26,24 +30,24 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
     );
   }
 
-  void onSubmit() {
+  Future<void> onSubmit() async {
     validateEveryone();
     if (!state.isValid) return;
+       if (state.isValid) {
+      try {
+        final data = await _firebaseAuth.signInWithEmailAndPassword(
+          email: state.email.value,
+          password: state.password.value,
+        );
+        print('FIREBASE DATA ${data}');
+      } catch (e) {
+        print('Firebase authentication error: $e');
+      }
+    }
     print(state);
 
     //Firebase impl
-    //     if (state.isValid) {
-    //   try {
-    //     final data = await _firebaseAuth.signInWithEmailAndPassword(
-    //       email: state.email.value,
-    //       password: state.password.value,
-    //     );
-    //     print('firebase data ${data.credential}');
-    //   } catch (e) {
-    //     print('Firebase authentication error: $e');
-    // Handle the error appropriately
-    //   }
-    // }
+     
   }
 
   void validateEveryone() {
