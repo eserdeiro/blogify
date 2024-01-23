@@ -18,17 +18,20 @@ class AuthDatasourceImpl extends AuthDataSource {
         email: email,
         password: password,
       );
-      print('Sucess firebase login ${data}');
       return Success(data);
     } on FirebaseAuthException catch (e) {
-      print('Error auth impl ${e.code}');
       return Error(e.code);
     }
   }
 
   @override
-  Future<Resource> register(String email, String password, String name,
-      String lastname, String username) {
+  Future<Resource> register(
+    String email,
+    String password,
+    String name,
+    String lastname,
+    String username,
+  ) {
     // TODO: implement register
     throw UnimplementedError();
   }

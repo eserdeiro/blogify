@@ -15,8 +15,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier({required this.authRepositoryImpl}) : super(AuthState());
   Future<void> loginUser(String email, String password) async {
     final user = await authRepositoryImpl.login(email, password);
-    //TODO ADD LOADING
+    
     switch (user) {
+      case Loading _:
+        state = state.copyWith(
+          user: user,
+          authStatus: AuthStatus.checking,
+        );
       case Success _:
         state = state.copyWith(
           user: user,

@@ -25,7 +25,6 @@ class LoginContent extends ConsumerWidget {
         case Success _:
           return;
         case Error _:
-        //TODO DELETE ERROR MESSAGE, replace with next.user.getErrorMessage
           showSnackBar(context, (next.user! as Error).getErrorMessage());
         case Loading _:
           //TODO ADD LOADING 
@@ -48,7 +47,6 @@ class LoginContent extends ConsumerWidget {
             ),
             CustomTextFormField(
               label: Strings.email,
-              // onChanged:(value) => ref.read(loginFormProvider.notifier).onEmailChange(value),
               onChanged: loginFormNotifier.onEmailChange,
               errorText:
                   loginForm.isFormPosted ? loginForm.email.errorMessage : null,

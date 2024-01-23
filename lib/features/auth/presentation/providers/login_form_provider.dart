@@ -38,7 +38,7 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
   Future<void> onSubmit() async {
     validateEveryone();
     if (!state.isValid) return;
-    //login working
+    //login firebase working
     await loginUserCallback(state.email.value, state.password.value);
   }
 
@@ -89,12 +89,11 @@ class LoginFormState {
   String toString() {
     return '''
 LoginFormState: 
-
-isPosting: $isPosting
-isFormPosted: $isFormPosted
-isValid: $isValid
-email: $email
-password: $password
+  isPosting: $isPosting
+  isFormPosted: $isFormPosted
+  isValid: $isValid
+  email: $email
+  password: $password
 ''';
   }
 }
