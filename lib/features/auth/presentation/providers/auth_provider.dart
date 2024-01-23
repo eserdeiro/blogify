@@ -4,25 +4,30 @@ import 'package:blogify/features/auth/infrastructure/repositories/auth_repositor
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  final authRepository = AuthRepositoryImpl();
+  final authRepositoryImpl = AuthRepositoryImpl();
 
-  return AuthNotifier(authRepository: authRepository);
+  return AuthNotifier(authRepositoryImpl: authRepositoryImpl);
 });
 
 class AuthNotifier extends StateNotifier<AuthState> {
-  final AuthRepository authRepository;
+  final AuthRepository authRepositoryImpl;
 
-  AuthNotifier({required this.authRepository}) : super(AuthState());
+  AuthNotifier({required this.authRepositoryImpl}) : super(AuthState());
   Future<void> loginUser(String email, String password) async {
-    final user = await authRepository.login(email, password);
-
-    if (user is Success) {
-      state = state.copyWith(user: user, authStatus: AuthStatus.authenticated);
-      print('Inicio de sesión correcto');
-    } else if (user is Error) {
-      state =
-          state.copyWith(user: user, authStatus: AuthStatus.notAuthenticated);
-      print('Error in login: ${user.getErrorMessage()}');
+    final user = await authRepositoryImpl.login(email, password);
+    //TODO ADD LOADING 
+    switch (user) {
+      case Success _:
+        state = state.copyWith(
+          user: user,
+          authStatus: AuthStatus.authenticated,
+        );
+      case Error _:
+        state = state.copyWith(
+          user: user,
+          authStatus: AuthStatus.notAuthenticated,
+          errorMessage: user.getErrorMessage(),
+        );
     }
   }
 

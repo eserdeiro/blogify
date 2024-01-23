@@ -1,4 +1,6 @@
 import 'package:blogify/config/constants/strings.dart';
+import 'package:blogify/config/utils/resource.dart';
+import 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
 import 'package:blogify/features/auth/presentation/providers/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +10,26 @@ import 'package:go_router/go_router.dart';
 class LoginContent extends ConsumerWidget {
   const LoginContent({super.key});
 
+  void showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loginForm = ref.watch(loginFormProvider);
+    ref.listen(authProvider, (previous, next) {
+      switch (next.user) {
+        case Success _:
+          return;
+        case Error _:
+          showSnackBar(context, next.errorMessage);
+        case Loading _:
+          print('TODO EJECUTAR LOADING');
+      }
+    });
     final loginFormNotifier = ref.read(loginFormProvider.notifier);
     final titleStyle = Theme.of(context).textTheme;
     return Padding(

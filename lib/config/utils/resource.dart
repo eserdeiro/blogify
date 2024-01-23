@@ -23,11 +23,11 @@ class Error<T> extends Resource<T> {
   String getErrorMessage() {
     switch (error) {
       case 'network-request-failed':
-        return 'No se pudo conectar con el servidor';
+        return 'Timeout';
       case 'invalid-credential':
-        return 'Email o contraseña incorrectos';
+        return 'Invalid credentials';
       default:
-        return 'Error desconocido: $error';
+        return 'Something went wrong';
     }
   }
 }
