@@ -15,10 +15,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier({required this.authRepository}) : super(AuthState());
   Future<void> loginUser(String email, String password) async {
     final user = await authRepository.login(email, password);
-    state = state.copyWith(user: user, authStatus: AuthStatus.authenticated);
+
+    if (user is Success) {
+      state = state.copyWith(user: user, authStatus: AuthStatus.authenticated);
+      print('Inicio de sesión correcto');
+    } else if (user is Error) {
+      state =
+          state.copyWith(user: user, authStatus: AuthStatus.notAuthenticated);
+      print('Error in login: ${user.getErrorMessage()}');
+    }
   }
 
   Future<void> registerUser(String email, String password) async {}
+
   Future<void> checkAuthStatus() async {}
 }
 
