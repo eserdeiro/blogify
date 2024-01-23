@@ -15,7 +15,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier({required this.authRepositoryImpl}) : super(AuthState());
   Future<void> loginUser(String email, String password) async {
     final user = await authRepositoryImpl.login(email, password);
-    //TODO ADD LOADING 
+    //TODO ADD LOADING
     switch (user) {
       case Success _:
         state = state.copyWith(
@@ -26,7 +26,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
         state = state.copyWith(
           user: user,
           authStatus: AuthStatus.notAuthenticated,
-          errorMessage: user.getErrorMessage(),
         );
     }
   }
@@ -41,23 +40,18 @@ enum AuthStatus { checking, authenticated, notAuthenticated }
 class AuthState {
   final AuthStatus authStatus;
   final Resource? user;
-  final String errorMessage;
 
   AuthState({
     this.authStatus = AuthStatus.checking,
     this.user,
-    this.errorMessage = '',
   });
 
   AuthState copyWith({
     AuthStatus? authStatus,
     Resource? user,
-    String errorMessage = '',
   }) =>
       AuthState(
         authStatus: authStatus ?? this.authStatus,
         user: user ?? this.user,
-        errorMessage:
-            errorMessage.isNotEmpty ? errorMessage : this.errorMessage,
       );
 }

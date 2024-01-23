@@ -25,9 +25,10 @@ class LoginContent extends ConsumerWidget {
         case Success _:
           return;
         case Error _:
-          showSnackBar(context, next.errorMessage);
+        //TODO DELETE ERROR MESSAGE, replace with next.user.getErrorMessage
+          showSnackBar(context, (next.user! as Error).getErrorMessage());
         case Loading _:
-          print('TODO EJECUTAR LOADING');
+          //TODO ADD LOADING 
       }
     });
     final loginFormNotifier = ref.read(loginFormProvider.notifier);

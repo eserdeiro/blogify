@@ -11,6 +11,7 @@ class AuthDatasourceImpl extends AuthDataSource {
 
   @override
   Future<Resource> login(String email, String password) async {
+    //TODO ADD LOADING
     try {
       final firebaseAuth = FirebaseAuth.instance;
       final data = await firebaseAuth.signInWithEmailAndPassword(

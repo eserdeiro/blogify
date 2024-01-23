@@ -1,7 +1,10 @@
 import 'package:blogify/config/utils/resource.dart';
 
 abstract class AuthRepository {
-  Future<Resource> login(String email, String password);
+  Future<Resource> login(
+    String email,
+    String password,
+  );
 
   Future<Resource> register(
     String email,
