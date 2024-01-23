@@ -1,18 +1,23 @@
+import 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
 import 'package:blogify/infrastructure/index.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 
 final loginFormProvider =
     StateNotifierProvider.autoDispose<LoginFormNotifier, LoginFormState>((ref) {
-  return LoginFormNotifier();
+  final loginUserCallback = ref.watch(authProvider.notifier).loginUser;
+
+  return LoginFormNotifier(
+    loginUserCallback: loginUserCallback,
+  );
 });
 
 class LoginFormNotifier extends StateNotifier<LoginFormState> {
+  final Function(String, String) loginUserCallback;
 
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
-  LoginFormNotifier() : super(LoginFormState());
+  LoginFormNotifier({
+    required this.loginUserCallback,
+  }) : super(LoginFormState());
 
   void onEmailChange(String value) {
     final email = Email.dirty(value);
@@ -33,21 +38,8 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
   Future<void> onSubmit() async {
     validateEveryone();
     if (!state.isValid) return;
-       if (state.isValid) {
-      try {
-        final data = await _firebaseAuth.signInWithEmailAndPassword(
-          email: state.email.value,
-          password: state.password.value,
-        );
-        print('FIREBASE DATA $data');
-      } catch (e) {
-        print('Firebase authentication error: $e');
-      }
-    }
-    print(state);
-
-    //Firebase impl
-     
+    //login working
+    await loginUserCallback(state.email.value, state.password.value);
   }
 
   void validateEveryone() {
