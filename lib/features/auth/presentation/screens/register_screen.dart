@@ -1,5 +1,5 @@
 import 'package:blogify/config/constants/strings.dart';
-import 'package:blogify/presentation/views.dart';
+import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {

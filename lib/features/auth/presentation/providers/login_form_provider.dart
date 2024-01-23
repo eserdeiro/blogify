@@ -1,4 +1,4 @@
-import 'package:blogify/features/infrastructure/index.dart';
+import 'package:blogify/infrastructure/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
@@ -39,7 +39,7 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
           email: state.email.value,
           password: state.password.value,
         );
-        print('FIREBASE DATA ${data}');
+        print('FIREBASE DATA $data');
       } catch (e) {
         print('Firebase authentication error: $e');
       }
