@@ -14,19 +14,19 @@ class AuthDatasourceImpl extends AuthDataSource {
 
   @override
   Future<Resource> checkAuthStatus(String token) async {
-    try {
+    // try {
       final firebaseAuth = FirebaseAuth.instance;
       final user = firebaseAuth.currentUser;
       if (user != null) {
-          print('UID DATA AUTH ${user.uid}');
-          print('DATA AUTH $user');
           return Success(user);
       } else {
+        print('se ejecuto el init');
         return Init();
       }
-    } on FirebaseAuthException catch (e) {
-      return Error(e.code);
-    }
+    // } on FirebaseAuthException catch (e) {
+    //   print('se ejecuto el catch');
+    //   return Error(e.code);
+    // }
   }
 
   @override

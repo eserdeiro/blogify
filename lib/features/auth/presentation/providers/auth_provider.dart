@@ -14,15 +14,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   AuthNotifier({required this.authRepositoryImpl}) : super(AuthState());
 
-  Future<void> logout()async {
-    print('logouttttt ${authRepositoryImpl.logout}');
+  Future<void> logout() async {
     return authRepositoryImpl.logout();
-    
   }
 
-   Future<void> checkAuthStatus() async {
-   final user = await authRepositoryImpl.checkAuthStatus('');
-        switch (user) {
+  Future<void> checkAuthStatus() async {
+    final user = await authRepositoryImpl.checkAuthStatus('');
+    switch (user) {
       case Loading _:
         state = state.copyWith(
           user: user,
@@ -79,7 +77,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
 
 //     print('''
-// AUTH PROVIDER REGISTER 
+// AUTH PROVIDER REGISTER
 //           email: $email,
 //            password: $password,
 //            name:$name,
@@ -105,7 +103,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
         );
     }
   }
-
 }
 
 enum AuthStatus { checking, authenticated, notAuthenticated }

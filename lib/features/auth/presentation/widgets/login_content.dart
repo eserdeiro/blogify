@@ -15,11 +15,10 @@ class LoginContent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //Esto mantiene el estado del login
     ref.watch(authProvider.notifier).checkAuthStatus();
-    
+
     ref.listen(authProvider, (previous, next) {
       switch (next.user) {
         case Success _:
-        print('SUCESSSSSSSSSS');
         context.pushReplacement('/home');
           return;
         case Error _:
