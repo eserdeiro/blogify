@@ -1,5 +1,6 @@
 import 'package:blogify/config/utils/resource.dart';
 import 'package:blogify/features/auth/domain/index.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 //Here you will find the firebase implementation
@@ -44,11 +45,23 @@ DATA FIREBASE REGISTER
            lastname: $lastname,
            username: $username,
 ''');
+      final firebaseFirestore = FirebaseFirestore.instance;
+      final CollectionReference usersCollection =
+          firebaseFirestore.collection('Users');
       final firebaseAuth = FirebaseAuth.instance;
       final data = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+       await usersCollection.doc(data.user?.uid ?? '').set(
+            UserEntity(
+              id: data.user!.uid,
+              email: email,
+              name: name,
+              lastname: lastname,
+              username: username,
+            ).toJson(),
+          );
       return Success(data);
     } on FirebaseAuthException catch (e) {
       return Error(e.code);
