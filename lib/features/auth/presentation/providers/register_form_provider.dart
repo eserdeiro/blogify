@@ -1,4 +1,5 @@
 import 'package:blogify/config/helpers/formats.dart';
+import 'package:blogify/features/auth/domain/index.dart';
 import 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
 import 'package:blogify/infrastructure/index.dart';
 import 'package:blogify/presentation/index.dart';
@@ -13,7 +14,7 @@ final registerFormProvider =
 });
 
 class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
-  final Function(String, String, String, String, String) registerUserCallback;
+  final Function(UserEntity) registerUserCallback;
   RegisterFormNotifier({
     required this.registerUserCallback,
   }) : super(RegisterFormState());
@@ -114,7 +115,13 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
     print(state);
     //register firebase working
     await registerUserCallback(
-        state.email.value, state.password.value, state.name.value, state.lastname.value, state.username.value,);
+        UserEntity(
+        id: '', 
+        email: state.email.value, 
+        password: state.password.value, 
+        name: state.name.value, 
+        lastname: state.lastname.value, 
+        username: state.username.value,),);
   }
 
   void validateEveryone() {

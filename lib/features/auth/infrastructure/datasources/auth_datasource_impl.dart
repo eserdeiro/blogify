@@ -13,20 +13,14 @@ class AuthDatasourceImpl extends AuthDataSource {
   }
 
   @override
-  Future<Resource> checkAuthStatus(String token) async {
-    // try {
-      final firebaseAuth = FirebaseAuth.instance;
-      final user = firebaseAuth.currentUser;
-      if (user != null) {
-          return Success(user);
-      } else {
-        print('se ejecuto el init');
-        return Init();
-      }
-    // } on FirebaseAuthException catch (e) {
-    //   print('se ejecuto el catch');
-    //   return Error(e.code);
-    // }
+  Future<Resource> checkAuthStatus() async {
+    final firebaseAuth = FirebaseAuth.instance;
+    final user = firebaseAuth.currentUser;
+    if (user != null) {
+      return Success(user);
+    } else {
+      return Init();
+    }
   }
 
   @override
@@ -38,7 +32,6 @@ class AuthDatasourceImpl extends AuthDataSource {
         email: email,
         password: password,
       );
-      print('DATA FIREBASE LOGIN $data');
       return Success(data);
     } on FirebaseAuthException catch (e) {
       return Error(e.code);
@@ -47,37 +40,22 @@ class AuthDatasourceImpl extends AuthDataSource {
 
   @override
   Future<Resource> register(
-    String email,
-    String password,
-    String name,
-    String lastname,
-    String username,
+    UserEntity user,
   ) async {
     try {
-//       print('''
-// DATA FIREBASE REGISTER
-//            email: $email,
-//            password: $password,
-//            name:$name,
-//            lastname: $lastname,
-//            username: $username,
-// ''');
       final firebaseFirestore = FirebaseFirestore.instance;
       final CollectionReference usersCollection =
           firebaseFirestore.collection('Users');
       final firebaseAuth = FirebaseAuth.instance;
       final data = await firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: user.email,
+        password: user.password,
       );
+      user
+        ..id       = data.user?.uid ?? ''
+        ..password = '';
       await usersCollection.doc(data.user?.uid ?? '').set(
-            UserEntity(
-              id: data.user!.uid,
-              email: email,
-              name: name,
-              lastname: lastname,
-              username: username,
-            ).toJson(),
+            user.toJson(),
           );
       return Success(data);
     } on FirebaseAuthException catch (e) {

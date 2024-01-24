@@ -1,17 +1,12 @@
 import 'package:blogify/config/utils/resource.dart';
+import 'package:blogify/features/auth/domain/index.dart';
 
 abstract class AuthDataSource {
   Future<Resource> login(String email, String password);
 
-  Future<Resource> register(
-    String email,
-    String password,
-    String name,
-    String lastname,
-    String username,
-  );
+  Future<Resource> register( UserEntity user,);
 
-  Future<Resource> checkAuthStatus(String token);
+  Future<Resource> checkAuthStatus();
 
   Future<void> logout();
 }

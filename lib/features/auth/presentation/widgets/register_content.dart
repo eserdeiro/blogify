@@ -20,14 +20,11 @@ class RegisterContent extends ConsumerWidget {
      ref.listen(authProvider, (previous, next) {
       switch (next.user) {
         case Success _:
-        print('SUCESSSSSSSSSS');
-        //Replacement para que no se pueda volver al login.
         context.pushReplacement('/home');
           return;
         case Error _:
           showSnackBar(context, (next.user! as Error).getErrorMessage());
         case Loading _:
-          //TODO: ADD LOADING 
       }
     });
     final registerFormNotifier = ref.read(registerFormProvider.notifier);

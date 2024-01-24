@@ -1,5 +1,4 @@
 import 'package:blogify/config/constants/strings.dart';
-import 'package:blogify/config/utils/resource.dart';
 import 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,21 +11,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-         ref.watch(authProvider.notifier).checkAuthStatus();
-
-    ref.listen(authProvider, (previous, next) {
-      switch (next.user) {
-        case Success _:
-        print('next user ${(next.user as Success).data}');
-        //print('');
-       // context.pushReplacement('/home');
-          return;
-        case Error _:
-        //  showSnackBar(context, (next.user! as Error).getErrorMessage());
-        case Loading _:
-          //TODO ADD LOADING 
-      }
-    });
+ 
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -36,8 +21,9 @@ class HomeScreen extends ConsumerWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              ref.watch(authProvider.notifier).logout();
-              context.pushReplacement(Strings.loginUrl);
+              ref.watch(authProvider.notifier).logout().then((_) {
+                context.pushReplacement(Strings.loginUrl);
+              });
             },
           ),
         ],
