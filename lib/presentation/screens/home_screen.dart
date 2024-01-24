@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-//static const String name = 'home_screen';
 //Not used
 class HomeScreen extends ConsumerStatefulWidget {
+  static const String name = 'home_screen';
   const HomeScreen({super.key});
 
   @override
@@ -23,30 +23,27 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-
-      final currentUserUid =  (ref.read(authProvider).user! as Success).data.uid;
-      
-      ref
-          .read(userProvider.notifier)
-          .getUserById(currentUserUid)
-
-          .listen((result) {
-        if (result is Success<UserEntity>) {
-          setState(() {
-            userUsername = result.data.username;
-          });
-        }
-      });
+      final currentUserUid = (ref.read(authProvider).user! as Success).data.uid;
+     ref
+      .read(userProvider.notifier)
+      .getUserById(currentUserUid)
+      .listen(
+        (result) {
+          if (result is Success<UserEntity>) {
+            setState(() {
+              userUsername = result.data.username;
+            });
+          }
+        },
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-       // ref.read(authProvider.notifier).checkAuthStatus();
-      
+
     return Scaffold(
       appBar: AppBar(
-        // Set the title with the user email
         actions: [
           IconButton(
             icon: const Icon(
