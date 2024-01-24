@@ -15,4 +15,6 @@ abstract class AuthRepository {
   );
 
   Future<Resource> checkAuthStatus(String token);
+
+  Future<void> logout();
 }

@@ -14,6 +14,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   AuthNotifier({required this.authRepositoryImpl}) : super(AuthState());
 
+  Future<void> logout()async {
+    print('logouttttt ${authRepositoryImpl.logout}');
+    return authRepositoryImpl.logout();
+    
+  }
+
    Future<void> checkAuthStatus() async {
    final user = await authRepositoryImpl.checkAuthStatus('');
         switch (user) {
@@ -72,14 +78,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
       username,
     );
 
-    print('''
-AUTH PROVIDER REGISTER 
-          email: $email,
-           password: $password,
-           name:$name,
-           lastname: $lastname,
-           username: $username,
-''');
+//     print('''
+// AUTH PROVIDER REGISTER 
+//           email: $email,
+//            password: $password,
+//            name:$name,
+//            lastname: $lastname,
+//            username: $username,
+// ''');
 
     switch (user) {
       case Loading _:

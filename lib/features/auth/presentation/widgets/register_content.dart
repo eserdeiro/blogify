@@ -27,7 +27,7 @@ class RegisterContent extends ConsumerWidget {
         case Error _:
           showSnackBar(context, (next.user! as Error).getErrorMessage());
         case Loading _:
-          //TODO ADD LOADING 
+          //TODO: ADD LOADING 
       }
     });
     final registerFormNotifier = ref.read(registerFormProvider.notifier);

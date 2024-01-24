@@ -12,4 +12,6 @@ abstract class AuthDataSource {
   );
 
   Future<Resource> checkAuthStatus(String token);
+
+  Future<void> logout();
 }

@@ -14,6 +14,11 @@ class AuthRepositoryImpl extends AuthRepository {
     return datasource.checkAuthStatus(token);
   }
 
+    @override
+  Future<void> logout() {
+    return datasource.logout();
+  }
+
   @override
   Future<Resource> login(String email, String password) {
     return datasource.login(email, password);

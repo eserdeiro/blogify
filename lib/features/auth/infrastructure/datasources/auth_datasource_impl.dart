@@ -7,13 +7,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthDatasourceImpl extends AuthDataSource {
   @override
-  Future<Resource> checkAuthStatus(String token) async{
-        try {
+  Future<void> logout() async {
+    final firebaseAuth = FirebaseAuth.instance;
+    await firebaseAuth.signOut();
+  }
+
+  @override
+  Future<Resource> checkAuthStatus(String token) async {
+    try {
       final firebaseAuth = FirebaseAuth.instance;
-      final data = firebaseAuth.currentUser;
-      print('UID DATA AUTH ${firebaseAuth.currentUser!.uid}');
-      print('DATA AUTH $data');
-      return Success(data);
+      final user = firebaseAuth.currentUser;
+      if (user != null) {
+          print('UID DATA AUTH ${user.uid}');
+          print('DATA AUTH $user');
+          return Success(user);
+      } else {
+        return Init();
+      }
     } on FirebaseAuthException catch (e) {
       return Error(e.code);
     }
@@ -44,14 +54,14 @@ class AuthDatasourceImpl extends AuthDataSource {
     String username,
   ) async {
     try {
-      print('''
-DATA FIREBASE REGISTER 
-           email: $email,
-           password: $password,
-           name:$name,
-           lastname: $lastname,
-           username: $username,
-''');
+//       print('''
+// DATA FIREBASE REGISTER
+//            email: $email,
+//            password: $password,
+//            name:$name,
+//            lastname: $lastname,
+//            username: $username,
+// ''');
       final firebaseFirestore = FirebaseFirestore.instance;
       final CollectionReference usersCollection =
           firebaseFirestore.collection('Users');
