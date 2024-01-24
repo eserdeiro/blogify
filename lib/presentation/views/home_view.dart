@@ -21,25 +21,26 @@ class HomeViewState extends ConsumerState<HomeView> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-      final currentUserUid = (ref.read(authProvider).user! as Success).data.uid;
-     ref
-      .read(userProvider.notifier)
-      .getUserById(currentUserUid)
-      .listen(
-        (result) {
-          if (result is Success<UserEntity>) {
-            setState(() {
-              userUsername = result.data.username;
-            });
-          }
-        },
-      );
+      if (mounted) {
+        final currentUserUid =
+            (ref.read(authProvider).user! as Success).data.uid;
+        ref.read(userProvider.notifier).getUserById(currentUserUid).listen(
+          (result) {
+            if (result is Success<UserEntity>) {
+              if (mounted) {
+                setState(() {
+                  userUsername = result.data.username;
+                });
+              }
+            }
+          },
+        );
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         actions: [

@@ -2,34 +2,31 @@ import 'package:blogify/presentation/views/home_view.dart';
 import 'package:blogify/presentation/views/profile_view.dart';
 import 'package:blogify/presentation/widgets/shared/custom_bottom_navigationbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  static const String name = 'home_screen';
+class HomeScreen extends StatefulWidget {
   final int page;
 
   const HomeScreen({required this.page, super.key});
+  static const String name = 'home-screen';
 
   @override
-  HomeScreenState createState() => HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class HomeScreenState extends ConsumerState<HomeScreen> {
-  final viewRoutes = const [
-    HomeView(), //Posts
-    ProfileView(), // My posts
-    ProfileView(), // Profile
-  ];
-  @override
-  Widget build(BuildContext context) {
-
-       return Scaffold(
+class _HomeScreenState extends State<HomeScreen> {
+    @override
+    Widget build(BuildContext context) {
+         const viewRoutes = [
+      HomeView(), //Posts
+      ProfileView(), // My posts
+      ProfileView(), // Profile
+    ];
+      return Scaffold(
         body: IndexedStack(
           index: widget.page,
           children: viewRoutes,
         ),
-      bottomNavigationBar: CustomBottomNavigationBar(currentIndex: widget.page),
-
+        bottomNavigationBar: CustomBottomNavigationBar(currentIndex: widget.page),
       );
-  }
+    }
 }

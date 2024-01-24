@@ -23,6 +23,7 @@ class UserDatasourceImpl extends UserDatasource {
                 return null;
               }
               final userEntity = UserEntity.fromJson(userData);
+              print('ya casi llega al success');
               return Success(userEntity);
             } else {
               return Error('Usuario $id no encontrado');
@@ -32,6 +33,7 @@ class UserDatasourceImpl extends UserDatasource {
           .cast<Resource<UserEntity>>();
     } on FirebaseException catch (e) {
       print('error ${e.code}');
+      print('error en user datasource impl');
       return Stream.value(Error(e.code));
     }
   }
