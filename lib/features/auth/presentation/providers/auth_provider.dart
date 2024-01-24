@@ -67,16 +67,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     final userRegister = await authRepositoryImpl.register(
       user,
     );
-
-//     print('''
-// AUTH PROVIDER REGISTER
-//           email: $email,
-//            password: $password,
-//            name:$name,
-//            lastname: $lastname,
-//            username: $username,
-// ''');
-
     switch (userRegister) {
       case Loading _:
         state = state.copyWith(

@@ -14,8 +14,7 @@ class RegisterContent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
  
-    final titleStyle = Theme.of(context).textTheme;
-    final registerForm = ref.watch(registerFormProvider);
+    
      ref.listen(authProvider, (previous, next) {
       switch (next.user) {
         case Success _:
@@ -26,6 +25,8 @@ class RegisterContent extends ConsumerWidget {
         case Loading _:
       }
     });
+    final titleStyle = Theme.of(context).textTheme;
+    final registerForm = ref.watch(registerFormProvider);
     final registerFormNotifier = ref.read(registerFormProvider.notifier);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),

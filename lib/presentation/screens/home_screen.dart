@@ -1,20 +1,52 @@
 import 'package:blogify/config/constants/strings.dart';
-import 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
-import 'package:blogify/presentation/index.dart';
+import 'package:blogify/config/utils/resource.dart';
+import 'package:blogify/features/auth/domain/entities/user_entity.dart';
+import 'package:blogify/features/auth/presentation/providers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+//static const String name = 'home_screen';
 //Not used
-class HomeScreen extends ConsumerWidget {
-  static const String name = 'home_screen';
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
- 
+  HomeScreenState createState() => HomeScreenState();
+}
+
+class HomeScreenState extends ConsumerState<HomeScreen> {
+  String userUsername = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration.zero, () {
+
+      final currentUserUid =  (ref.read(authProvider).user! as Success).data.uid;
+      
+      ref
+          .read(userProvider.notifier)
+          .getUserById(currentUserUid)
+
+          .listen((result) {
+        if (result is Success<UserEntity>) {
+          setState(() {
+            userUsername = result.data.username;
+          });
+        }
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+       // ref.read(authProvider.notifier).checkAuthStatus();
+      
     return Scaffold(
       appBar: AppBar(
+        // Set the title with the user email
         actions: [
           IconButton(
             icon: const Icon(
@@ -29,10 +61,10 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text('Hello! Home screen'),
+      body: Center(
+        child: Text('Hello! Home screen $userUsername'),
       ),
-      bottomNavigationBar: const CustomBottomNavigationBar(currentIndex: 0),
+      //  bottomNavigationBar: const CustomBottomNavigationBar(currentIndex: 0),
     );
   }
 }

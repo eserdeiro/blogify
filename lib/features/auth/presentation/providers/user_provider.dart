@@ -1,4 +1,5 @@
 import 'package:blogify/config/utils/resource.dart';
+import 'package:blogify/features/auth/domain/entities/user_entity.dart';
 import 'package:blogify/features/auth/domain/repositories/user_repository.dart';
 import 'package:blogify/features/auth/infrastructure/repositories/user_repository_impl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,38 +15,18 @@ class UserNotifier extends StateNotifier<UserState> {
 
   UserNotifier({required this.userRepositoryImpl}) : super(UserState());
 
-  // Future<void> registerUser(
-  //   UserEntity user
-  // ) async {
-  //   final userRegister = await authRepositoryImpl.register(
-  //     user,
-  //   );
-
-//     switch (userRegister) {
-//       case Loading _:
-//         state = state.copyWith(
-//           user: userRegister,
-//           authStatus: AuthStatus.checking,
-//         );
-//       case Success _:
-//         state = state.copyWith(
-//           user: userRegister,
-//           authStatus: AuthStatus.authenticated,
-//         );
-//       case Error _:
-//         state = state.copyWith(
-//           user: userRegister,
-//           authStatus: AuthStatus.notAuthenticated,
-//         );
-//     }
-//   }
-// }
+     Stream<Resource<UserEntity>> getUserById(String id) {
+      state = state.copyWith(
+        user: userRepositoryImpl.getUserById(id),
+      );
+    return  userRepositoryImpl.getUserById(id);
+  }
 }
 enum UserStatus { checking, authenticated, notAuthenticated }
 
 class UserState {
   final UserStatus authStatus;
-  final Resource? user;
+  final dynamic user;
 
   UserState({
     this.authStatus = UserStatus.checking,
@@ -54,7 +35,7 @@ class UserState {
 
   UserState copyWith({
     UserStatus? authStatus,
-    Resource? user,
+    dynamic user,
   }) =>
       UserState(
         authStatus: authStatus ?? this.authStatus,
