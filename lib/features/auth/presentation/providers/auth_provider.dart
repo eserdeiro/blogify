@@ -14,6 +14,27 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   AuthNotifier({required this.authRepositoryImpl}) : super(AuthState());
 
+   Future<void> checkAuthStatus() async {
+   final user = await authRepositoryImpl.checkAuthStatus('');
+        switch (user) {
+      case Loading _:
+        state = state.copyWith(
+          user: user,
+          authStatus: AuthStatus.checking,
+        );
+      case Success _:
+        state = state.copyWith(
+          user: user,
+          authStatus: AuthStatus.authenticated,
+        );
+      case Error _:
+        state = state.copyWith(
+          user: user,
+          authStatus: AuthStatus.notAuthenticated,
+        );
+    }
+  }
+
   Future<void> loginUser(String email, String password) async {
     final user = await authRepositoryImpl.login(email, password);
 
@@ -79,7 +100,6 @@ AUTH PROVIDER REGISTER
     }
   }
 
-  Future<void> checkAuthStatus() async {}
 }
 
 enum AuthStatus { checking, authenticated, notAuthenticated }

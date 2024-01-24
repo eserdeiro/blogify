@@ -13,7 +13,9 @@ class LoginContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loginForm = ref.watch(loginFormProvider);
+    //Esto mantiene el estado del login
+   //print('login content ${ref.watch(authProvider.notifier).checkAuthStatus()}');
+ 
     ref.listen(authProvider, (previous, next) {
       switch (next.user) {
         case Success _:
@@ -26,6 +28,7 @@ class LoginContent extends ConsumerWidget {
           //TODO ADD LOADING 
       }
     });
+    final loginForm = ref.watch(loginFormProvider);
     final loginFormNotifier = ref.read(loginFormProvider.notifier);
     final titleStyle = Theme.of(context).textTheme;
     return Padding(

@@ -7,9 +7,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthDatasourceImpl extends AuthDataSource {
   @override
-  Future<Resource> checkAuthStatus(String token) {
-    // TODO: implement checkAuthStatus
-    throw UnimplementedError();
+  Future<Resource> checkAuthStatus(String token) async{
+        try {
+      final firebaseAuth = FirebaseAuth.instance;
+      final data = firebaseAuth.currentUser;
+      print('UID DATA AUTH ${firebaseAuth.currentUser!.uid}');
+      print('DATA AUTH $data');
+      return Success(data);
+    } on FirebaseAuthException catch (e) {
+      return Error(e.code);
+    }
   }
 
   @override
@@ -53,7 +60,7 @@ DATA FIREBASE REGISTER
         email: email,
         password: password,
       );
-       await usersCollection.doc(data.user?.uid ?? '').set(
+      await usersCollection.doc(data.user?.uid ?? '').set(
             UserEntity(
               id: data.user!.uid,
               email: email,
