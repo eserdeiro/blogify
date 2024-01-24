@@ -15,17 +15,17 @@ class MenuItem {
 List<MenuItem> appMenuItems = <MenuItem>[
   const MenuItem(
     title: 'Home',
-    url: '/home',
+    url: '/home/0',
     icon: Icons.home_max,
   ),
   const MenuItem(
     title: 'My posts',
-    url: '/',
+    url: '/home/1',
     icon: Icons.list,
   ),
     const MenuItem(
     title: 'Profile',
-    url: '/profile',
+    url: '/home/2',
     icon: Icons.person,
   ),
 ];

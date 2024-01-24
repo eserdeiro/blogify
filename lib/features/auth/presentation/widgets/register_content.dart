@@ -18,7 +18,7 @@ class RegisterContent extends ConsumerWidget {
      ref.listen(authProvider, (previous, next) {
       switch (next.user) {
         case Success _:
-        context.pushReplacement('/home');
+        context.pushReplacement('/home/0');
           return;
         case Error _:
           showSnackBar(context, (next.user! as Error).getErrorMessage());
