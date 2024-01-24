@@ -1,7 +1,6 @@
 import 'package:blogify/config/constants/strings.dart';
 import 'package:blogify/config/utils/resource.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
-import 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
 import 'package:blogify/features/auth/presentation/providers/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';

@@ -62,7 +62,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> registerUser(
-    UserEntity user
+    UserEntity user,
   ) async {
     final userRegister = await authRepositoryImpl.register(
       user,

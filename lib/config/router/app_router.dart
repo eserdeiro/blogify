@@ -1,6 +1,7 @@
 import 'package:blogify/config/constants/strings.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/presentation/screens.dart';
+import 'package:blogify/presentation/screens/profile_screen.dart';
 import 'package:go_router/go_router.dart';
 
 
@@ -27,6 +28,11 @@ final appRouter = GoRouter(
       path: '/home',
       name: 'home',
       builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
+      path: '/profile',
+      name: 'profile',
+      builder: (context, state) => const ProfileScreen(),
     ),
 
   ],

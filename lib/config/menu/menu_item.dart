@@ -20,12 +20,12 @@ List<MenuItem> appMenuItems = <MenuItem>[
   ),
   const MenuItem(
     title: 'My posts',
-    url: '',
+    url: '/',
     icon: Icons.list,
   ),
     const MenuItem(
     title: 'Profile',
-    url: '',
+    url: '/profile',
     icon: Icons.person,
   ),
 ];
