@@ -13,5 +13,6 @@ class Strings {
   static String username = 'Username';
   static String required = 'Required';
   static String homeScreenName = 'home-screen';
+  static String homeUrl = '/home/0';
 
 }

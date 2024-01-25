@@ -64,7 +64,7 @@ class HomeViewState extends ConsumerState<HomeView> {
             ),
             onPressed: () {
               ref.watch(authProvider.notifier).logout().then((_) {
-                context.pushReplacement(Strings.loginUrl);
+                context.go(Strings.loginUrl);
               });
             },
           ),
