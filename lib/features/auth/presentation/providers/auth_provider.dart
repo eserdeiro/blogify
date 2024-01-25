@@ -1,6 +1,6 @@
-import 'package:blogify/config/utils/resource.dart';
+import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
-import 'package:blogify/features/auth/infrastructure/repositories/auth_repository_impl.dart';
+import 'package:blogify/features/auth/infrastructure/index.dart'; 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {

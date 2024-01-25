@@ -1,26 +1,23 @@
-import 'package:blogify/config/constants/strings.dart';
-import 'package:blogify/config/menu/menu_item.dart';
+import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
-import 'package:blogify/presentation/screens.dart';
-import 'package:blogify/presentation/screens/error_screen.dart';
+import 'package:blogify/presentation/index.dart';
 import 'package:go_router/go_router.dart';
-
 
 // GoRouter configuration
 final appRouter = GoRouter(
   initialLocation: Strings.loginUrl,
   routes: [
-     GoRoute(
+    GoRoute(
       path: Strings.loginUrl,
       name: LoginScreen.name,
       builder: (context, state) => const LoginScreen(),
     ),
-      GoRoute(
+    GoRoute(
       path: Strings.registerUrl,
       name: RegisterScreen.name,
       builder: (context, state) => const RegisterScreen(),
     ),
-     GoRoute(
+    GoRoute(
       path: '/home/:page',
       name: HomeScreen.name,
       builder: (_, state) {
@@ -34,6 +31,7 @@ final appRouter = GoRouter(
         } catch (e) {
           return const ErrorScreen();
         }
-      },),
+      },
+    ),
   ],
 );

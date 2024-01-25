@@ -1,7 +1,6 @@
-import 'package:blogify/config/constants/strings.dart';
-import 'package:blogify/config/utils/resource.dart';
-import 'package:blogify/features/auth/domain/entities/user_entity.dart';
-import 'package:blogify/features/auth/presentation/providers/index.dart';
+import 'package:blogify/config/index.dart';
+import 'package:blogify/features/auth/domain/index.dart';
+import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,27 +13,41 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class HomeViewState extends ConsumerState<HomeView> {
-  String userUsername = '';
+  void authUserId(String userUid) {
+    ref.read(userProvider.notifier).getUserById(userUid).listen(
+      (result) {
+        if (result is Success<UserEntity>) {
+          if (mounted) {
+            setState(() {
+              userUsername = result.data.username;
+            });
+          }
+        }
+      },
+      onError: (error) {
+        // error TODO
+        print('Error: $error');
+      },
+    );
+  }
 
+  String userUsername = '';
   @override
   void initState() {
     super.initState();
-
     Future.delayed(Duration.zero, () {
       if (mounted) {
-        final currentUserUid =
-            (ref.read(authProvider).user! as Success).data.uid;
-        ref.read(userProvider.notifier).getUserById(currentUserUid).listen(
-          (result) {
-            if (result is Success<UserEntity>) {
-              if (mounted) {
-                setState(() {
-                  userUsername = result.data.username;
-                });
-              }
-            }
-          },
-        );
+        try {
+          //UserCredential, first login
+          final firstAuthUserUid =
+              (ref.watch(authProvider).user! as Success).data.user.uid;
+          authUserId(firstAuthUserUid);
+        } catch (_) {
+          //User after login
+          final authUserUid =
+              (ref.watch(authProvider).user! as Success).data.uid;
+          authUserId(authUserUid);
+        }
       }
     });
   }

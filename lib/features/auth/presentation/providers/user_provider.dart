@@ -1,7 +1,6 @@
-import 'package:blogify/config/utils/resource.dart';
-import 'package:blogify/features/auth/domain/entities/user_entity.dart';
-import 'package:blogify/features/auth/domain/repositories/user_repository.dart';
-import 'package:blogify/features/auth/infrastructure/repositories/user_repository_impl.dart';
+import 'package:blogify/config/index.dart';
+import 'package:blogify/features/auth/domain/index.dart';
+import 'package:blogify/features/auth/infrastructure/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userProvider = StateNotifierProvider<UserNotifier, UserState>((ref) {
@@ -15,13 +14,14 @@ class UserNotifier extends StateNotifier<UserState> {
 
   UserNotifier({required this.userRepositoryImpl}) : super(UserState());
 
-     Stream<Resource<UserEntity>> getUserById(String id) {
-      state = state.copyWith(
-        user: userRepositoryImpl.getUserById(id),
-      );
-    return  userRepositoryImpl.getUserById(id);
+  Stream<Resource<UserEntity>> getUserById(String id) {
+    state = state.copyWith(
+      user: userRepositoryImpl.getUserById(id),
+    );
+    return userRepositoryImpl.getUserById(id);
   }
 }
+
 enum UserStatus { checking, authenticated, notAuthenticated }
 
 class UserState {

@@ -1,5 +1,4 @@
-import 'package:blogify/config/utils/resource.dart';
-import 'package:blogify/features/auth/domain/datasources/user_datasource.dart';
+import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,22 +17,19 @@ class UserDatasourceImpl extends UserDatasource {
           .map((DocumentSnapshot<Map<String, dynamic>> document) {
             if (document.exists) {
               final userData = document.data()!;
-              //final userId = userData['id'];
               if (document.metadata.hasPendingWrites) {
                 return null;
               }
               final userEntity = UserEntity.fromJson(userData);
-              print('ya casi llega al success');
               return Success(userEntity);
             } else {
-              return Error('Usuario $id no encontrado');
+              return Error('User $id not found');
             }
           })
           .where((result) => result != null)
           .cast<Resource<UserEntity>>();
     } on FirebaseException catch (e) {
-      print('error ${e.code}');
-      print('error en user datasource impl');
+      print('error datasource impl ${e.code}');
       return Stream.value(Error(e.code));
     }
   }

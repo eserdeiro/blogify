@@ -1,8 +1,6 @@
-import 'package:blogify/config/utils/resource.dart';
-import 'package:blogify/features/auth/domain/datasources/user_datasource.dart';
+import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
-import 'package:blogify/features/auth/domain/repositories/user_repository.dart';
-import 'package:blogify/features/auth/infrastructure/datasources/user_datasource_impl.dart';
+import 'package:blogify/features/auth/infrastructure/index.dart';
 
 class UserRepositoryImpl extends UserRepository {
   final UserDatasource datasource;

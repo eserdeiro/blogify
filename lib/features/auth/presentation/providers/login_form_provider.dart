@@ -1,4 +1,5 @@
-import 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
+ 
+import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';

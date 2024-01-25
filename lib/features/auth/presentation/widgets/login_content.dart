@@ -1,7 +1,5 @@
-import 'package:blogify/config/constants/strings.dart';
-import 'package:blogify/config/utils/resource.dart';
+import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
-import 'package:blogify/features/auth/presentation/providers/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,4 +1,5 @@
-import 'package:blogify/config/constants/strings.dart';
+
+import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:flutter/material.dart';
 

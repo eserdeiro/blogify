@@ -1,6 +1,6 @@
-import 'package:blogify/config/utils/resource.dart';
+import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
-import 'package:blogify/features/auth/infrastructure/datasources/auth_datasource_impl.dart';
+import 'package:blogify/features/auth/infrastructure/index.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final AuthDataSource datasource;

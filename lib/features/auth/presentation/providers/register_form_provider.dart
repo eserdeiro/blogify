@@ -1,6 +1,7 @@
-import 'package:blogify/config/helpers/formats.dart';
+ 
+import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
-import 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
+import 'package:blogify/features/auth/presentation/index.dart'; 
 import 'package:blogify/infrastructure/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

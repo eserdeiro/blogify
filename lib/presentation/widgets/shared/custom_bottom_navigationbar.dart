@@ -1,4 +1,4 @@
-import 'package:blogify/config/menu/menu_item.dart';
+import 'package:blogify/config/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
