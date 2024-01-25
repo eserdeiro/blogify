@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ProfileView extends StatelessWidget {
-  const ProfileView({super.key});
+class MyPostsView extends StatelessWidget {
+  const MyPostsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile view'),
+        title: const Text('My posts'),
       ),
     );
   }

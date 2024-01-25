@@ -22,16 +22,16 @@ List<MenuItem> appMenuItems = <MenuItem>[
     icon: Icons.home_max,
     view: HomeView(),
   ),
+  // const MenuItem(
+  //   title: 'My posts',
+  //   url: '/home/1',
+  //   icon: Icons.list,
+  //   view: MyPostsView(),
+  // ),
   const MenuItem(
-    title: 'My posts',
+    title: 'Account',
     url: '/home/1',
-    icon: Icons.list,
-    view: ProfileView(),
-  ),
-  const MenuItem(
-    title: 'Profile',
-    url: '/home/2',
     icon: Icons.person,
-    view: ProfileView(),
+    view: AccountView(),
   ),
 ];
