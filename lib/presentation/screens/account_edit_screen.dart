@@ -46,7 +46,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                   Expanded(
                     child: CustomTextFormField(
                       label: Strings.name,
-                      initialValue: name,
+                      controller: nameController,
                       onChanged: registerFormNotifier.onNameChange,
                       errorText: registerForm.isFormPosted
                           ? registerForm.name.errorMessage
@@ -58,7 +58,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                   Expanded(
                     child: CustomTextFormField(
                       label: Strings.lastname,
-                      initialValue: lastname,
+                      controller: lastnameController,
                       onChanged: registerFormNotifier.onLastnameChange,
                       errorText: registerForm.isFormPosted
                           ? registerForm.lastname.errorMessage
@@ -71,17 +71,17 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
               const SizedBox(height: 12),
               CustomTextFormField(
                 label: Strings.username,
-                initialValue: username,
+                controller: usernameController,
                 onChanged: registerFormNotifier.onUsernameChange,
                 errorText: registerForm.isFormPosted
                     ? registerForm.username.errorMessage
                     : null,
-                prefixIcon: const Icon(Icons.mail_outlined),
+                prefixIcon: const Icon(Icons.account_circle),
               ),
               const SizedBox(height: 12),
               CustomTextFormField(
                 label: Strings.email,
-                initialValue: email,
+                controller: emailController,
                 onChanged: registerFormNotifier.onEmailChange,
                 errorText: registerForm.isFormPosted
                     ? registerForm.email.errorMessage

@@ -17,6 +17,10 @@ String username = 'unkwnown';
 String name = 'unkwnown';
 String lastname = 'unkwnown';
 String email = 'unkwnown';
+late TextEditingController nameController;
+late TextEditingController lastnameController;
+late TextEditingController usernameController;
+late TextEditingController emailController;
 
 class AccountViewState extends ConsumerState<AccountView> {
   void authUserId(String userUid) {
@@ -30,6 +34,11 @@ class AccountViewState extends ConsumerState<AccountView> {
               name = resultData.name;
               lastname = resultData.lastname;
               email = resultData.email;
+              
+              nameController.text = name;
+              lastnameController.text = lastname;
+              usernameController.text = username;
+              emailController.text = email;
             });
           }
         }
@@ -43,6 +52,10 @@ class AccountViewState extends ConsumerState<AccountView> {
   @override
   void initState() {
     super.initState();
+    nameController = TextEditingController();
+    lastnameController = TextEditingController();
+    usernameController = TextEditingController();
+    emailController = TextEditingController();
     Future.delayed(Duration.zero, () {
       if (mounted) {
         try {

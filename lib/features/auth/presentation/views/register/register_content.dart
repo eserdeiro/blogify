@@ -71,7 +71,7 @@ class RegisterContent extends ConsumerWidget {
               errorText: registerForm.isFormPosted
                   ? registerForm.username.errorMessage
                   : null,
-              prefixIcon: const Icon(Icons.mail_outlined),
+              prefixIcon: const Icon(Icons.account_circle),
             ),
             const SizedBox(height: 12),
             CustomTextFormField(

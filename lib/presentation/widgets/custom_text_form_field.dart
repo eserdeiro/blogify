@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
 
-class CustomTextFormField extends StatelessWidget {
-  final String? label;
-  final String? hint;
-  final String? errorText;
-  final Widget? prefixIcon;
+class CustomTextFormField extends StatefulWidget {
   final bool obscureText;
   final Function(String)? onChanged;
+  final String? errorText;
   final String? Function(String?)? validator;
+  final String? hint;
   final String? initialValue;
+  final String? label;
+  final TextEditingController? controller;
+  final Widget? prefixIcon;
 
   const CustomTextFormField({
     super.key,
-    this.label,
-    this.hint,
+    this.controller,
     this.errorText,
-    this.onChanged,
-    this.validator,
-    this.prefixIcon,
-    this.obscureText = false,
+    this.hint,
     this.initialValue,
+    this.label,
+    this.obscureText = false,
+    this.onChanged,
+    this.prefixIcon,
+    this.validator,
   });
+
+  @override
+  CustomTextFormFieldState createState() => CustomTextFormFieldState();
+}
+
+class CustomTextFormFieldState extends State<CustomTextFormField> {
+  bool _showPassword = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +40,11 @@ class CustomTextFormField extends StatelessWidget {
     );
 
     return TextFormField(
-      initialValue: initialValue,
-      obscureText: obscureText,
-      onChanged: onChanged,
-      validator: validator,
+      controller: widget.controller,
+      initialValue: widget.initialValue,
+      obscureText: !_showPassword && widget.obscureText,
+      onChanged: widget.onChanged,
+      validator: widget.validator,
       decoration: InputDecoration(
         enabledBorder: inputBorder,
         errorBorder: inputBorder,
@@ -43,11 +53,24 @@ class CustomTextFormField extends StatelessWidget {
           borderSide: BorderSide(color: colors.secondary),
         ),
         isDense: true,
-        label: label != null ? Text(label!) : null,
-        hintText: hint,
+        label: widget.label != null ? Text(widget.label!) : null,
+        hintText: widget.hint,
         focusColor: colors.primary,
-        prefixIcon: prefixIcon,
-        errorText: errorText,
+        prefixIcon: widget.prefixIcon,
+        errorText: widget.errorText,
+        suffixIcon: widget.obscureText
+            ? IconButton(
+                icon: Icon(
+                  _showPassword ? Icons.visibility : Icons.visibility_off,
+                  color: colors.primary,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _showPassword = !_showPassword;
+                  });
+                },
+              )
+            : null,
       ),
     );
   }
