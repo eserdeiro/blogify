@@ -125,17 +125,20 @@ class AccountViewState extends ConsumerState<AccountView> {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Row(
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(right: 6),
-                        child: CustomElevatedButton(text: 'Edit profile'),
+                        padding: const EdgeInsets.only(right: 6),
+                        child: CustomElevatedButton(
+                          text: 'Edit profile',
+                          onPressed: () => context.push(Strings.accountEditUrl),
+                        ),
                       ),
                     ),
-                    Expanded(
+                    const Expanded(
                       child: Padding(
                         padding: EdgeInsets.only(left: 6),
                         child: CustomElevatedButton(text: 'Share profile'),

@@ -15,5 +15,7 @@ class Strings {
   static String homeScreenName = 'home-screen';
   static String homeUrl = '/home/0';
   static String usersCollection = 'Users';
+  static String accountEditScreenName = 'account-edit-screen';
+  static String accountEditUrl = '/home/1/edit/';
 
 }

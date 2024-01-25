@@ -8,6 +8,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool obscureText;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
+  final String? initialValue;
 
   const CustomTextFormField({
     super.key,
@@ -18,6 +19,7 @@ class CustomTextFormField extends StatelessWidget {
     this.validator,
     this.prefixIcon,
     this.obscureText = false,
+    this.initialValue,
   });
 
   @override
@@ -29,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
     );
 
     return TextFormField(
+      initialValue: initialValue,
       obscureText: obscureText,
       onChanged: onChanged,
       validator: validator,

@@ -4,6 +4,7 @@ import 'package:blogify/presentation/index.dart';
 import 'package:go_router/go_router.dart';
 
 // GoRouter configuration
+
 final appRouter = GoRouter(
   initialLocation: Strings.loginUrl,
   routes: [
@@ -32,6 +33,15 @@ final appRouter = GoRouter(
           return const ErrorScreen();
         }
       },
+      routes: [
+        
+          GoRoute(
+          // Example /home/1/edit/
+          path: 'edit',
+          name: AccountEditScreen.accountEditScreenName,
+          builder: (_, __) => const AccountEditScreen() ,
+        ),
+      ],
     ),
   ],
 );
