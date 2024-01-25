@@ -14,5 +14,6 @@ class Strings {
   static String required = 'Required';
   static String homeScreenName = 'home-screen';
   static String homeUrl = '/home/0';
+  static String usersCollection = 'Users';
 
 }

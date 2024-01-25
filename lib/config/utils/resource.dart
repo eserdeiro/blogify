@@ -28,6 +28,8 @@ class Error<T> extends Resource<T> {
         return 'Invalid credentials';
       case 'email-already-in-use':
         return 'Email already in use';
+      case 'user-disabled':
+        return 'Account disabled';
       default:
         return 'Something went wrong';
     }

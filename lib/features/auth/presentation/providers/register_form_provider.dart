@@ -113,7 +113,7 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
   Future<void> onSubmit() async {
     validateEveryone();
     if (!state.isValid) return;
-    print(state);
+    //print(state);
     //register firebase working
     await registerUserCallback(
         UserEntity(

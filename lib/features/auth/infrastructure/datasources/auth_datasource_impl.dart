@@ -45,7 +45,7 @@ class AuthDatasourceImpl extends AuthDataSource {
     try {
       final firebaseFirestore = FirebaseFirestore.instance;
       final CollectionReference usersCollection =
-          firebaseFirestore.collection('Users');
+          firebaseFirestore.collection(Strings.usersCollection);
       final firebaseAuth = FirebaseAuth.instance;
       final data = await firebaseAuth.createUserWithEmailAndPassword(
         email: user.email,

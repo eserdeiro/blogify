@@ -8,7 +8,7 @@ class UserDatasourceImpl extends UserDatasource {
   @override
   Stream<Resource<UserEntity>> getUserById(String id) {
     final firebaseFirestore = FirebaseFirestore.instance;
-    final users = firebaseFirestore.collection('Users');
+    final users = firebaseFirestore.collection(Strings.usersCollection);
 
     try {
       return users
@@ -29,7 +29,7 @@ class UserDatasourceImpl extends UserDatasource {
           .where((result) => result != null)
           .cast<Resource<UserEntity>>();
     } on FirebaseException catch (e) {
-      print('error datasource impl ${e.code}');
+      //print('error datasource impl ${e.code}');
       return Stream.value(Error(e.code));
     }
   }

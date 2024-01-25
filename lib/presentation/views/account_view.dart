@@ -13,10 +13,10 @@ class AccountView extends ConsumerStatefulWidget {
   AccountViewState createState() => AccountViewState();
 }
 
-  String username = 'unkwnown';
-  String name      = 'unkwnown';
-  String lastname = 'unkwnown';
-  String email = 'unkwnown';
+String username = 'unkwnown';
+String name = 'unkwnown';
+String lastname = 'unkwnown';
+String email = 'unkwnown';
 
 class AccountViewState extends ConsumerState<AccountView> {
   void authUserId(String userUid) {
@@ -27,20 +27,18 @@ class AccountViewState extends ConsumerState<AccountView> {
             setState(() {
               final resultData = result.data;
               username = resultData.username;
-              name     = resultData.name;
+              name = resultData.name;
               lastname = resultData.lastname;
-              email    = resultData.email;
+              email = resultData.email;
             });
           }
         }
       },
       onError: (error) {
-        // error TODO
         print('Error: $error');
       },
     );
   }
-
 
   @override
   void initState() {
@@ -64,9 +62,9 @@ class AccountViewState extends ConsumerState<AccountView> {
 
   @override
   Widget build(BuildContext context) {
-    final orientationHelper = OrientationHelper(context);
-    final landscape = orientationHelper.isLandscape;
-    final size = MediaQuery.of(context).size;
+    // final orientationHelper = OrientationHelper(context);
+    // final landscape = orientationHelper.isLandscape;
+    // final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -87,7 +85,7 @@ class AccountViewState extends ConsumerState<AccountView> {
         ],
       ),
       body: SizedBox(
-       // height: landscape ? size.height * 0.4 : size.height * 0.2,
+        // height: landscape ? size.height * 0.4 : size.height * 0.2,
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -107,7 +105,12 @@ class AccountViewState extends ConsumerState<AccountView> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Text('$username ($email)'),
+                        Text(
+                          '$username ( $email )',
+                          style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                     ),
                   ),
