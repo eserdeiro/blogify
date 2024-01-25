@@ -18,18 +18,16 @@ class _LoginPortraitState extends State<LoginPortrait> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SafeArea(
-            child: ClipPath(
-              clipper: ArcClipper(),
-              child: Container(
-                height: size.height * 0.4,
-                width: double.infinity,
-                color: Colors.white,
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: size.height * 0.15),
-                    child: const AppTitle(),
-                  ),
+          ClipPath(
+            clipper: ArcClipper(),
+            child: Container(
+              height: size.height * 0.4,
+              width: double.infinity,
+              color: Colors.white,
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: size.height * 0.15),
+                  child: const AppTitle(),
                 ),
               ),
             ),
