@@ -6,7 +6,7 @@ import 'package:formz/formz.dart';
 
 final loginFormProvider =
     StateNotifierProvider.autoDispose<LoginFormNotifier, LoginFormState>((ref) {
-  final loginUserCallback = ref.watch(authProvider.notifier).loginUser;
+  final loginUserCallback = ref.watch(authProvider.notifier).login;
 
   return LoginFormNotifier(
     loginUserCallback: loginUserCallback,

@@ -7,10 +7,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserDatasourceImpl extends UserDatasource {
   @override
   Stream<Resource<UserEntity>> getUserById(String id) {
-    final firebaseFirestore = FirebaseFirestore.instance;
-    final users = firebaseFirestore.collection(Strings.usersCollection);
+
 
     try {
+          final firebaseFirestore = FirebaseFirestore.instance;
+    final users = firebaseFirestore.collection(Strings.usersCollection);
       return users
           .doc(id)
           .snapshots(includeMetadataChanges: true)

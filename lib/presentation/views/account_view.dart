@@ -39,6 +39,7 @@ class AccountViewState extends ConsumerState<AccountView> {
               lastnameController.text = lastname;
               usernameController.text = username;
               emailController.text = email;
+              
             });
           }
         }
@@ -75,9 +76,6 @@ class AccountViewState extends ConsumerState<AccountView> {
 
   @override
   Widget build(BuildContext context) {
-    // final orientationHelper = OrientationHelper(context);
-    // final landscape = orientationHelper.isLandscape;
-    // final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -98,7 +96,6 @@ class AccountViewState extends ConsumerState<AccountView> {
         ],
       ),
       body: SizedBox(
-        // height: landscape ? size.height * 0.4 : size.height * 0.2,
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -111,7 +108,7 @@ class AccountViewState extends ConsumerState<AccountView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '$name$lastname',
+                          '$name $lastname',
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,

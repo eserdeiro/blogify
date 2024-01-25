@@ -14,8 +14,22 @@ class AccountEditScreen extends ConsumerStatefulWidget {
 class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
   @override
   Widget build(BuildContext context) {
-    final registerForm = ref.watch(registerFormProvider);
-    final registerFormNotifier = ref.read(registerFormProvider.notifier);
+
+      ref.listen(authProvider, (previous, next) {
+      switch (next.user) {
+        case Success _:
+          showSnackBar(context, 'Updated data');
+          return;
+        case Error _:
+        
+          showSnackBar(context, (next.user! as Error).getErrorMessage());
+        case Loading _:
+          //TODO ADD LOADING 
+      }
+    });
+
+    final userEditForm = ref.watch(userEditFormProvider);
+    final userEditNotifier = ref.read(userEditFormProvider.notifier);
     final colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
@@ -47,9 +61,9 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                     child: CustomTextFormField(
                       label: Strings.name,
                       controller: nameController,
-                      onChanged: registerFormNotifier.onNameChange,
-                      errorText: registerForm.isFormPosted
-                          ? registerForm.name.errorMessage
+                      onChanged: userEditNotifier.onNameChange,
+                      errorText: userEditForm.isFormPosted
+                          ? userEditForm.name.errorMessage
                           : null,
                       prefixIcon: const Icon(Icons.person),
                     ),
@@ -59,9 +73,9 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                     child: CustomTextFormField(
                       label: Strings.lastname,
                       controller: lastnameController,
-                      onChanged: registerFormNotifier.onLastnameChange,
-                      errorText: registerForm.isFormPosted
-                          ? registerForm.lastname.errorMessage
+                      onChanged: userEditNotifier.onLastnameChange,
+                      errorText: userEditForm.isFormPosted
+                          ? userEditForm.lastname.errorMessage
                           : null,
                       prefixIcon: const Icon(Icons.person),
                     ),
@@ -72,9 +86,9 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
               CustomTextFormField(
                 label: Strings.username,
                 controller: usernameController,
-                onChanged: registerFormNotifier.onUsernameChange,
-                errorText: registerForm.isFormPosted
-                    ? registerForm.username.errorMessage
+                onChanged: userEditNotifier.onUsernameChange,
+                errorText: userEditForm.isFormPosted
+                    ? userEditForm.username.errorMessage
                     : null,
                 prefixIcon: const Icon(Icons.account_circle),
               ),
@@ -82,22 +96,24 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
               CustomTextFormField(
                 label: Strings.email,
                 controller: emailController,
-                onChanged: registerFormNotifier.onEmailChange,
-                errorText: registerForm.isFormPosted
-                    ? registerForm.email.errorMessage
+                onChanged: userEditNotifier.onEmailChange,
+                errorText: userEditForm.isFormPosted
+                    ? userEditForm.email.errorMessage
                     : null,
                 prefixIcon: const Icon(Icons.mail_outlined),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: CustomElevatedButton(
                   text: 'Save changes',
+                  onPressed: () {
+                      userEditNotifier.onSubmit();
+                  },
                 ),
               ),
               CustomElevatedButton(
                 text: 'Delete account',
                 backgroundColor: colors.error,
-                onPressed: () {},
               ),
             ],
           ),

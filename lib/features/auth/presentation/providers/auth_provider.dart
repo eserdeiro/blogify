@@ -39,7 +39,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> loginUser(String email, String password) async {
+  Future<void> login(String email, String password) async {
     final user = await authRepositoryImpl.login(email, password);
 
     switch (user) {
@@ -61,7 +61,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> registerUser(
+  Future<void> register(
     UserEntity user,
   ) async {
     final userRegister = await authRepositoryImpl.register(
@@ -81,6 +81,31 @@ class AuthNotifier extends StateNotifier<AuthState> {
       case Error _:
         state = state.copyWith(
           user: userRegister,
+          authStatus: AuthStatus.notAuthenticated,
+        );
+    }
+  }
+
+    Future<void> edit(
+    UserEntity user,
+  ) async {
+    final userEdit = await authRepositoryImpl.edit(
+      user,
+    );
+    switch (userEdit) {
+      case Loading _:
+        state = state.copyWith(
+          user: userEdit,
+          authStatus: AuthStatus.checking,
+        );
+      case Success _:
+        state = state.copyWith(
+          user: userEdit,
+          authStatus: AuthStatus.authenticated,
+        );
+      case Error _:
+        state = state.copyWith(
+          user: userEdit,
           authStatus: AuthStatus.notAuthenticated,
         );
     }

@@ -28,4 +28,9 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Resource> register( UserEntity user, ) {
     return datasource.register(user,);
   }
+
+    @override
+  Future<Resource> edit( UserEntity user, ) {
+    return datasource.edit(user,);
+  }
 }

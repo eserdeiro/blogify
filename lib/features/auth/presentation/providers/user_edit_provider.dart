@@ -1,24 +1,22 @@
  
-import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart'; 
 import 'package:blogify/infrastructure/index.dart';
-import 'package:blogify/presentation/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 
-final registerFormProvider =
-    StateNotifierProvider.autoDispose<RegisterFormNotifier, RegisterFormState>(
+final userEditFormProvider =
+    StateNotifierProvider.autoDispose<UserEditFormNotifier, UserEditFormState>(
         (ref) {
-  final registerUserCallback = ref.watch(authProvider.notifier).register;
-  return RegisterFormNotifier(registerUserCallback: registerUserCallback);
+  final userEditCallback = ref.watch(authProvider.notifier).edit;
+  return UserEditFormNotifier(userEditCallback: userEditCallback);
 });
 
-class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
-  final Function(UserEntity) registerUserCallback;
-  RegisterFormNotifier({
-    required this.registerUserCallback,
-  }) : super(RegisterFormState());
+class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
+  final Function(UserEntity) userEditCallback;
+  UserEditFormNotifier({
+    required this.userEditCallback,
+  }) : super(UserEditFormState());
 
   void onNameChange(String value) {
     final name = Name.dirty(value);
@@ -27,10 +25,8 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
       isValid: Formz.validate([
         name,
         state.email,
-        state.password,
         state.lastname,
         state.username,
-        state.gender,
       ]),
     );
   }
@@ -42,10 +38,8 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
       isValid: Formz.validate([
         lastname,
         state.email,
-        state.password,
         state.name,
         state.username,
-        state.gender,
       ]),
     );
   }
@@ -58,9 +52,7 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
         username,
         state.lastname,
         state.email,
-        state.password,
         state.name,
-        state.gender,
       ]),
     );
   }
@@ -71,41 +63,9 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
       email: email,
       isValid: Formz.validate([
         email,
-        state.password,
         state.name,
         state.lastname,
         state.username,
-        state.gender,
-      ]),
-    );
-  }
-
-  void onPasswordChange(String value) {
-    final password = Password.dirty(value);
-    state = state.copyWith(
-      password: password,
-      isValid: Formz.validate([
-        password,
-        state.email,
-        state.name,
-        state.lastname,
-        state.username,
-        state.gender,
-      ]),
-    );
-  }
-
-  void onGenderChange(GenderType value) {
-    final gender = Gender.dirty(value);
-    state = state.copyWith(
-      gender: gender,
-      isValid: Formz.validate([
-        gender,
-        state.username,
-        state.lastname,
-        state.email,
-        state.password,
-        state.name,
       ]),
     );
   }
@@ -113,13 +73,12 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
   Future<void> onSubmit() async {
     validateEveryone();
     if (!state.isValid) return;
-    //print(state);
-    //register firebase working
-    await registerUserCallback(
+    print('on submit state ${state.email} ${state.lastname} ${state.name} ${state.username}');
+    await userEditCallback(
         UserEntity(
         id: '', 
+        password: '',
         email: state.email.value, 
-        password: state.password.value, 
         name: state.name.value, 
         lastname: state.lastname.value, 
         username: state.username.value,),);
@@ -130,78 +89,63 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
     final lastname = Lastname.dirty(state.lastname.value);
     final username = Username.dirty(state.username.value);
     final email = Email.dirty(state.email.value);
-    final password = Password.dirty(state.password.value);
-    final gender = Gender.dirty(state.gender.value);
 
     state = state.copyWith(
       isFormPosted: true,
-      isValid: Formz.validate([email, password]),
+      isValid: Formz.validate([email, name, lastname, username, email]),
       name: name,
       lastname: lastname,
       username: username,
       email: email,
-      password: password,
-      gender: gender,
-      
     );
   }
 }
 
-class RegisterFormState {
+class UserEditFormState {
   final bool isFormPosted;
   final bool isValid;
   final Name name;
   final Lastname lastname;
   final Username username;
   final Email email;
-  final Password password;
-  final Gender gender;
 
-  RegisterFormState({
+  UserEditFormState({
     this.isFormPosted = false,
     this.isValid = false,
     this.name = const Name.pure(),
     this.lastname = const Lastname.pure(),
     this.username = const Username.pure(),
     this.email = const Email.pure(),
-    this.password = const Password.pure(),
-    this.gender = const Gender.pure(),
   });
 
-  RegisterFormState copyWith({
+  UserEditFormState copyWith({
     bool? isFormPosted,
     bool? isValid,
     Name? name,
     Lastname? lastname,
     Username? username,
     Email? email,
-    Password? password,
-    Gender? gender,
   }) =>
-      RegisterFormState(
+      UserEditFormState(
         isFormPosted: isFormPosted ?? this.isFormPosted,
         isValid: isValid ?? this.isValid,
         name: name ?? this.name,
         lastname: lastname ?? this.lastname,
         username: username ?? this.username,
         email: email ?? this.email,
-        password: password ?? this.password,
-        gender: gender ?? this.gender,
       );
 
   @override
   String toString() {
     return '''
-RegisterFormState: 
+UserEditFormState: 
 
-isFormPosted: $isFormPosted
+isFormPosted: ${isFormPosted}
 isValid: $isValid
 name: $name
 lastname: $lastname
 username: $username
 email: $email
-password: $password
-gender: ${Formats.getGenderSelected(gender.value)}
 ''';
   }
 }
