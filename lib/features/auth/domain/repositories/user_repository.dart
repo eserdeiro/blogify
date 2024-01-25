@@ -5,4 +5,8 @@ abstract class UserRepository {
   
   Stream<Resource<UserEntity>> getUserById(String id);
 
+    Future<Resource> edit(
+    UserEntity user,
+  );
+
 }

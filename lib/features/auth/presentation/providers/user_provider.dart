@@ -20,25 +20,46 @@ class UserNotifier extends StateNotifier<UserState> {
     );
     return userRepositoryImpl.getUserById(id);
   }
+
+  Future<void> edit(UserEntity user) async {
+    final userEdit = await userRepositoryImpl.edit(user);
+    switch (userEdit) {
+      case Loading _:
+        state = state.copyWith(
+          user: userEdit,
+          userStatus: UserStatus.checking,
+        );
+      case Success _:
+        state = state.copyWith(
+          user: userEdit,
+          userStatus: UserStatus.authenticated,
+        );
+      case Error _:
+        state = state.copyWith(
+          user: userEdit,
+          userStatus: UserStatus.notAuthenticated,
+        );
+    }
+  }
 }
 
 enum UserStatus { checking, authenticated, notAuthenticated }
 
 class UserState {
-  final UserStatus authStatus;
+  final UserStatus userStatus;
   final dynamic user;
 
   UserState({
-    this.authStatus = UserStatus.checking,
+    this.userStatus = UserStatus.checking,
     this.user,
   });
 
   UserState copyWith({
-    UserStatus? authStatus,
+    UserStatus? userStatus,
     dynamic user,
   }) =>
       UserState(
-        authStatus: authStatus ?? this.authStatus,
+        userStatus: userStatus ?? this.userStatus,
         user: user ?? this.user,
       );
 }

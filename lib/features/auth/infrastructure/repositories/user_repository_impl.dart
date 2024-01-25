@@ -14,4 +14,11 @@ class UserRepositoryImpl extends UserRepository {
   Stream<Resource<UserEntity>> getUserById(String id) {
     return datasource.getUserById(id);
   }
+  
+  @override
+  Future<Resource> edit(UserEntity user) {
+    return datasource.edit(user);
+  }
+
+  
 }

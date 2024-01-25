@@ -6,8 +6,6 @@ abstract class AuthDataSource {
 
   Future<Resource> register( UserEntity user,);
 
-  Future<Resource> edit( UserEntity user,);
-
   Future<Resource> checkAuthStatus();
 
   Future<void> logout();

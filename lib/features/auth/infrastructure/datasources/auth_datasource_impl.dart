@@ -62,27 +62,4 @@ class AuthDatasourceImpl extends AuthDataSource {
       return Error(e.code);
     }
   }
-
-  @override
-  Future<Resource> edit(UserEntity user) async {
-    try {
-      final firebaseAuth = FirebaseAuth.instance;
-      final userFirebase = firebaseAuth.currentUser;
-        final firebaseFirestore = FirebaseFirestore.instance;
-      final CollectionReference usersCollection =
-          firebaseFirestore.collection(Strings.usersCollection);
-      final map = <String, dynamic>{
-        'id': userFirebase!.uid,
-        'email': user.email,
-        'name': user.name,
-        'lastname': user.lastname,
-        'username': user.username,
-      };
-      await usersCollection.doc(userFirebase.uid).update(map);
-      return Success(true);
-    } on FirebaseAuthException catch (e) {
-      print('Error por aqui');
-      return Error(e.code);
-    }
-  }
 }

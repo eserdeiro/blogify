@@ -86,30 +86,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-    Future<void> edit(
-    UserEntity user,
-  ) async {
-    final userEdit = await authRepositoryImpl.edit(
-      user,
-    );
-    switch (userEdit) {
-      case Loading _:
-        state = state.copyWith(
-          user: userEdit,
-          authStatus: AuthStatus.checking,
-        );
-      case Success _:
-        state = state.copyWith(
-          user: userEdit,
-          authStatus: AuthStatus.authenticated,
-        );
-      case Error _:
-        state = state.copyWith(
-          user: userEdit,
-          authStatus: AuthStatus.notAuthenticated,
-        );
-    }
-  }
+
 }
 
 enum AuthStatus { checking, authenticated, notAuthenticated }

@@ -11,10 +11,6 @@ abstract class AuthRepository {
    UserEntity user,
   );
 
-   Future<Resource> edit(
-   UserEntity user,
-  );
-
   Future<Resource> checkAuthStatus();
 
   Future<void> logout();

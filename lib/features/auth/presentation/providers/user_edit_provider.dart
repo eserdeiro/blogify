@@ -8,7 +8,7 @@ import 'package:formz/formz.dart';
 final userEditFormProvider =
     StateNotifierProvider.autoDispose<UserEditFormNotifier, UserEditFormState>(
         (ref) {
-  final userEditCallback = ref.watch(authProvider.notifier).edit;
+  final userEditCallback = ref.watch(userProvider.notifier).edit;
   return UserEditFormNotifier(userEditCallback: userEditCallback);
 });
 
