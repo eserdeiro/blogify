@@ -1,13 +1,13 @@
+export 'package:blogify/config/helpers/show_snackbar.dart';
 export 'package:blogify/features/auth/presentation/providers/auth_provider.dart';
 export 'package:blogify/features/auth/presentation/providers/login_form_provider.dart';
 export 'package:blogify/features/auth/presentation/providers/register_form_provider.dart';
 export 'package:blogify/features/auth/presentation/providers/user_provider.dart';
 export 'package:blogify/features/auth/presentation/screens/login_screen.dart';
 export 'package:blogify/features/auth/presentation/screens/register_screen.dart';
+export 'package:blogify/features/auth/presentation/views/login/login_content.dart';
 export 'package:blogify/features/auth/presentation/views/login/login_landscape.dart';
 export 'package:blogify/features/auth/presentation/views/login/login_portrait.dart';
+export 'package:blogify/features/auth/presentation/views/register/register_content.dart';
 export 'package:blogify/features/auth/presentation/views/register/register_landscape.dart';
 export 'package:blogify/features/auth/presentation/views/register/register_portrait.dart';
-export 'package:blogify/features/auth/presentation/widgets/login_content.dart';
-export 'package:blogify/features/auth/presentation/widgets/register_content.dart';
-export 'package:blogify/features/auth/presentation/widgets/show_snackbar.dart';
