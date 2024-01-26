@@ -42,14 +42,14 @@ class AuthDatasourceImpl extends AuthDataSource {
   @override
   Future<Resource> register(UserEntity user) async {
     try {
-      // Verify if user exists
+
       final usernameExists = await checkIfUsernameExists(user.username.trim());
       if (!usernameExists) {
 
       final firebaseAuth = FirebaseAuth.instance;
       final data = await firebaseAuth.createUserWithEmailAndPassword(
         email: user.email.trim(),
-        password: user.password,
+        password: user.password.trim(),
       );
         user
           ..id = data.user?.uid ?? ''
