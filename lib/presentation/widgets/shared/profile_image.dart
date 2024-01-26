@@ -28,7 +28,7 @@ class ProfileImage extends StatelessWidget {
           ___,
         ) {
           return Image.asset(
-            '/lib/assets/images/blank_profile.png',
+            'lib/assets/images/blank_profile.png',
             fit: BoxFit.cover,
             height: height,
             width: width,
