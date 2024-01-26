@@ -28,10 +28,12 @@ class Error<T> extends Resource<T> {
         return 'Invalid credentials';
       case 'email-already-in-use':
         return 'Email already in use';
+      case 'username-already-in-use':
+        return 'Username already in use';
       case 'user-disabled':
         return 'Account disabled';
       default:
-      print('error get error $error');
+        print('error get error $error');
         return 'Something went wrong';
     }
   }

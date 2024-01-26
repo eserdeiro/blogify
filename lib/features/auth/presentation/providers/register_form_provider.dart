@@ -1,7 +1,6 @@
- 
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
-import 'package:blogify/features/auth/presentation/index.dart'; 
+import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -116,13 +115,15 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
     //print(state);
     //register firebase working
     await registerUserCallback(
-        UserEntity(
-        id: '', 
-        email: state.email.value, 
-        password: state.password.value, 
-        name: state.name.value, 
-        lastname: state.lastname.value, 
-        username: state.username.value,),);
+      UserEntity(
+        id: '',
+        email: state.email.value,
+        password: state.password.value,
+        name: state.name.value,
+        lastname: state.lastname.value,
+        username: state.username.value,
+      ),
+    );
   }
 
   void validateEveryone() {
@@ -142,7 +143,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
       email: email,
       password: password,
       gender: gender,
-      
     );
   }
 }

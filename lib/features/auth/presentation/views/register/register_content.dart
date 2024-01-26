@@ -8,15 +8,12 @@ import 'package:go_router/go_router.dart';
 class RegisterContent extends ConsumerWidget {
   const RegisterContent({super.key});
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
- 
-    
-     ref.listen(authProvider, (previous, next) {
+    ref.listen(authProvider, (previous, next) {
       switch (next.user) {
         case Success _:
-        context.go(Strings.homeUrl);
+          context.go(Strings.homeUrl);
           return;
         case Error _:
           showSnackBar(context, (next.user! as Error).getErrorMessage());

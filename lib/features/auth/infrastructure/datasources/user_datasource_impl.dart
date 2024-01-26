@@ -5,7 +5,6 @@ import 'package:blogify/features/auth/domain/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class UserDatasourceImpl extends UserDatasource {
   @override
   //Agregar stream controller para mantener los datos
@@ -16,10 +15,10 @@ class UserDatasourceImpl extends UserDatasource {
         .doc(id)
         .snapshots(includeMetadataChanges: true)
         .map((DocumentSnapshot<Map<String, dynamic>> document) {
-           final userData = document.data()!;
-             final userEntity = UserEntity.fromJson(userData);
-            return Success(userEntity);
-        });
+      final userData = document.data()!;
+      final userEntity = UserEntity.fromJson(userData);
+      return Success(userEntity);
+    });
   }
 
   @override

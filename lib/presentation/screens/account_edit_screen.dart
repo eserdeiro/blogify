@@ -13,6 +13,14 @@ class AccountEditScreen extends ConsumerStatefulWidget {
 
 class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
   @override
+  void initState() {
+    super.initState();
+    _formKey.currentState?.reset();
+  }
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
   Widget build(BuildContext context) {
     //provider from update data
     ref.listen(userProvider, (previous, next) {
@@ -37,6 +45,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Form(
+          key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,7 +66,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                   Expanded(
                     child: CustomTextFormField(
                       label: Strings.name,
-                      controller: nameController,
+                      initialValue: nameController.text,
                       onChanged: userEditNotifier.onNameChange,
                       errorText: userEditForm.isFormPosted
                           ? userEditForm.name.errorMessage
@@ -69,7 +78,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                   Expanded(
                     child: CustomTextFormField(
                       label: Strings.lastname,
-                      controller: lastnameController,
+                      initialValue: lastnameController.text,
                       onChanged: userEditNotifier.onLastnameChange,
                       errorText: userEditForm.isFormPosted
                           ? userEditForm.lastname.errorMessage
@@ -82,7 +91,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
               const SizedBox(height: 12),
               CustomTextFormField(
                 label: Strings.username,
-                controller: usernameController,
+                initialValue: usernameController.text,
                 onChanged: userEditNotifier.onUsernameChange,
                 errorText: userEditForm.isFormPosted
                     ? userEditForm.username.errorMessage
@@ -92,7 +101,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
               const SizedBox(height: 12),
               CustomTextFormField(
                 label: Strings.email,
-                controller: emailController,
+                initialValue: emailController.text,
                 onChanged: userEditNotifier.onEmailChange,
                 errorText: userEditForm.isFormPosted
                     ? userEditForm.email.errorMessage
