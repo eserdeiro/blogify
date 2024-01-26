@@ -30,6 +30,12 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
     );
   }
 
+  void onImageChange(String path) {
+    state = state.copyWith(
+      image : path,
+    );
+  }
+
   void onLastnameChange(String value) {
     final lastname = Lastname.dirty(value);
     state = state.copyWith(
@@ -75,6 +81,7 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
     String initialUsername,
     String initialEmail,
   ) async {
+    print('Image provider ${state.image}');
     validateEveryone(
       initialName,
       initialLastname,
@@ -130,6 +137,7 @@ class UserEditFormState {
   final Lastname lastname;
   final Username username;
   final Email email;
+  final String image;
 
   UserEditFormState({
     this.isFormPosted = false,
@@ -138,6 +146,7 @@ class UserEditFormState {
     this.lastname = const Lastname.pure(),
     this.username = const Username.pure(),
     this.email = const Email.pure(),
+    this.image = '',
   });
 
   UserEditFormState copyWith({
@@ -147,6 +156,7 @@ class UserEditFormState {
     Lastname? lastname,
     Username? username,
     Email? email,
+    String? image,
   }) =>
       UserEditFormState(
         isFormPosted: isFormPosted ?? this.isFormPosted,
@@ -155,6 +165,7 @@ class UserEditFormState {
         lastname: lastname ?? this.lastname,
         username: username ?? this.username,
         email: email ?? this.email,
+        image: image?? this.image
       );
 
   @override

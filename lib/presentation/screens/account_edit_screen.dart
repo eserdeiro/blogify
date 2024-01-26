@@ -1,9 +1,9 @@
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
+import 'package:blogify/infrastructure/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 class AccountEditScreen extends ConsumerStatefulWidget {
   const AccountEditScreen({super.key});
   static String accountEditScreenName = Strings.accountEditScreenName;
@@ -49,15 +49,27 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 12, bottom: 24),
+              Padding(
+                padding: const EdgeInsets.only(top: 12, bottom: 24),
                 child: Center(
-                  child: ProfileImage(
-                    width: 120,
-                    height: 120,
-                    borderRadius: 60,
-                    url:
-                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                  child: GestureDetector(
+                    onLongPress: () async{
+                      try {
+  final photo = await CameraGalleryServicesImpl().selectPhoto();
+  if (photo == null) return;
+  print('Tenemos una imagen ${photo}');
+  userEditNotifier.onImageChange(photo);
+} catch (e) {
+  print('Error al seleccionar la foto: $e');
+}
+                    },
+                    child: const ProfileImage(
+                      width: 120,
+                      height: 120,
+                      borderRadius: 60,
+                      url:
+                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                    ),
                   ),
                 ),
               ),

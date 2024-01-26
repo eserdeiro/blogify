@@ -21,6 +21,7 @@ class UserNotifier extends StateNotifier<UserState> {
     return userRepositoryImpl.getUserById(id);
   }
 
+
   Future<void> edit(UserEntity user) async {
     final userEdit = await userRepositoryImpl.edit(user);
     switch (userEdit) {
