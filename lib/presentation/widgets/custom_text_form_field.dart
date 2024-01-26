@@ -10,6 +10,7 @@ class CustomTextFormField extends StatefulWidget {
   final String? label;
   final TextEditingController? controller;
   final Widget? prefixIcon;
+  final Function(String?)? onSaved;
 
   const CustomTextFormField({
     super.key,
@@ -21,7 +22,7 @@ class CustomTextFormField extends StatefulWidget {
     this.obscureText = false,
     this.onChanged,
     this.prefixIcon,
-    this.validator,
+    this.validator, this.onSaved,
   });
 
   @override
@@ -45,6 +46,7 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
       obscureText: !_showPassword && widget.obscureText,
       onChanged: widget.onChanged,
       validator: widget.validator,
+      onSaved: widget.onSaved,
       decoration: InputDecoration(
         enabledBorder: inputBorder,
         errorBorder: inputBorder,

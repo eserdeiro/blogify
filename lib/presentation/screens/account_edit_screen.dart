@@ -104,7 +104,12 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                 child: CustomElevatedButton(
                   text: 'Save changes',
                   onPressed: () {
-                    userEditNotifier.onSubmit();
+                    userEditNotifier.onSubmit(
+                      nameController.text,
+                      lastnameController.text,
+                      usernameController.text,
+                      emailController.text,
+                    );
                   },
                 ),
               ),

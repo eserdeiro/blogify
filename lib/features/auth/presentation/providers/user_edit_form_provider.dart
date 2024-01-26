@@ -1,6 +1,5 @@
- 
 import 'package:blogify/features/auth/domain/index.dart';
-import 'package:blogify/features/auth/presentation/index.dart'; 
+import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
@@ -70,29 +69,53 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
     );
   }
 
-  Future<void> onSubmit() async {
-    validateEveryone();
+  Future<void> onSubmit(
+    String initialName,
+    String initialLastname,
+    String initialUsername,
+    String initialEmail,
+  ) async {
+    print('email en onSubmit ${initialEmail}');
+    validateEveryone(
+      initialName,
+      initialLastname,
+      initialUsername,
+      initialEmail,
+    );
     if (!state.isValid) return;
-    print({state.toString()});
     await userEditCallback(
-        UserEntity(
-        id: '', 
+      UserEntity(
+        id: '',
         password: '',
-        email: state.email.value, 
-        name: state.name.value, 
-        lastname: state.lastname.value, 
-        username: state.username.value,),);
+        email: state.email.value,
+        name: state.name.value,
+        lastname: state.lastname.value,
+        username: state.username.value,
+      ),
+    );
   }
 
-  void validateEveryone() {
-    final name = Name.dirty(state.name.value);
-    final lastname = Lastname.dirty(state.lastname.value);
-    final username = Username.dirty(state.username.value);
-    final email = Email.dirty(state.email.value);
-
+  void validateEveryone(
+    String initialName,
+    String initialLastname,
+    String initialUsername,
+    String initialEmail,
+  ) {
+    final name = state.name.value.isEmpty
+        ? Name.dirty(initialName)
+        : Name.dirty(state.name.value);
+    final lastname = state.lastname.value.isEmpty
+        ? Lastname.dirty(initialLastname)
+        : Lastname.dirty(state.lastname.value);
+    final username = state.username.value.isEmpty
+        ? Username.dirty(initialUsername)
+        : Username.dirty(state.username.value);
+    final email = state.email.value.isEmpty
+        ? Email.dirty(initialEmail)
+        : Email.dirty(state.email.value);
     state = state.copyWith(
       isFormPosted: true,
-      isValid: Formz.validate([email, name, lastname, username, email]),
+      isValid: Formz.validate([email, name, lastname, username]),
       name: name,
       lastname: lastname,
       username: username,
