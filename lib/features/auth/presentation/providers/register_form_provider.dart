@@ -50,7 +50,7 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
   }
 
   void onUsernameChange(String value) {
-    final username = Username.dirty(value);
+    final username = Username.dirty(value.trim());
     state = state.copyWith(
       username: username,
       isValid: Formz.validate([
@@ -65,7 +65,7 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
   }
 
   void onEmailChange(String value) {
-    final email = Email.dirty(value);
+    final email = Email.dirty(value.trim());
     state = state.copyWith(
       email: email,
       isValid: Formz.validate([
@@ -80,7 +80,7 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
   }
 
   void onPasswordChange(String value) {
-    final password = Password.dirty(value);
+    final password = Password.dirty(value.trim());
     state = state.copyWith(
       password: password,
       isValid: Formz.validate([

@@ -24,26 +24,27 @@ class UserDatasourceImpl extends UserDatasource {
   @override
   Future<Resource> edit(UserEntity user) async {
     final completer = Completer<Resource>();
-
     final firebaseAuth = FirebaseAuth.instance;
-
     final userFirebaseAuth = firebaseAuth.currentUser;
     final firebaseFirestore = FirebaseFirestore.instance;
     final CollectionReference usersCollection =
         firebaseFirestore.collection(Strings.usersCollection);
     final emailExists =
-        await isEmailInCollectionAndAuth(user.email, userFirebaseAuth!.uid);
-final usernameExists = await isUsernameInCollection(user.username);
-
-print('username existe? ${usernameExists}');
-    if (!usernameExists) {
+        await isEmailInCollection(user.email);
+    final usernameExists = await isUsernameInCollection(user.username);
+    if (usernameExists) {
+      return Error('username-already-in-use');
+    } else if (emailExists) {
+      return Error('email-already-in-use');
+    } else {
       final map = <String, dynamic>{
-        'id': userFirebaseAuth.uid,
+        'id': userFirebaseAuth!.uid,
         'email': user.email,
         'name': user.name,
         'lastname': user.lastname,
         'username': user.username,
       };
+
       await updateEmailInCollectionAndAuth(userFirebaseAuth.uid, user.email);
 
       await usersCollection
@@ -56,93 +57,81 @@ print('username existe? ${usernameExists}');
           .catchError((e) {
             completer.complete(Error(e.toString()));
           });
-    } else {
-      return Error('username-already-in-use');
-    }
-    return completer.future;
-  }
-}
 
-Future<bool> isEmailInCollectionAndAuth(
-  String email,
-  String currentUserId,
-) async {
-  final firebaseFirestore = FirebaseFirestore.instance;
-  final CollectionReference usersCollection =
-      firebaseFirestore.collection(Strings.usersCollection);
-  final querySnapshot =
-      await usersCollection.where('email', isEqualTo: email).get();
-  if (querySnapshot.docs.isNotEmpty) {
-    for (final doc in querySnapshot.docs) {
-      final userId = doc['id'] as String;
-      if (userId != currentUserId) {
+      return completer.future;
+    }
+  }
+
+
+   Future<bool> isEmailInCollection(String email) async {
+    final firebaseAuth = FirebaseAuth.instance;
+    final userFirebaseAuth = firebaseAuth.currentUser;
+    final firebaseFirestore = FirebaseFirestore.instance;
+    final CollectionReference usersCollection =
+        firebaseFirestore.collection(Strings.usersCollection);
+
+    final existingEmail =
+        await usersCollection.where('email', isEqualTo: email).get();
+    if (existingEmail.docs.isNotEmpty) {
+      final existingUserId = existingEmail.docs.first.id;
+
+      if (existingUserId == userFirebaseAuth?.uid) {
+        return false;
+      } else {
         return true;
       }
-    }
-    try {
-      final signInMethods =
-          await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-      return signInMethods.isNotEmpty;
-    } catch (e) {
-      return false;
-    }
-  } else {
-    return false;
-  }
-}
-
-Future<bool> isUsernameInCollection(String username) async {
-  final firebaseAuth = FirebaseAuth.instance;
-  final userFirebaseAuth = firebaseAuth.currentUser;
-  final firebaseFirestore = FirebaseFirestore.instance;
-  final CollectionReference usersCollection =
-      firebaseFirestore.collection(Strings.usersCollection);
-
-  // Verifica si el username ya existe en la colección
-  final existingUser = await usersCollection
-      .where('username', isEqualTo: username)
-      .get();
-
-  if (existingUser.docs.isNotEmpty) {
-    // Si el username ya existe
-    final existingUserId = existingUser.docs.first.id;
-
-    if (existingUserId == userFirebaseAuth?.uid) {
-      // Si el username pertenece al usuario actual
-      return false;
     } else {
-      // Si el username pertenece a otro usuario
-      return true;
+      return false;
     }
-  } else {
-    // Si el username no existe en la colección
-    return false;
   }
-}
+ 
 
 
-Future<void> updateEmailInCollectionAndAuth(
-  String userId,
-  String newEmail,
-) async {
-  final firebaseFirestore = FirebaseFirestore.instance;
-  final CollectionReference usersCollection =
-      firebaseFirestore.collection(Strings.usersCollection);
-  final map = <String, dynamic>{
-    'email': newEmail,
-  };
+  Future<bool> isUsernameInCollection(String username) async {
+    final firebaseAuth = FirebaseAuth.instance;
+    final userFirebaseAuth = firebaseAuth.currentUser;
+    final firebaseFirestore = FirebaseFirestore.instance;
+    final CollectionReference usersCollection =
+        firebaseFirestore.collection(Strings.usersCollection);
 
-  await usersCollection
-      .doc(userId)
-      .update(map)
-      .timeout(const Duration(seconds: 5));
+    final existingUser =
+        await usersCollection.where('username', isEqualTo: username).get();
 
-  final firebaseAuth = FirebaseAuth.instance;
-  final userFirebaseAuth = firebaseAuth.currentUser;
-  if (userFirebaseAuth != null) {
-    //cambiar update email por verifyBeforeUpdateEmail, y agregar la validacion de correo
-    await userFirebaseAuth
-        .updateEmail(newEmail)
-        .onError((error, stackTrace) => Error(error.toString()));
+    if (existingUser.docs.isNotEmpty) {
+      final existingUserId = existingUser.docs.first.id;
+
+      if (existingUserId == userFirebaseAuth?.uid) {
+  
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  Future<void> updateEmailInCollectionAndAuth(
+    String userId,
+    String newEmail,
+  ) async {
+    final firebaseFirestore = FirebaseFirestore.instance;
+    final CollectionReference usersCollection =
+        firebaseFirestore.collection(Strings.usersCollection);
+    final map = <String, dynamic>{
+      'email': newEmail,
+    };
+
+    await usersCollection
+        .doc(userId)
+        .update(map)
+        .timeout(const Duration(seconds: 5));
+
+    final firebaseAuth = FirebaseAuth.instance;
+    final userFirebaseAuth = firebaseAuth.currentUser;
+    if (userFirebaseAuth != null) {
+      //cambiar update email por verifyBeforeUpdateEmail, y agregar la validacion de correo
+      await userFirebaseAuth.updateEmail(newEmail).onError((error, _) =>  Error(error.toString()));
+    }
   }
 }

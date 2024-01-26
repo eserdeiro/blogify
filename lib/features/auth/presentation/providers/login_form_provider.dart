@@ -21,7 +21,7 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
   }) : super(LoginFormState());
 
   void onEmailChange(String value) {
-    final email = Email.dirty(value);
+    final email = Email.dirty(value.trim());
     state = state.copyWith(
       email: email,
       isValid: Formz.validate([email, state.password]),
@@ -29,7 +29,7 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
   }
 
   void onPasswordChange(String value) {
-    final password = Password.dirty(value);
+    final password = Password.dirty(value.trim());
     state = state.copyWith(
       password: password,
       isValid: Formz.validate([password, state.email]),

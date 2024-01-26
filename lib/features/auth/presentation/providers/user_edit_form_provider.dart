@@ -44,7 +44,7 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
   }
 
   void onUsernameChange(String value) {
-    final username = Username.dirty(value);
+    final username = Username.dirty(value.trim());
     state = state.copyWith(
       username: username,
       isValid: Formz.validate([
@@ -57,7 +57,7 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
   }
 
   void onEmailChange(String value) {
-    final email = Email.dirty(value);
+    final email = Email.dirty(value.trim());
     state = state.copyWith(
       email: email,
       isValid: Formz.validate([
@@ -75,7 +75,6 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
     String initialUsername,
     String initialEmail,
   ) async {
-    print('email en onSubmit ${initialEmail}');
     validateEveryone(
       initialName,
       initialLastname,
