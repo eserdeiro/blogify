@@ -3,20 +3,17 @@ import 'package:blogify/features/auth/domain/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-//Here you will find the firebase implementation
-
 class AuthDatasourceImpl extends AuthDataSource {
+  AuthDatasourceImpl();
+
   @override
   Future<void> logout() async {
-    final firebaseAuth = FirebaseAuth.instance;
-    await firebaseAuth.signOut();
+    await FirebaseHelper.firebaseAuth.signOut();
   }
 
   @override
   Future<Resource> checkAuthStatus() async {
-    final firebaseAuth = FirebaseAuth.instance;
-    final user = firebaseAuth.currentUser;
-    print('object ${user?.email}');
+    final user = FirebaseHelper.firebaseAuth.currentUser;
     if (user != null) {
       return Success(user);
     } else {
@@ -26,10 +23,9 @@ class AuthDatasourceImpl extends AuthDataSource {
 
   @override
   Future<Resource> login(String email, String password) async {
-    //TODO ADD LOADING
+    // Agregar loading
     try {
-      final firebaseAuth = FirebaseAuth.instance;
-      final data = await firebaseAuth.signInWithEmailAndPassword(
+      final data = await FirebaseHelper.firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -42,57 +38,28 @@ class AuthDatasourceImpl extends AuthDataSource {
   @override
   Future<Resource> register(UserEntity user) async {
     try {
-
-      final usernameExists = await checkIfUsernameExists(user.username.trim());
+      final usernameExists =
+          await FirebaseHelper.isDataInCollection(user.username, 'username');
       if (!usernameExists) {
-
-      final firebaseAuth = FirebaseAuth.instance;
-      final data = await firebaseAuth.createUserWithEmailAndPassword(
-        email: user.email.trim(),
-        password: user.password.trim(),
-      );
+        final data =
+            await FirebaseHelper.firebaseAuth.createUserWithEmailAndPassword(
+          email: user.email.trim(),
+          password: user.password.trim(),
+        );
         user
           ..id = data.user?.uid ?? ''
           ..password = '';
-        final firebaseFirestore = FirebaseFirestore.instance;
         final CollectionReference usersCollection =
-            firebaseFirestore.collection('Users');
+            FirebaseHelper.firebaseFirestore.collection('Users');
         await usersCollection.doc(data.user?.uid ?? '').set(
               user.toJson(),
             );
         return Success(data);
-      } 
-      else {
+      } else {
         return Error('username-already-in-use');
       }
     } on FirebaseAuthException catch (e) {
       return Error(e.code);
-    }
-  }
-
-  Future<bool> checkIfUsernameExists(String username) async {
-    try {
-      final firebaseFirestore = FirebaseFirestore.instance;
-      final CollectionReference usersCollection =
-          firebaseFirestore.collection('Users');
-      final query =
-          await usersCollection.where('username', isEqualTo: username).get();
-      return query.docs.isNotEmpty;
-    } catch (_) {
-      return false;
-    }
-  }
-
-    Future<bool> checkIfEmailExists(String email) async {
-    try {
-      final firebaseFirestore = FirebaseFirestore.instance;
-      final CollectionReference usersCollection =
-          firebaseFirestore.collection('Users');
-      final query =
-          await usersCollection.where('email', isEqualTo: email).get();
-      return query.docs.isNotEmpty;
-    } catch (_) {
-      return false;
     }
   }
 }

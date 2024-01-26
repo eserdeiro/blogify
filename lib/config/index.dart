@@ -1,4 +1,5 @@
 export 'package:blogify/config/constants/strings.dart';
+export 'package:blogify/config/helpers/firebase_helper.dart';
 export 'package:blogify/config/helpers/firebase_service.dart';
 export 'package:blogify/config/helpers/formats.dart';
 export 'package:blogify/config/helpers/orientation_helper.dart';

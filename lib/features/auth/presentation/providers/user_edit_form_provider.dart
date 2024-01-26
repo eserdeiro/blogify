@@ -162,7 +162,7 @@ class UserEditFormState {
     return '''
 UserEditFormState: 
 
-isFormPosted: ${isFormPosted}
+isFormPosted: $isFormPosted
 isValid: $isValid
 name: $name
 lastname: $lastname
