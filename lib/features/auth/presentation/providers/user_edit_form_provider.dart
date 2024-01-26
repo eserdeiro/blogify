@@ -97,6 +97,7 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
         name: state.name.value,
         lastname: state.lastname.value,
         username: state.username.value,
+        image: state.image,
       ),
     );
   }

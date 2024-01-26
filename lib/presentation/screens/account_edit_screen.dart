@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 class AccountEditScreen extends ConsumerStatefulWidget {
   const AccountEditScreen({super.key});
   static String accountEditScreenName = Strings.accountEditScreenName;
@@ -49,26 +52,30 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 12, bottom: 24),
-                child: Center(
-                  child: GestureDetector(
-                    onLongPress: () async{
-                      try {
-  final photo = await CameraGalleryServicesImpl().selectPhoto();
-  if (photo == null) return;
-  print('Tenemos una imagen ${photo}');
-  userEditNotifier.onImageChange(photo);
-} catch (e) {
-  print('Error al seleccionar la foto: $e');
-}
-                    },
-                    child: const ProfileImage(
-                      width: 120,
-                      height: 120,
-                      borderRadius: 60,
-                      url:
-                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(60),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: GestureDetector(
+                      onLongPress: () async {
+                        try {
+                          final photo =
+                              await CameraGalleryServicesImpl().selectPhoto();
+                          if (photo == null) return;
+
+                          userEditNotifier.onImageChange(photo);
+                        } catch (e) {
+                          print('Error al seleccionar la foto: $e');
+                        }
+                      },
+                      child: ProfileImage(
+                        height: 120,
+                        width: 120,
+                        borderRadius: 70,
+                        urlAssetImage: 'lib/assets/images/blank_profile.png',
+                        urlFileImage: userEditForm.image,
+                      ),
                     ),
                   ),
                 ),

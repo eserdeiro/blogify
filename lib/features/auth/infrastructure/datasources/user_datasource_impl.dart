@@ -42,6 +42,7 @@ class UserDatasourceImpl extends UserDatasource {
         'name': user.name,
         'lastname': user.lastname,
         'username': user.username,
+        'image': user.image,
       };
 
       await FirebaseHelper.updateEmailInCollectionAndAuth(

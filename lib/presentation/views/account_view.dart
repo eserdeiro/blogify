@@ -17,10 +17,12 @@ String username = 'unkwnown';
 String name = 'unkwnown';
 String lastname = 'unkwnown';
 String email = 'unkwnown';
+String image = '';
 late TextEditingController nameController;
 late TextEditingController lastnameController;
 late TextEditingController usernameController;
 late TextEditingController emailController;
+late TextEditingController imageController;
 
 class AccountViewState extends ConsumerState<AccountView> {
   void authUserId(String userUid) {
@@ -34,11 +36,13 @@ class AccountViewState extends ConsumerState<AccountView> {
               name = resultData.name;
               lastname = resultData.lastname;
               email = resultData.email;
+              image = resultData.image;
 
               nameController.text = name;
               lastnameController.text = lastname;
               usernameController.text = username;
               emailController.text = email;
+              imageController.text = image;
             });
           }
         } else if (result is Error<dynamic>) {
@@ -55,6 +59,7 @@ class AccountViewState extends ConsumerState<AccountView> {
     lastnameController = TextEditingController();
     usernameController = TextEditingController();
     emailController = TextEditingController();
+    imageController = TextEditingController();
     Future.delayed(Duration.zero, () {
       if (mounted) {
         try {
@@ -67,6 +72,8 @@ class AccountViewState extends ConsumerState<AccountView> {
           final authUserUid =
               (ref.watch(authProvider).user! as Success).data.uid;
           authUserId(authUserUid);
+          print(
+              'Error? ${(ref.watch(authProvider).user! as Error).getErrorMessage()}');
         }
       }
     });
@@ -122,12 +129,13 @@ class AccountViewState extends ConsumerState<AccountView> {
                       ],
                     ),
                   ),
-                  const ProfileImage(
-                    width: 70,
+                  //edit this widget
+                  ProfileImage(
                     height: 70,
-                    borderRadius: 34,
-                    url:
-                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                    width: 70,
+                    borderRadius: 70,
+                    urlAssetImage: 'lib/assets/images/blank_profile.png',
+                    urlFileImage: image,
                   ),
                 ],
               ),

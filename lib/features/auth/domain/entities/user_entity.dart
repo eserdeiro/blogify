@@ -5,6 +5,7 @@ class UserEntity {
     String name;
     String lastname;
     String username;
+    String image;
 
     UserEntity({
         required this.id,
@@ -13,6 +14,7 @@ class UserEntity {
         required this.name,
         required this.lastname,
         required this.username,
+        required this.image,
     });
 
     factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
@@ -22,6 +24,7 @@ class UserEntity {
         name: json['name'] ?? '',
         lastname: json['lastname'] ?? '',
         username: json['username'] ?? '',
+        image: json['image'] ?? '',
     );
 
     Map<String, dynamic> toJson() => {
@@ -30,5 +33,6 @@ class UserEntity {
         'name': name,
         'lastname': lastname,
         'username': username,
+        'image': image,
     };
 }

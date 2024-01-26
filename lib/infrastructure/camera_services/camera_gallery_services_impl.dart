@@ -1,4 +1,4 @@
-import 'package:blogify/infrastructure/camera_gallery_services.dart';
+import 'package:blogify/infrastructure/camera_services/camera_gallery_services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CameraGalleryServicesImpl extends CameraGalleryService {
@@ -10,7 +10,6 @@ class CameraGalleryServicesImpl extends CameraGalleryService {
       imageQuality: 70,
     );
     if (photo == null) return null;
-    print('tenemos una imagen gallery ${photo.path}');
     return photo.path;
   }
 
@@ -22,7 +21,6 @@ class CameraGalleryServicesImpl extends CameraGalleryService {
       preferredCameraDevice: CameraDevice.front,
     );
     if (photo == null) return null;
-    print('tenemos una imagen ${photo.path}');
     return photo.path;
   }
 }

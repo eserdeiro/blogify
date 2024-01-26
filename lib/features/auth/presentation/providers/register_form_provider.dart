@@ -122,6 +122,7 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
         name: state.name.value,
         lastname: state.lastname.value,
         username: state.username.value,
+        image: '',
       ),
     );
   }
