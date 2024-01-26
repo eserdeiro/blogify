@@ -73,7 +73,7 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
   Future<void> onSubmit() async {
     validateEveryone();
     if (!state.isValid) return;
-    print('on submit state ${state.email} ${state.lastname} ${state.name} ${state.username}');
+    print({state.toString()});
     await userEditCallback(
         UserEntity(
         id: '', 

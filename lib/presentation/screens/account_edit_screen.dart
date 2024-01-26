@@ -14,14 +14,14 @@ class AccountEditScreen extends ConsumerStatefulWidget {
 class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
   @override
   Widget build(BuildContext context) {
-
+      //provider from update data
       ref.listen(userProvider, (previous, next) {
       switch (next.user) {
         case Success _:
           showSnackBar(context, 'Updated data');
           return;
         case Error _:
-
+        print(' error account edit screen${next.user as Error}');
           showSnackBar(context, (next.user! as Error).getErrorMessage());
         case Loading _:
           //TODO ADD LOADING 

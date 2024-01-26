@@ -42,10 +42,9 @@ class AccountViewState extends ConsumerState<AccountView> {
               
             });
           }
+        }else if(result is Error<dynamic>){
+            showSnackBar(context, (result as Error).getErrorMessage());
         }
-      },
-      onError: (error) {
-        print('Error: $error');
       },
     );
   }
@@ -76,6 +75,7 @@ class AccountViewState extends ConsumerState<AccountView> {
 
   @override
   Widget build(BuildContext context) {
+ 
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -124,15 +124,15 @@ class AccountViewState extends ConsumerState<AccountView> {
                       ],
                     ),
                   ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(34),
-                    child: Image.network(
-                      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-                      fit: BoxFit.cover,
-                      height: 70,
-                      width: 70,
-                    ),
-                  ),
+                  // ClipRRect(
+                  //   borderRadius: BorderRadius.circular(34),
+                  //   child: Image.network(
+                  //     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                  //     fit: BoxFit.cover,
+                  //     height: 70,
+                  //     width: 70,
+                  //   ),
+                  // ),
                 ],
               ),
               Padding(

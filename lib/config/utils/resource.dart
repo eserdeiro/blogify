@@ -31,6 +31,7 @@ class Error<T> extends Resource<T> {
       case 'user-disabled':
         return 'Account disabled';
       default:
+      print('error get error $error');
         return 'Something went wrong';
     }
   }
