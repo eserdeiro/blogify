@@ -34,16 +34,15 @@ class AccountViewState extends ConsumerState<AccountView> {
               name = resultData.name;
               lastname = resultData.lastname;
               email = resultData.email;
-              
+
               nameController.text = name;
               lastnameController.text = lastname;
               usernameController.text = username;
               emailController.text = email;
-              
             });
           }
-        }else if(result is Error<dynamic>){
-            showSnackBar(context, (result as Error).getErrorMessage());
+        } else if (result is Error<dynamic>) {
+          showSnackBar(context, (result as Error).getErrorMessage());
         }
       },
     );
@@ -75,7 +74,6 @@ class AccountViewState extends ConsumerState<AccountView> {
 
   @override
   Widget build(BuildContext context) {
- 
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -124,15 +122,13 @@ class AccountViewState extends ConsumerState<AccountView> {
                       ],
                     ),
                   ),
-                  // ClipRRect(
-                  //   borderRadius: BorderRadius.circular(34),
-                  //   child: Image.network(
-                  //     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-                  //     fit: BoxFit.cover,
-                  //     height: 70,
-                  //     width: 70,
-                  //   ),
-                  // ),
+                  const ProfileImage(
+                    width: 70,
+                    height: 70,
+                    borderRadius: 34,
+                    url:
+                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                  ),
                 ],
               ),
               Padding(

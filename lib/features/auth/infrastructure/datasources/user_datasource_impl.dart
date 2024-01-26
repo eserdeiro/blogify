@@ -5,10 +5,10 @@ import 'package:blogify/features/auth/domain/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-//Here you will find the firebase implementation
 
 class UserDatasourceImpl extends UserDatasource {
   @override
+  //Agregar stream controller para mantener los datos
   Stream<Resource<UserEntity>> getUserById(String id) {
     final firebaseFirestore = FirebaseFirestore.instance;
     final users = firebaseFirestore.collection(Strings.usersCollection);
@@ -16,19 +16,10 @@ class UserDatasourceImpl extends UserDatasource {
         .doc(id)
         .snapshots(includeMetadataChanges: true)
         .map((DocumentSnapshot<Map<String, dynamic>> document) {
-          if (document.exists) {
-            final userData = document.data()!;
-            if (document.metadata.hasPendingWrites) {
-              return null;
-            }
-            final userEntity = UserEntity.fromJson(userData);
+           final userData = document.data()!;
+             final userEntity = UserEntity.fromJson(userData);
             return Success(userEntity);
-          } else {
-            return Error('User $id not found');
-          }
-        })
-        .where((result) => result != null)
-        .cast<Resource<UserEntity>>();
+        });
   }
 
   @override
@@ -56,8 +47,7 @@ class UserDatasourceImpl extends UserDatasource {
         })
         .timeout(const Duration(seconds: 5))
         .catchError((e) {
-          print('error aca aaaa ');
-          completer.complete(Error(e));
+          completer.complete(Error(e.toString()));
         });
 
     return completer.future;

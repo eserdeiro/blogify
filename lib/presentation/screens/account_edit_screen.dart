@@ -14,17 +14,16 @@ class AccountEditScreen extends ConsumerStatefulWidget {
 class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
   @override
   Widget build(BuildContext context) {
-      //provider from update data
-      ref.listen(userProvider, (previous, next) {
+    //provider from update data
+    ref.listen(userProvider, (previous, next) {
       switch (next.user) {
         case Success _:
           showSnackBar(context, 'Updated data');
           return;
         case Error _:
-        print(' error account edit screen${next.user as Error}');
           showSnackBar(context, (next.user! as Error).getErrorMessage());
         case Loading _:
-          //TODO ADD LOADING 
+        //TODO ADD LOADING
       }
     });
 
@@ -41,17 +40,15 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 12, bottom: 24),
+              const Padding(
+                padding: EdgeInsets.only(top: 12, bottom: 24),
                 child: Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(60),
-                    child: Image.network(
-                      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-                      fit: BoxFit.cover,
-                      height: 120,
-                      width: 120,
-                    ),
+                  child: ProfileImage(
+                    width: 120,
+                    height: 120,
+                    borderRadius: 60,
+                    url:
+                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
                   ),
                 ),
               ),
@@ -107,7 +104,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                 child: CustomElevatedButton(
                   text: 'Save changes',
                   onPressed: () {
-                      userEditNotifier.onSubmit();
+                    userEditNotifier.onSubmit();
                   },
                 ),
               ),
