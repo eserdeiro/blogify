@@ -81,6 +81,7 @@ class AccountViewState extends ConsumerState<AccountView> {
 
   @override
   Widget build(BuildContext context) {
+    print('image en view $image');
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -134,8 +135,9 @@ class AccountViewState extends ConsumerState<AccountView> {
                     height: 70,
                     width: 70,
                     borderRadius: 70,
-                    urlAssetImage: 'lib/assets/images/blank_profile.png',
+                    urlAssetImage: Strings.assetProfileUrl,
                     urlFileImage: image,
+                    controllerText: image,
                   ),
                 ],
               ),

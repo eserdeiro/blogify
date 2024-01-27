@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:blogify/presentation/views/account_view.dart';
 import 'package:flutter/material.dart';
 
 class ProfileImage extends StatelessWidget {
@@ -9,12 +8,14 @@ class ProfileImage extends StatelessWidget {
   final String urlFileImage;
   final String urlAssetImage;
   final double borderRadius;
+  final String controllerText;
   const ProfileImage({
     required this.height,
     required this.width,
     required this.urlFileImage,
     required this.urlAssetImage,
     required this.borderRadius,
+    required this.controllerText,
     super.key,
   });
 //
@@ -26,11 +27,15 @@ class ProfileImage extends StatelessWidget {
       child: CircleAvatar(
         radius: borderRadius,
         backgroundColor: Colors.red,
-        backgroundImage: imageController.text.isEmpty
-            ? AssetImage(
+        backgroundImage: urlFileImage.isEmpty
+            ?
+            //Image local no http
+            AssetImage(
                 urlAssetImage,
               ) as ImageProvider
-            : FileImage(File(urlFileImage)),
+            :
+            //Image cache
+            FileImage(File(urlFileImage)),
         child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,

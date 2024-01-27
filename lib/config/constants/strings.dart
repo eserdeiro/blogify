@@ -17,5 +17,6 @@ class Strings {
   static String usersCollection = 'Users';
   static String accountEditScreenName = 'account-edit-screen';
   static String accountEditUrl = '/home/1/edit/';
+  static String assetProfileUrl = 'lib/assets/images/blank_profile.png';
 
 }

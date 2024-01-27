@@ -21,6 +21,11 @@ class UserNotifier extends StateNotifier<UserState> {
     return userRepositoryImpl.getUserById(id);
   }
 
+   void setError(String errorMessage) {
+    state = state.copyWith(
+      user: Error(errorMessage),
+    );
+  }
 
   Future<void> edit(UserEntity user) async {
     final userEdit = await userRepositoryImpl.edit(user);

@@ -32,6 +32,8 @@ class Error<T> extends Resource<T> {
         return 'Username already in use';
       case 'user-disabled':
         return 'Account disabled';
+      case 'photo-could-not-be-selected':
+        return 'The photo could not be selected';
       default:
         print('error get error $error');
         return 'Something went wrong';

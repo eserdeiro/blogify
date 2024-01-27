@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
@@ -63,18 +61,23 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                           final photo =
                               await CameraGalleryServicesImpl().selectPhoto();
                           if (photo == null) return;
-
                           userEditNotifier.onImageChange(photo);
-                        } catch (e) {
-                          print('Error al seleccionar la foto: $e');
+                        } catch (_) {
+                          ref
+                              .read(userProvider.notifier)
+                              .setError('photo-could-not-be-selected');
                         }
                       },
                       child: ProfileImage(
+                        key: UniqueKey(),
                         height: 120,
                         width: 120,
                         borderRadius: 70,
-                        urlAssetImage: 'lib/assets/images/blank_profile.png',
-                        urlFileImage: userEditForm.image,
+                        controllerText: imageController.text,
+                        urlAssetImage: Strings.assetProfileUrl,
+                        urlFileImage: userEditForm.image.isNotEmpty
+                            ? userEditForm.image
+                            : imageController.text,
                       ),
                     ),
                   ),
