@@ -1,25 +1,34 @@
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-Future showDialogSelectImage(
+Future<void> showDialogSelectImage(
   BuildContext context,
-  Function() selectPhoto,
-  Function() takePhoto,
-) {
-  return showDialog(
+  Future<void> Function() selectPhoto,
+    Future<void> Function() takePhoto,
+) async {
+  return showDialog<void>(
     context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Choose a option'),
-      actions: [
-        CustomElevatedButton(
-          text: 'Select photo',
-          onPressed: selectPhoto,
-        ),
-        CustomElevatedButton(
-          text: 'Take photo',
-          onPressed: takePhoto,
-        ),
-      ],
-    ),
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Choose an option'),
+        actions: [
+          CustomElevatedButton(
+            text: 'Select photo',
+            onPressed: () async {
+             context.pop();
+              await selectPhoto();
+            },
+          ),
+          CustomElevatedButton(
+            text: 'Take photo',
+            onPressed: () async {
+              context.pop();
+              await takePhoto();
+            },
+          ),
+        ],
+      );
+    },
   );
 }
