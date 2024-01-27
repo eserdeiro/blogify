@@ -1,6 +1,6 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
+import 'package:blogify/presentation/index.dart';
+import 'package:flutter/material.dart'; 
 
 class ProfileImage extends StatelessWidget {
   final double height;
@@ -24,24 +24,19 @@ class ProfileImage extends StatelessWidget {
     return SizedBox(
       height: height,
       width: height,
-      child: CircleAvatar(
-        radius: borderRadius,
-        backgroundImage: urlFileImage.isEmpty
-            ?
-            //Image local no http
-            AssetImage(
-                urlAssetImage,
-              ) as ImageProvider
-            :
-            //Image cache
-            FileImage(File(urlFileImage)),
-        child: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.white,
-            ),
-          ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: ImageViewer(
+          child: urlFileImage.isEmpty
+              ? Image.asset(
+                  urlAssetImage,
+                  fit: BoxFit.cover,
+                )
+              //Url cache image
+              : Image.file(
+                  File(urlFileImage),
+                  fit: BoxFit.cover,
+                ),
         ),
       ),
     );

@@ -8,4 +8,5 @@ export 'package:blogify/presentation/widgets/custom_text_form_field.dart';
 export 'package:blogify/presentation/widgets/shared/app_title.dart';
 export 'package:blogify/presentation/widgets/shared/custom_bottom_navigationbar.dart';
 export 'package:blogify/presentation/widgets/shared/custom_elevated_button.dart';
+export 'package:blogify/presentation/widgets/shared/image_viewer.dart';
 export 'package:blogify/presentation/widgets/shared/profile_image.dart';
