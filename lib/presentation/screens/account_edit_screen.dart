@@ -1,3 +1,4 @@
+import 'package:blogify/config/helpers/show_dialog_select_image.dart';
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
@@ -39,6 +40,19 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
     final userEditForm = ref.watch(userEditFormProvider);
     final userEditNotifier = ref.read(userEditFormProvider.notifier);
     final colors = Theme.of(context).colorScheme;
+    Future<void> handleImageSelection(
+      BuildContext context,
+      Future<String?> Function() selectImageFunction,
+    ) async {
+      try {
+        final photo = await selectImageFunction();
+        if (photo == null) return;
+        userEditNotifier.onImageChange(photo);
+      } catch (_) {
+        ref.read(userProvider.notifier).setError('photo-could-not-be-selected');
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit account'),
@@ -57,16 +71,15 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                     padding: const EdgeInsets.only(bottom: 12),
                     child: GestureDetector(
                       onLongPress: () async {
-                        try {
-                          final photo =
-                              await CameraGalleryServicesImpl().selectPhoto();
-                          if (photo == null) return;
-                          userEditNotifier.onImageChange(photo);
-                        } catch (_) {
-                          ref
-                              .read(userProvider.notifier)
-                              .setError('photo-could-not-be-selected');
-                        }
+                        await showDialogSelectImage(context, () async {
+                          await handleImageSelection(context, () async {
+                            return CameraGalleryServicesImpl().selectPhoto();
+                          });
+                        }, () async {
+                          await handleImageSelection(context, () async {
+                            return CameraGalleryServicesImpl().takePhoto();
+                          });
+                        });
                       },
                       child: ProfileImage(
                         key: UniqueKey(),

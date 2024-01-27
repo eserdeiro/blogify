@@ -1,4 +1,4 @@
 abstract class CameraGalleryService{
-  Future<String?> takephoto();
+  Future<String?> takePhoto();
   Future<String?> selectPhoto();
 }

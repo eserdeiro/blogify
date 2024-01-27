@@ -69,11 +69,13 @@ class AccountViewState extends ConsumerState<AccountView> {
           authUserId(firstAuthUserUid);
         } catch (_) {
           //User after login
-          final authUserUid =
-              (ref.watch(authProvider).user! as Success).data.uid;
-          authUserId(authUserUid);
-          print(
-              'Error? ${(ref.watch(authProvider).user! as Error).getErrorMessage()}');
+          try {
+            final authUserUid =
+                (ref.watch(authProvider).user! as Success).data.uid;
+            authUserId(authUserUid);
+          } catch (_) {
+            return;
+          }
         }
       }
     });

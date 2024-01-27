@@ -26,7 +26,6 @@ class ProfileImage extends StatelessWidget {
       width: height,
       child: CircleAvatar(
         radius: borderRadius,
-        backgroundColor: Colors.red,
         backgroundImage: urlFileImage.isEmpty
             ?
             //Image local no http

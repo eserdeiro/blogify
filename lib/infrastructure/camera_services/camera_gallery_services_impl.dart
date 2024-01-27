@@ -14,7 +14,7 @@ class CameraGalleryServicesImpl extends CameraGalleryService {
   }
 
   @override
-  Future<String?> takephoto() async {
+  Future<String?> takePhoto() async {
     final photo = await picker.pickImage(
       source: ImageSource.camera,
       imageQuality: 70,
