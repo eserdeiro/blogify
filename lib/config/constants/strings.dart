@@ -13,10 +13,12 @@ class Strings {
   static String username = 'Username';
   static String required = 'Required';
   static String homeScreenName = 'home-screen';
-  static String homeUrl = '/home/0';
+  static String homeViewUrl = '/home/0';
   static String usersCollection = 'Users';
   static String accountEditScreenName = 'account-edit-screen';
   static String accountEditUrl = '/home/1/edit/';
   static String assetProfileUrl = 'lib/assets/images/blank_profile.png';
+  static String addPostScreenName = 'add-post';
+  static String addpostScreenUrl = '/home/2';
 
 }

@@ -138,7 +138,7 @@ class FullScreenViewerState extends State<FullScreenViewer> {
           ),
           child: Stack(
             alignment: Alignment.center,
-            children: <Widget>[
+            children: [
               Transform.translate(
                 offset: Offset(0, _positionYDelta),
                 child: widget.child,

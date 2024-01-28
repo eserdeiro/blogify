@@ -1,3 +1,4 @@
+import 'package:blogify/config/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
 
@@ -16,11 +17,11 @@ class MenuItem {
 }
 
 List<MenuItem> appMenuItems = <MenuItem>[
-  const MenuItem(
+  MenuItem(
     title: 'Home',
-    url: '/home/0',
+    url: Strings.homeViewUrl,
     icon: Icons.home_max,
-    view: HomeView(),
+    view: const HomeView(),
   ),
   // const MenuItem(
   //   title: 'My posts',
@@ -33,5 +34,11 @@ List<MenuItem> appMenuItems = <MenuItem>[
     url: '/home/1',
     icon: Icons.person,
     view: AccountView(),
+  ),
+    const MenuItem(
+    title: 'Create',
+    url: '/home/2',
+    icon: Icons.post_add_outlined,
+    view: CreatePostScreen(),
   ),
 ];
