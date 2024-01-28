@@ -2,14 +2,17 @@ import 'package:blogify/config/index.dart';
 import 'package:blogify/features/post/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
 import 'package:flutter/material.dart';
-//import 'package:timeago/timeago.dart' as timeago;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CreatePostScreen extends StatelessWidget {
+class CreatePostScreen extends ConsumerWidget {
   const CreatePostScreen({super.key});
   static String name = Strings.addPostScreenName;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final createPostForm = ref.watch(createPostFormProvider);
+    final createPostNotifier = ref.read(createPostFormProvider.notifier);
+
     Future<void> handleImageSelection(
       BuildContext context,
       Future<String?> Function() selectImageFunction,
@@ -18,19 +21,17 @@ class CreatePostScreen extends StatelessWidget {
         final photo = await selectImageFunction();
         if (photo == null) return;
         print('Photo $photo');
+        createPostNotifier.onImageChange(photo);
         //  userEditNotifier.onImageChange(photo);
       } catch (e) {
         print('Catch $e');
-        //  ref.read(userProvider.notifier)
-        // .setError('photo-could-not-be-selected');
       }
     }
 
     //print(' ${timeago.format(threeWeeksAgo)}');
     final colors = Theme.of(context).colorScheme;
     //final size = MediaQuery.of(context).size;
-    const image =
-        'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2FofaCrM?alt=media&token=881fe538-e0a8-48f1-80b4-62270c23360d';
+    final image = createPostForm.image;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create post'),
@@ -53,11 +54,20 @@ class CreatePostScreen extends StatelessWidget {
               });
             },
           ),
-          const IconButton(
+          IconButton(
             tooltip: 'Send post',
-            icon: Icon(Icons.send_outlined),
-            //Sends activates when have title and description
-            onPressed: null,
+            icon: const Icon(Icons.send_outlined),
+            onPressed: createPostForm.title.isNotEmpty &&
+                    createPostForm.description.isNotEmpty
+                ? () {
+                    createPostNotifier
+                    ..onCreatedAtChange(DateTime.now())
+                    ..onSubmit()
+                    ..reset();
+                    
+                  }
+                : null,
+            //createPostForm.title
           ),
         ],
       ),
@@ -68,13 +78,16 @@ class CreatePostScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const PostTextFormField(
+                  PostTextFormField(
+                    initialValue: createPostForm.title,
+                    onChanged: createPostNotifier.onTitleChange,
                     maxLenght: 300,
                     hintText: 'Title',
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
-                  const PostTextFormField(
+                  PostTextFormField(
+                    onChanged: createPostNotifier.onDescriptionChange,
                     maxLenght: 1000,
                     hintText: 'Add a description',
                     fontSize: 18,
@@ -85,6 +98,9 @@ class CreatePostScreen extends StatelessWidget {
                     ImagePost(
                       colors: colors,
                       image: image,
+                      onTapClear: () {
+                        createPostNotifier.onImageChange('');
+                      },
                     ),
                 ],
               ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +24,15 @@ class ImagePost extends StatelessWidget {
           child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(24)),
             child: ImageViewer(
-              child: Image.network(image),
+              child: image.startsWith('https')
+          ? Image.network(
+              image,
+              fit: BoxFit.cover,
+            )
+          : Image.file(
+              File(image),
+              fit: BoxFit.cover,
+            ),
             ),
           ),
         ),

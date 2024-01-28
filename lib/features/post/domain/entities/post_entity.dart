@@ -3,7 +3,7 @@ class PostEntity {
     String title;
     String description;
     bool edited;
-    DateTime createdAt;
+    DateTime? createdAt;
     String image;
 
     PostEntity({
@@ -20,7 +20,7 @@ class PostEntity {
         title: json['title'] ?? '',
         description: json['description'] ?? '',
         edited: json['edited'] ?? false,
-        createdAt: json['createdAt'] ?? '',
+        createdAt: json['createdAt'],
         image: json['image'] ?? '',
     );
 
@@ -29,7 +29,7 @@ class PostEntity {
         'title': title,
         'description': description,
         'edited': edited,
-        'createdAt': createdAt.toIso8601String(),
+        'createdAt': createdAt,
         'image': image,
     };
 }
