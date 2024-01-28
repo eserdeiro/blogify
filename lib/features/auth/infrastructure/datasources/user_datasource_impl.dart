@@ -34,15 +34,16 @@ class UserDatasourceImpl extends UserDatasource {
     //if true, return uploadtask and more
     //and add try catch
     final file = File(user.image);
-    final uploadTask = usersStorageRef.child(generateRandomString()).putFile(
-          file,
-          SettableMetadata(
-            contentType: 'image/jpg',
-          ),
-        );
-        await uploadTask;
-    final url = await uploadTask.snapshot.ref.getDownloadURL();
-    user.id = url;
+    final uploadTask =
+        await usersStorageRef.child(generateRandomString()).putFile(
+              file,
+              SettableMetadata(
+                contentType: 'image/jpg',
+              ),
+            );
+
+    final url = await uploadTask.ref.getDownloadURL();
+    user.image = url;
     final completer = Completer<Resource>();
     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
     final CollectionReference usersCollection =
