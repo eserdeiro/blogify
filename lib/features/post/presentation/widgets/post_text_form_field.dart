@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PostTextFormField extends StatelessWidget {
+class PostTextFormField extends StatefulWidget {
   final Function(String)? onChanged;
   final int? maxLenght;
   final String? hintText;
@@ -14,27 +14,32 @@ class PostTextFormField extends StatelessWidget {
     this.fontWeight,
     this.fontSize,
     super.key,
-    this.onChanged, 
-    this.initialValue, 
+    this.onChanged,
+    this.initialValue,
     this.controller,
   });
 
   @override
+  State<PostTextFormField> createState() => _PostTextFormFieldState();
+}
+
+class _PostTextFormFieldState extends State<PostTextFormField> {
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      initialValue: initialValue,
-      onChanged: onChanged,
+      controller: widget.controller,
+      initialValue: widget.initialValue,
+      onChanged: widget.onChanged,
       maxLines: null,
-      maxLength: maxLenght,
+      maxLength: widget.maxLenght,
       decoration: InputDecoration(
         enabledBorder: InputBorder.none,
         focusedBorder: InputBorder.none,
-        hintText: hintText,
+        hintText: widget.hintText,
       ),
       style: TextStyle(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
+        fontSize: widget.fontSize,
+        fontWeight: widget.fontWeight,
       ),
     );
   }

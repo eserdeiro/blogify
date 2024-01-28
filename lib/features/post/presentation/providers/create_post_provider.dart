@@ -59,7 +59,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
     );
   }
 
-    void reset() {
+  void reset() {
     state = state.copyWith(
       title: '',
       description: '',

@@ -12,7 +12,7 @@ class CreatePostScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final createPostForm = ref.watch(createPostFormProvider);
     final createPostNotifier = ref.read(createPostFormProvider.notifier);
-
+    final image = createPostForm.image;
     Future<void> handleImageSelection(
       BuildContext context,
       Future<String?> Function() selectImageFunction,
@@ -20,18 +20,14 @@ class CreatePostScreen extends ConsumerWidget {
       try {
         final photo = await selectImageFunction();
         if (photo == null) return;
-        print('Photo $photo');
         createPostNotifier.onImageChange(photo);
-        //  userEditNotifier.onImageChange(photo);
       } catch (e) {
         print('Catch $e');
       }
     }
 
-    //print(' ${timeago.format(threeWeeksAgo)}');
     final colors = Theme.of(context).colorScheme;
-    //final size = MediaQuery.of(context).size;
-    final image = createPostForm.image;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create post'),
@@ -61,13 +57,11 @@ class CreatePostScreen extends ConsumerWidget {
                     createPostForm.description.isNotEmpty
                 ? () {
                     createPostNotifier
-                    ..onCreatedAtChange(DateTime.now())
-                    ..onSubmit()
-                    ..reset();
-                    
+                      ..onCreatedAtChange(DateTime.now())
+                      ..onSubmit()
+                      ..reset();
                   }
                 : null,
-            //createPostForm.title
           ),
         ],
       ),
@@ -79,7 +73,6 @@ class CreatePostScreen extends ConsumerWidget {
               child: Column(
                 children: [
                   PostTextFormField(
-                    initialValue: createPostForm.title,
                     onChanged: createPostNotifier.onTitleChange,
                     maxLenght: 300,
                     hintText: 'Title',
