@@ -20,25 +20,19 @@ List<MenuItem> appMenuItems = <MenuItem>[
   MenuItem(
     title: 'Home',
     url: Strings.homeViewUrl,
-    icon: Icons.home_max,
+    icon: Icons.home_outlined,
     view: const HomeView(),
-  ),
-  // const MenuItem(
-  //   title: 'My posts',
-  //   url: '/home/1',
-  //   icon: Icons.list,
-  //   view: MyPostsView(),
-  // ),
-  const MenuItem(
-    title: 'Account',
-    url: '/home/1',
-    icon: Icons.person,
-    view: AccountView(),
   ),
     const MenuItem(
     title: 'Create',
-    url: '/home/2',
+    url: '/home/1',
     icon: Icons.post_add_outlined,
     view: CreatePostScreen(),
+  ),
+  const MenuItem(
+    title: 'Account',
+    url: '/home/2',
+    icon: Icons.person,
+    view: AccountView(),
   ),
 ];
