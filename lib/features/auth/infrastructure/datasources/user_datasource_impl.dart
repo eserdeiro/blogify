@@ -1,10 +1,16 @@
 import 'dart:async';
-
+import 'dart:io';
+import 'dart:math';
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UserDatasourceImpl extends UserDatasource {
+  // Future<void> uploadPhoto(String photo) async{
+  //Esto va a retornar un string con la nueva imagen,
+  // para poder subirlo a firebase
+
   @override
   //Agregar stream controller para mantener los datos
   Stream<Resource<UserEntity>> getUserById(String id) {
@@ -22,6 +28,21 @@ class UserDatasourceImpl extends UserDatasource {
 
   @override
   Future<Resource> edit(UserEntity user) async {
+    final firebaseStorage = FirebaseStorage.instance;
+    final usersStorageRef = firebaseStorage.ref().child('Users');
+    //Compare if user.image equal to user.image on db
+    //if true, return uploadtask and more
+    //and add try catch
+    final file = File(user.image);
+    final uploadTask = usersStorageRef.child(generateRandomString()).putFile(
+          file,
+          SettableMetadata(
+            contentType: 'image/jpg',
+          ),
+        );
+        await uploadTask;
+    final url = await uploadTask.snapshot.ref.getDownloadURL();
+    user.id = url;
     final completer = Completer<Resource>();
     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
     final CollectionReference usersCollection =
@@ -64,4 +85,17 @@ class UserDatasourceImpl extends UserDatasource {
       return completer.future;
     }
   }
+}
+
+String generateRandomString() {
+  final random = Random.secure();
+  const charactersCode = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+  return String.fromCharCodes(
+    List.generate(
+      6,
+      (index) =>
+          charactersCode.codeUnitAt(random.nextInt(charactersCode.length)),
+    ),
+  );
 }

@@ -18,7 +18,7 @@ class ProfileImage extends StatelessWidget {
     required this.controllerText,
     super.key,
   });
-//
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -27,17 +27,21 @@ class ProfileImage extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
         child: ImageViewer(
-          child: urlFileImage.isEmpty
-              ? Image.asset(
-                  urlAssetImage,
-                  fit: BoxFit.cover,
-                )
-              //Url cache image
-              : Image.file(
-                  File(urlFileImage),
-                  fit: BoxFit.cover,
-                ),
-        ),
+  child: urlFileImage.isEmpty
+      ? Image.asset(
+          urlAssetImage,
+          fit: BoxFit.cover,
+        )
+      : urlFileImage.startsWith('https')
+          ? Image.network(
+              urlFileImage,
+              fit: BoxFit.cover,
+            )
+          : Image.file(
+              File(urlFileImage),
+              fit: BoxFit.cover,
+            ),
+),
       ),
     );
   }
