@@ -26,8 +26,6 @@ class CreatePostScreen extends ConsumerWidget {
       }
     }
 
-    final colors = Theme.of(context).colorScheme;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create post'),
@@ -90,7 +88,7 @@ class CreatePostScreen extends ConsumerWidget {
                   const SizedBox(height: 12),
                   if (image.isNotEmpty)
                     ImagePost(
-                      colors: colors,
+                      clearButton: true,
                       image: image,
                       onTapClear: () {
                         createPostNotifier.onImageChange('');

@@ -85,8 +85,6 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                         height: 120,
                         width: 120,
                         borderRadius: 70,
-                        controllerText: imageController.text,
-                        urlAssetImage: Strings.assetProfileUrl,
                         urlFileImage: userEditForm.image.isNotEmpty
                             ? userEditForm.image
                             : imageController.text,

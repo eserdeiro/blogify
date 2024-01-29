@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:blogify/config/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart'; 
 
@@ -6,21 +7,18 @@ class ProfileImage extends StatelessWidget {
   final double height;
   final double width;
   final String urlFileImage;
-  final String urlAssetImage;
   final double borderRadius;
-  final String controllerText;
   const ProfileImage({
     required this.height,
     required this.width,
     required this.urlFileImage,
-    required this.urlAssetImage,
     required this.borderRadius,
-    required this.controllerText,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    print('url file image $urlFileImage');
     return SizedBox(
       height: height,
       width: height,
@@ -29,7 +27,7 @@ class ProfileImage extends StatelessWidget {
         child: ImageViewer(
   child: urlFileImage.isEmpty
       ? Image.asset(
-          urlAssetImage,
+          Strings.assetProfileUrl,
           fit: BoxFit.cover,
         )
       : urlFileImage.startsWith('https')
