@@ -18,6 +18,7 @@ class Strings {
   static String accountEditScreenName = 'account-edit-screen';
   static String accountEditUrl = '/home/1/edit/';
   static String assetProfileUrl = 'lib/assets/images/blank_profile.png';
+  static String assetDefaultImageeUrl = 'lib/assets/images/default_image.png';
   static String addPostScreenName = 'add-post';
   static String addpostScreenUrl = '/home/2';
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:blogify/config/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
 
@@ -23,8 +24,11 @@ class ImagePost extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     return Center(
-      child: SizedBox(
-        width: double.infinity,
+      child: Container(
+        constraints: const BoxConstraints(
+          maxWidth: 400,
+          maxHeight: 500,
+        ),
         child: Stack(
           alignment: Alignment.topRight,
           children: [
@@ -34,11 +38,17 @@ class ImagePost extends StatelessWidget {
                 child: image.startsWith('https')
                     ? Image.network(
                         image,
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) {
+                          return Image.asset(
+                            Strings.assetDefaultImageeUrl,
+                            fit: BoxFit.cover,
+                          );
+                        },
                       )
                     : Image.file(
                         File(image),
-                        fit: BoxFit.cover, // 
+                        fit: BoxFit.cover,
                       ),
               ),
             ),
