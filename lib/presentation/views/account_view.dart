@@ -35,13 +35,13 @@ class AccountViewState extends ConsumerState<AccountView> {
         if (result is Success<UserEntity>) {
           if (mounted) {
             setState(() {
-              result.data
-                ..username = username
-                ..name = name
-                ..lastname = lastname
-                ..email = email
-                ..image = image
-                ..posts = posts;
+               final resultData = result.data;
+              username = resultData.username;
+              name = resultData.name;
+              lastname = resultData.lastname;
+              email = resultData.email;
+              image = resultData.image;
+              posts = resultData.posts;
 
               nameController.text = name;
               lastnameController.text = lastname;
@@ -88,6 +88,7 @@ class AccountViewState extends ConsumerState<AccountView> {
 
   @override
   Widget build(BuildContext context) {
+     print('posts $posts');
     print('image en view $image');
     return Scaffold(
       appBar: AppBar(
@@ -169,6 +170,7 @@ class AccountViewState extends ConsumerState<AccountView> {
                 ),
               ),
               const Divider(),
+             
               if (posts != null)
                 Expanded(
                   child: ListView.builder(
@@ -178,7 +180,7 @@ class AccountViewState extends ConsumerState<AccountView> {
                       return PostContent(
                         profileUsername: username,
                         createdAt: timeago
-                            .format(postIndex.createdAt ?? DateTime.now()),
+                            .format(postIndex.createdAt),
                         title: postIndex.title,
                         description: postIndex.description,
                         profileImage: image,

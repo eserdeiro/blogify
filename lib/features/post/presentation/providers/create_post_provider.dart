@@ -70,16 +70,17 @@ class CreatePostState {
   final String title;
   final String description;
   final String image;
-  final DateTime? createdAt;
+  final DateTime createdAt;
 
   CreatePostState({
+        DateTime? createdAt,
     this.isPosting = false,
     this.isFormPosted = false,
     this.title = '',
     this.description = '',
     this.image = '',
-    this.createdAt,
-  });
+
+  }) : createdAt = createdAt ?? DateTime.now();
 
   CreatePostState copyWith({
     bool? isPosting,
@@ -95,7 +96,7 @@ class CreatePostState {
         title: title ?? this.title,
         description: description ?? this.description,
         image: image ?? this.image,
-        createdAt: createdAt,
+        createdAt: createdAt ?? this.createdAt,
       );
 
   @override
