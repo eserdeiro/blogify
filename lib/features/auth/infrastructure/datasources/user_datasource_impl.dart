@@ -21,12 +21,14 @@ class UserDatasourceImpl extends UserDatasource {
 
   @override
   Future<Resource> edit(UserEntity user) async {
+       final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
     user.image = await FirebaseHelper.uploadImageAndReturnUrl(
       user.image,
       Strings.usersCollection,
+      userFirebaseAuth!.uid
     );
+
     final completer = Completer<Resource>();
-    final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
     final CollectionReference usersCollection =
         FirebaseHelper.firebaseFirestore.collection(Strings.usersCollection);
     final emailExists = await FirebaseHelper.isDataInCollection(
@@ -46,7 +48,7 @@ class UserDatasourceImpl extends UserDatasource {
       return Error('email-already-in-use');
     } else {
       final map = <String, dynamic>{
-        'id': userFirebaseAuth!.uid,
+        'id': userFirebaseAuth.uid,
         'email': user.email,
         'name': user.name,
         'lastname': user.lastname,

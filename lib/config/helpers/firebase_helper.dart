@@ -62,10 +62,10 @@ class FirebaseHelper {
   }
 
   static Future<String> uploadImageAndReturnUrl(
-      String cacheImage, String collection,) async {
+      String cacheImage, String collection, String uid,) async {
     try{
 final firebaseStorage = FirebaseStorage.instance;
-    final storageRef = firebaseStorage.ref().child('collection');
+    final storageRef = firebaseStorage.ref().child(collection).child(uid);
     final file = File(cacheImage);
     final uploadTask = await storageRef.child(Generate.randomString()).putFile(
           file,
