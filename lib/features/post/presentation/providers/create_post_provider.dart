@@ -45,7 +45,6 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
     print(state.toString());
     await createPostCallback(
       PostEntity(
-        id: '',
         title: state.title,
         description: state.description,
         edited: false,

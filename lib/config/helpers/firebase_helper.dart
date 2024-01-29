@@ -65,7 +65,7 @@ class FirebaseHelper {
       String cacheImage, String collection,) async {
     try{
 final firebaseStorage = FirebaseStorage.instance;
-    final storageRef = firebaseStorage.ref().child(collection);
+    final storageRef = firebaseStorage.ref().child('collection');
     final file = File(cacheImage);
     final uploadTask = await storageRef.child(Generate.randomString()).putFile(
           file,
