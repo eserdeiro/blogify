@@ -1,24 +1,16 @@
+import 'package:blogify/features/post/domain/entities/post_entity.dart';
+import 'package:blogify/features/post/presentation/providers/post_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final createPostFormProvider =
     StateNotifierProvider.autoDispose<CreatePostNotifier, CreatePostState>(
         (ref) {
-  Future<void> createPostCallback(
-    String title,
-    String description,
-    String image,
-    DateTime? dateTime,
-  ) async {
-    // Lógica del callback
-  }
-
-  return CreatePostNotifier(
-    createPostCallback: createPostCallback,
-  );
+  final createPostCallback = ref.watch(postProvider.notifier).publish;
+  return CreatePostNotifier(createPostCallback: createPostCallback);
 });
 
 class CreatePostNotifier extends StateNotifier<CreatePostState> {
-  final Function(String, String, String, DateTime?) createPostCallback;
+  final Function(PostEntity) createPostCallback;
 
   CreatePostNotifier({
     required this.createPostCallback,
@@ -52,10 +44,14 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
     //login firebase working
     print(state.toString());
     await createPostCallback(
-      state.title,
-      state.description,
-      state.image,
-      state.createdAt,
+      PostEntity(
+        id: '',
+        title: state.title,
+        description: state.description,
+        edited: false,
+        createdAt: state.createdAt,
+        image: state.image,
+      ),
     );
   }
 
@@ -67,20 +63,6 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
     );
   }
 
-  // void validateEveryone() {
-  //   final title = state.title;
-  //   final description = state.description;
-  //   final image = state.image;
-  //   final createdAt = state.createdAt;
-
-  //   state = state.copyWith(
-  //     isFormPosted: true,
-  //     title: title,
-  //     description: description,
-  //     image: image,
-  //     createdAt: createdAt,
-  //   );
-  // }
 }
 
 class CreatePostState {

@@ -72,6 +72,7 @@ class CreatePostScreen extends ConsumerWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  //Clear text when post
                   PostTextFormField(
                     onChanged: createPostNotifier.onTitleChange,
                     maxLenght: 300,
