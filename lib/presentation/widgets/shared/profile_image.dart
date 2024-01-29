@@ -25,10 +25,12 @@ class ProfileImage extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         child: ImageViewer(
           child: urlFileImage.isEmpty
+          //Local image
               ? Image.asset(
                   Strings.assetProfileUrl,
                   fit: BoxFit.cover,
                 )
+                //Network image
               : urlFileImage.startsWith('https')
                   ? Image.network(
                       urlFileImage,
@@ -40,6 +42,7 @@ class ProfileImage extends StatelessWidget {
                         );
                       },
                     )
+                    //Cache image
                   : Image.file(
                       File(urlFileImage),
                       fit: BoxFit.cover,

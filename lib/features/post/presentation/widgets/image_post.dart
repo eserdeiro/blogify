@@ -36,6 +36,7 @@ class ImagePost extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(12)),
               child: ImageViewer(
                 child: image.startsWith('https')
+                //Network image
                     ? Image.network(
                         image,
                         fit: BoxFit.cover,
@@ -46,6 +47,7 @@ class ImagePost extends StatelessWidget {
                           );
                         },
                       )
+                      //Local image
                     : Image.file(
                         File(image),
                         fit: BoxFit.cover,

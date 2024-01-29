@@ -29,7 +29,7 @@ class PostEntity {
         'title': title,
         'description': description,
         'edited': edited,
-        'createdAt': createdAt,
+        'createdAt': createdAt!.toIso8601String(),
         'image': image,
     };
 }

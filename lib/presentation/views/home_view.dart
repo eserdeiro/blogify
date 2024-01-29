@@ -27,26 +27,6 @@ class HomeView extends StatelessWidget {
                     image:
                        'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2FyZAYIe?alt=media&token=48ca306c-d9f9-43a9-93ca-b934ed5b6516',
                   ),
-                  PostContent(
-                    profileImage:
-                        'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2FofaCrM?alt=media&token=881fe538-e0a8-48f1-80b4-62270c23360d',
-                    profileUsername: 'eserdeiro',
-                    createdAt: timeago.format(DateTime.now()),
-                    description:
-                        'Sunt veniam mollit elit fugiat eu dolore ex.',
-                    image:
-                        'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2FeSygxo?alt=media&token=eff5d6b9-2f2b-4c58-bb8b-8d4cc3d9267c',
-                  ),
-                   PostContent(
-                    profileImage:
-                        'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2FofaCrM?alt=media&token=881fe538-e0a8-48f1-80b4-62270c23360d',
-                    profileUsername: 'eserdeiro',
-                    createdAt: timeago.format(DateTime.now()),
-                    description:
-                        'Consectetur voluptate eiusmod sunt duis.',
-                    image:
-                        'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2FOiDRsF?alt=media&token=0d701545-4c40-4662-b38b-907624132e24',
-                  ),
                   
                 ],
               );

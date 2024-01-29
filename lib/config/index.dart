@@ -2,6 +2,7 @@ export 'package:blogify/config/constants/strings.dart';
 export 'package:blogify/config/helpers/firebase_helper.dart';
 export 'package:blogify/config/helpers/firebase_service.dart';
 export 'package:blogify/config/helpers/formats.dart';
+export 'package:blogify/config/helpers/generate_random.dart';
 export 'package:blogify/config/helpers/orientation_helper.dart';
 export 'package:blogify/config/helpers/show_dialog_select_image.dart';
 export 'package:blogify/config/menu/menu_item.dart';
