@@ -23,46 +23,44 @@ class ImagePost extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     return Center(
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          Container(
-            constraints: const BoxConstraints(
-              maxWidth: 600,
-            ),
-            child: ClipRRect(
+      child: SizedBox(
+        width: double.infinity,
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
               child: ImageViewer(
                 child: image.startsWith('https')
                     ? Image.network(
                         image,
-                        fit: BoxFit.fitWidth, // Mantener la relación de aspecto y recortar si es necesario
+                        fit: BoxFit.contain,
                       )
                     : Image.file(
                         File(image),
-                        fit: BoxFit.cover, // Mantener la relación de aspecto y recortar si es necesario
+                        fit: BoxFit.cover, // 
                       ),
               ),
             ),
-          ),
-          if (clearButton == true)
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: ClipOval(
-                child: Material(
-                  color: colors.background,
-                  child: InkWell(
-                    onTap: onTapClear,
-                    child: const SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: Icon(Icons.clear_outlined),
+            if (clearButton == true)
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: ClipOval(
+                  child: Material(
+                    color: colors.background,
+                    child: InkWell(
+                      onTap: onTapClear,
+                      child: const SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: Icon(Icons.clear_outlined),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

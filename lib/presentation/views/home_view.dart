@@ -19,13 +19,13 @@ class HomeView extends StatelessWidget {
                 children: [
                   PostContent(
                     profileImage:
-                        '/data/user/0/com.example.blogify/cache/scaled_1000127242.jpg',
+                        'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2FyZAYIe?alt=media&token=48ca306c-d9f9-43a9-93ca-b934ed5b6516',
                     profileUsername: 'eserdeiro',
                     createdAt: timeago.format(DateTime.now()),
                     description:
                         'Laboris exercitation ea fugiat labore id amet consequat esse. Irure aliqua culpa exercitation do. Magna deserunt proident nisi ad occaecat. Eu excepteur exercitation irure labore est quis voluptate consectetur. Elit culpa proident enim cillum laboris deserunt consequat velit veniam ut. Tempor do Lorem cillum proident nulla ullamco magna cillum sit ex aliqua.',
                     image:
-                        '/data/user/0/com.example.blogify/cache/scaled_1000127242.jpg',
+                       'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2FyZAYIe?alt=media&token=48ca306c-d9f9-43a9-93ca-b934ed5b6516',
                   ),
                   PostContent(
                     profileImage:
@@ -45,7 +45,7 @@ class HomeView extends StatelessWidget {
                     description:
                         'Consectetur voluptate eiusmod sunt duis.',
                     image:
-                        'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2FlztLvt?alt=media&token=f40471cc-7e92-4d7b-af13-c3cbc1da78f0',
+                        'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2FOiDRsF?alt=media&token=0d701545-4c40-4662-b38b-907624132e24',
                   ),
                   
                 ],
@@ -73,7 +73,7 @@ class PostContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   // final size = MediaQuery.of(context).size;
+   final size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
@@ -108,8 +108,6 @@ class PostContent extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           ImagePost(
-            // width: size.width * 1,
-          
             image: image!,
           ),
           const Padding(
