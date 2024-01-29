@@ -1,10 +1,13 @@
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
+import 'package:blogify/features/post/domain/entities/post_entity.dart';
+import 'package:blogify/features/post/presentation/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class AccountView extends ConsumerStatefulWidget {
   const AccountView({super.key});
@@ -18,6 +21,7 @@ String name = 'unkwnown';
 String lastname = 'unkwnown';
 String email = 'unkwnown';
 String image = '';
+List<PostEntity>? posts = [];
 late TextEditingController nameController;
 late TextEditingController lastnameController;
 late TextEditingController usernameController;
@@ -31,12 +35,13 @@ class AccountViewState extends ConsumerState<AccountView> {
         if (result is Success<UserEntity>) {
           if (mounted) {
             setState(() {
-              final resultData = result.data;
-              username = resultData.username;
-              name = resultData.name;
-              lastname = resultData.lastname;
-              email = resultData.email;
-              image = resultData.image;
+              result.data
+                ..username = username
+                ..name = name
+                ..lastname = lastname
+                ..email = email
+                ..image = image
+                ..posts = posts;
 
               nameController.text = name;
               lastnameController.text = lastname;
@@ -164,6 +169,24 @@ class AccountViewState extends ConsumerState<AccountView> {
                 ),
               ),
               const Divider(),
+              if (posts != null)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: posts!.length,
+                    itemBuilder: (context, index) {
+                      final postIndex = posts!.reversed.toList()[index];
+                      return PostContent(
+                        profileUsername: username,
+                        createdAt: timeago
+                            .format(postIndex.createdAt ?? DateTime.now()),
+                        title: postIndex.title,
+                        description: postIndex.description,
+                        profileImage: image,
+                        image: postIndex.image,
+                      );
+                    },
+                  ),
+                ),
             ],
           ),
         ),
