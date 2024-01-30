@@ -76,9 +76,9 @@ class CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                     _titleController.clear();
                     _descriptionController.clear();
                     //After
-                    await Future.delayed(Duration.zero, () {
-                      context.push(Strings.homeViewUrl);
-                    });
+                    // await Future.delayed(Duration.zero, () {
+                    //   context.push(Strings.homeViewUrl);
+                    // });
                   }
                 : null,
           ),

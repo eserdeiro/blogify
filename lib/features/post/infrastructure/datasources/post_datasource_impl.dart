@@ -11,7 +11,10 @@ class PostDataSourceImpl extends PostDataSource {
         FirebaseHelper.firebaseFirestore.collection('Users');
     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
     post.image = await FirebaseHelper.uploadImageAndReturnUrl(
-        post.image, Strings.usersCollection, userFirebaseAuth!.uid);
+      post.image,
+      Strings.usersCollection,
+      userFirebaseAuth!.uid,
+    );
 
     await collection.doc(userFirebaseAuth.uid).update({
       'posts': FieldValue.arrayUnion([post.toJson()]),
@@ -27,10 +30,32 @@ Datasource:
 ''');
     return Success('data');
   }
-  
-  @override
-    Future<Resource<List<PostEntity>>> getAllPosts() async{
-    final firebaseFirestore = FirebaseHelper.firebaseFirestore;
-return Error('');
-  }
+
+  // @override
+  // Future<Resource<List<PostEntity>>> getAllPosts() async {
+  //   try {
+  //     final querySnapshot =
+  //         await FirebaseHelper.firebaseFirestore.collection('Users').get();
+
+  //     final allPosts = [];
+
+  //     for (final userSnapshot in querySnapshot.docs) {
+  //       if (userSnapshot.exists) {
+  //         final List<dynamic>? postsJson = userSnapshot.data()['posts'];
+  //         if (postsJson != null) {
+  //           final userPosts = postsJson
+  //               .map((postJson) => PostEntity.fromJson(postJson))
+  //               .toList();
+
+  //           allPosts.addAll(userPosts);
+  //         }
+  //       }
+  //     }
+
+  //     allPosts.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  //     return Success(allPosts as List<PostEntity>);
+  //   } catch (_) {
+  //     return Error('');
+  //   }
+  // }
 }

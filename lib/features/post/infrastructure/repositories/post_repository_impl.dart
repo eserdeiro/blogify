@@ -16,8 +16,8 @@ class PostRepositoryImpl extends PostRepository {
     return datasource.publishPost(post);
   }
   
-  @override
-    Future<Resource<List<PostEntity>>> getAllPosts() {
-    return datasource.getAllPosts();
-  }
+  // @override
+  //   Future<Resource<List<PostEntity>>> getAllPosts() {
+  //   return datasource.getAllPosts();
+  // }
 }

@@ -37,25 +37,25 @@ class PostNotifier extends StateNotifier<PostState> {
     }
   }
 
-   Future<void> getAllPosts(
-  ) async {
-    final allPosts = await postRepositoryImpl.getAllPosts(
-    );
-    switch (allPosts) {
-      case Loading _:
-        state = state.copyWith(
-          post: allPosts,
-        );
-      case Success _:
-        state = state.copyWith(
-          post: allPosts,
-        );
-      case Error _:
-        state = state.copyWith(
-          post: allPosts,
-        );
-    }
-  }
+  //  Future<void> getAllPosts(
+  // ) async {
+  //   final allPosts = await postRepositoryImpl.getAllPosts(
+  //   );
+  //   switch (allPosts) {
+  //     case Loading _:
+  //       state = state.copyWith(
+  //         post: allPosts,
+  //       );
+  //     case Success _:
+  //       state = state.copyWith(
+  //         post: allPosts,
+  //       );
+  //     case Error _:
+  //       state = state.copyWith(
+  //         post: allPosts,
+  //       );
+  //   }
+  // }
 }
 
 class PostState {
