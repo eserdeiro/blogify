@@ -18,21 +18,41 @@ class PostNotifier extends StateNotifier<PostState> {
   Future<void> publish(
     PostEntity post,
   ) async {
-    final userRegister = await postRepositoryImpl.publish(
+    final publishPost = await postRepositoryImpl.publishPost(
       post,
     );
-    switch (userRegister) {
+    switch (publishPost) {
       case Loading _:
         state = state.copyWith(
-          post: userRegister,
+          post: publishPost,
         );
       case Success _:
         state = state.copyWith(
-          post: userRegister,
+          post: publishPost,
         );
       case Error _:
         state = state.copyWith(
-          post: userRegister,
+          post: publishPost,
+        );
+    }
+  }
+
+   Future<void> getAllPosts(
+  ) async {
+    final allPosts = await postRepositoryImpl.getAllPosts(
+    );
+    switch (allPosts) {
+      case Loading _:
+        state = state.copyWith(
+          post: allPosts,
+        );
+      case Success _:
+        state = state.copyWith(
+          post: allPosts,
+        );
+      case Error _:
+        state = state.copyWith(
+          post: allPosts,
         );
     }
   }

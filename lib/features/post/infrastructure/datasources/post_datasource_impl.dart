@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostDataSourceImpl extends PostDataSource {
   @override
-  Future<Resource> publish(PostEntity post) async {
+  Future<Resource> publishPost(PostEntity post) async {
     //Add published post to user
     final CollectionReference collection =
         FirebaseHelper.firebaseFirestore.collection('Users');
@@ -26,5 +26,11 @@ Datasource:
   createdAt: ${post.createdAt}
 ''');
     return Success('data');
+  }
+  
+  @override
+    Future<Resource<List<PostEntity>>> getAllPosts() async{
+    final firebaseFirestore = FirebaseHelper.firebaseFirestore;
+return Error('');
   }
 }
