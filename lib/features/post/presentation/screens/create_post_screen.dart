@@ -4,12 +4,17 @@ import 'package:blogify/infrastructure/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CreatePostScreen extends ConsumerWidget {
+class CreatePostScreen extends ConsumerStatefulWidget {
   const CreatePostScreen({super.key});
   static String name = Strings.addPostScreenName;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  CreatePostScreenState createState() => CreatePostScreenState();
+}
+
+class CreatePostScreenState extends ConsumerState<CreatePostScreen> {
+  @override
+  Widget build(BuildContext context) {
     final createPostForm = ref.watch(createPostFormProvider);
     final createPostNotifier = ref.read(createPostFormProvider.notifier);
     final image = createPostForm.image;
