@@ -20,12 +20,12 @@ class UserNotifier extends StateNotifier<UserState> {
     );
     return userRepositoryImpl.getUserById(id);
   }
-
-    Stream<Resource<UserEntity>> getCurrentUser() {
+  
+    Future<Resource<String>> getCurrentUserId() {
     state = state.copyWith(
-      user: userRepositoryImpl.getCurrentUSer(),
+      user: userRepositoryImpl.getCurrentUserId(),
     );
-    return userRepositoryImpl.getCurrentUSer();
+    return userRepositoryImpl.getCurrentUserId();
   }
 
    void setError(String errorMessage) {

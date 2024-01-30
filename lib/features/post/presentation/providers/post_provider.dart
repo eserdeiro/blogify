@@ -64,6 +64,7 @@ class PostNotifier extends StateNotifier<PostState> {
     );
     return postRepositoryImpl.getAllPostsByUser(userId);
   }
+
 }
 
 class PostState {

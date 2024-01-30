@@ -5,7 +5,7 @@ abstract class UserRepository {
   
   Stream<Resource<UserEntity>> getUserById(String id);
 
-  Stream<Resource<UserEntity>> getCurrentUSer();
+  Future<Resource<String>> getCurrentUserId();
 
     Future<Resource> edit(
     UserEntity user,

@@ -39,70 +39,63 @@ class AccountViewState extends ConsumerState<AccountView> {
     usernameController = TextEditingController();
     emailController = TextEditingController();
     imageController = TextEditingController();
+    final BuildContext currentContext = context;
     Future.delayed(Duration.zero, () {
       if (mounted) {
         try {
-          //UserCredential, first login
-          final firstAuthUserUid =
-              (ref.watch(authProvider).user! as Success).data.user.uid;
-          authUserId(firstAuthUserUid);
-        } catch (_) {
-          //User after login
-          try {
-            final authUserUid =
-                (ref.watch(authProvider).user! as Success).data.uid;
-            authUserId(authUserUid);
-          } catch (_) {
-            return;
-          }
+          authUserId(currentContext);
+        } catch (e) {
+          print('Error en authUserUid ${e.toString()}');
         }
       }
     });
   }
 
-  void authUserId(String userUid) {
-    ref.read(userProvider.notifier).getUserById(userUid).listen(
-      (result) {
-        if (result is Success<UserEntity>) {
-          if (mounted) {
-            setState(() {
-              final resultData = result.data;
-              username = resultData.username;
-              name     = resultData.name;
-              lastname = resultData.lastname;
-              email    = resultData.email;
-              image    = resultData.image;
-              id       = resultData.id;
+  Future<void> authUserId(BuildContext currentContext) async {
+    final userIdResource =
+        await ref.read(userProvider.notifier).getCurrentUserId();
+    if (userIdResource is Success<String>) {
+      final currentUserId = userIdResource.data;
+      ref.read(userProvider.notifier).getUserById(currentUserId).listen(
+        (result) {
+          if (result is Success<UserEntity>) {
+            if (mounted) {
+              setState(() {
+                final resultData = result.data;
+                username = resultData.username;
+                name = resultData.name;
+                lastname = resultData.lastname;
+                email = resultData.email;
+                image = resultData.image;
+                id = resultData.id;
 
-              nameController.text = name;
-              lastnameController.text = lastname;
-              usernameController.text = username;
-              emailController.text = email;
-              imageController.text = image;
-            });
+                nameController.text = name;
+                lastnameController.text = lastname;
+                usernameController.text = username;
+                emailController.text = email;
+                imageController.text = image;
+              });
+            }
+          } else if (result is Error<dynamic>) {
+            showSnackBar(context, (result as Error).getErrorMessage());
           }
-        } else if (result is Error<dynamic>) {
-          showSnackBar(context, (result as Error).getErrorMessage());
-        }
-      },
-    );
-
-    //  ref.read(postProvider.notifier).getAllPostsByUserId('iONDDLugRLRr6x0qwV3hlEgVxIt1').listen(
-    //   (result) {
-    //     if (result is Success<List<PostEntity>>) {
-    //       if (mounted) {
-    //         setState(() {
-    //           final resultData = result.data;
-    //           posts = resultData;
-    //           print('posts en set state ${posts[0].title}');
-    //         });
-    //       }
-    //     } else if (result is Error<dynamic>) {
-    //       showSnackBar(context, (result as Error).getErrorMessage());
-    //       print('Error ${(result as Error).getErrorMessage()}');
-    //     }
-    //   },
-    // );
+        },
+      );
+      ref.read(postProvider.notifier).getAllPostsByUserId(currentUserId).listen(
+        (result) {
+          if (result is Success<List<PostEntity>>) {
+            if (mounted) {
+              setState(() {
+                final resultData = result.data;
+                posts = resultData;
+              });
+            }
+          } else if (result is Error<dynamic>) {
+            showSnackBar(context, (result as Error).getErrorMessage());
+          }
+        },
+      );
+    }
   }
 
   @override

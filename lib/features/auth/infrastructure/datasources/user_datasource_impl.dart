@@ -21,12 +21,9 @@ class UserDatasourceImpl extends UserDatasource {
 
   @override
   Future<Resource> edit(UserEntity user) async {
-       final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
+    final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
     user.image = await FirebaseHelper.uploadImageAndReturnUrl(
-      user.image,
-      Strings.usersCollection,
-      userFirebaseAuth!.uid
-    );
+        user.image, Strings.usersCollection, userFirebaseAuth!.uid);
 
     final completer = Completer<Resource>();
     final CollectionReference usersCollection =
@@ -75,25 +72,34 @@ class UserDatasourceImpl extends UserDatasource {
       return completer.future;
     }
   }
-  
-  @override
-  Stream<Resource<UserEntity>> getCurrentUSer() {
-try{
-    final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
-      final usersCollection =
-        FirebaseHelper.firebaseFirestore.collection(Strings.usersCollection);
-    return usersCollection
-        .doc(userFirebaseAuth!.uid)
-        .snapshots(includeMetadataChanges: true)
-        .map((DocumentSnapshot<Map<String, dynamic>> document) {
-      final userData = document.data()!;
-      final userEntity = UserEntity.fromJson(userData);
-      return Success(userEntity);
-    });
-}
-catch(e){
-    return Stream.value(Error(e.toString()));
-}
 
+  // @override
+  // Stream<Resource<UserEntity>> getCurrentUSer() {
+  //   try {
+  //     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
+  //     final usersCollection =
+  //         FirebaseHelper.firebaseFirestore.collection(Strings.usersCollection);
+  //     return usersCollection
+  //         .doc(userFirebaseAuth!.uid)
+  //         .snapshots(includeMetadataChanges: true)
+  //         .map((DocumentSnapshot<Map<String, dynamic>> document) {
+  //       final userData = document.data()!;
+  //       final userEntity = UserEntity.fromJson(userData);
+  //       return Success(userEntity);
+  //     });
+  //   } catch (e) {
+  //     return Stream.value(Error(e.toString()));
+  //   }
+  // }
+
+  @override
+  Future<Resource<String>> getCurrentUserId() async {
+    try {
+      final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
+      print('user id ${userFirebaseAuth!.uid}');
+      return Success(userFirebaseAuth.uid);
+    } on FirebaseException catch (e) {
+      return Error(e.code);
+    }
   }
 }

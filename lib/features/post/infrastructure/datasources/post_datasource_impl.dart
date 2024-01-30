@@ -1,7 +1,6 @@
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/post/domain/datasources/post_datasource.dart';
 import 'package:blogify/features/post/domain/entities/post_entity.dart';
-import 'package:blogify/presentation/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostDataSourceImpl extends PostDataSource {
@@ -62,7 +61,6 @@ class PostDataSourceImpl extends PostDataSource {
               (post) => PostEntity.fromJson(post.data()),
             )
             .toList();
-        print('post 0 ${dataMap[0].title}');
         return Success(dataMap);
       });
     } on FirebaseException catch (e) {
