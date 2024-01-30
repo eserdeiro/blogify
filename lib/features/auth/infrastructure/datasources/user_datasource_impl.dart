@@ -75,4 +75,25 @@ class UserDatasourceImpl extends UserDatasource {
       return completer.future;
     }
   }
+  
+  @override
+  Stream<Resource<UserEntity>> getCurrentUSer() {
+try{
+    final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
+      final usersCollection =
+        FirebaseHelper.firebaseFirestore.collection(Strings.usersCollection);
+    return usersCollection
+        .doc(userFirebaseAuth!.uid)
+        .snapshots(includeMetadataChanges: true)
+        .map((DocumentSnapshot<Map<String, dynamic>> document) {
+      final userData = document.data()!;
+      final userEntity = UserEntity.fromJson(userData);
+      return Success(userEntity);
+    });
+}
+catch(e){
+    return Stream.value(Error(e.toString()));
+}
+
+  }
 }
