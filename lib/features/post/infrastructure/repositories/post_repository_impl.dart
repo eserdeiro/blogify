@@ -20,4 +20,9 @@ class PostRepositoryImpl extends PostRepository {
     Future<Resource<List<PostEntity>>> getAllPosts() {
     return datasource.getAllPosts();
   }
+  
+  @override
+  Future<Resource<List<PostEntity>>> getAllPostsByUser(String userId) {
+    return datasource.getAllPosts();
+  }
 }

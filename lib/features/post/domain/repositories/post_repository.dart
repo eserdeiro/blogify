@@ -6,4 +6,6 @@ abstract class PostRepository {
   Future<Resource> publishPost( PostEntity post,);
 
  Future<Resource<List<PostEntity>>> getAllPosts();
+
+ Future<Resource<List<PostEntity>>> getAllPostsByUser(String userId);
 }

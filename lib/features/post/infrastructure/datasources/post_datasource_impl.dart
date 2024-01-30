@@ -44,4 +44,30 @@ class PostDataSourceImpl extends PostDataSource {
       return Error(e.code);
     }
   }
+
+  @override
+  Future<Resource<List<PostEntity>>> getAllPostsByUser(String userId) async {
+    try {
+       
+       final querySnapshot =
+        await FirebaseHelper.firebaseFirestore.collection('Posts').get();
+
+    final allPosts = <PostEntity>[];
+
+    for (final userSnapshot in querySnapshot.docs) {
+      if (userSnapshot.exists) {
+        final postMap = userSnapshot.data();
+        final postEntity = PostEntity.fromJson(postMap);
+        if (postEntity.userId == userId) {
+          allPosts.add(postEntity);
+        }
+      }
+    }
+    //Sort by most recent
+      // allPosts.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      return Success(allPosts);
+    } on FirebaseException catch (e) {
+      return Error(e.code);
+    }
+  }
 }
