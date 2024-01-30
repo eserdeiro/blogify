@@ -3,7 +3,6 @@ import 'package:blogify/features/post/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class CreatePostScreen extends ConsumerStatefulWidget {
   const CreatePostScreen({super.key});

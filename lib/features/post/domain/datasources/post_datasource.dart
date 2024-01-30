@@ -6,5 +6,5 @@ abstract class PostDataSource {
   Future<Resource> publishPost( PostEntity post,);
 
   //Future<Resource<List<PostEntity>>> getAllPosts();
-
+  
 }

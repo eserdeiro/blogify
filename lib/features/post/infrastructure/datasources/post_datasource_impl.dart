@@ -6,19 +6,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PostDataSourceImpl extends PostDataSource {
   @override
   Future<Resource> publishPost(PostEntity post) async {
-    //Add published post to user
-    final CollectionReference collection =
-        FirebaseHelper.firebaseFirestore.collection('Users');
-    final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
-    post.image = await FirebaseHelper.uploadImageAndReturnUrl(
-      post.image,
-      Strings.usersCollection,
-      userFirebaseAuth!.uid,
-    );
+    //Post into Posts/postid/ postdata: 
 
-    await collection.doc(userFirebaseAuth.uid).update({
-      'posts': FieldValue.arrayUnion([post.toJson()]),
-    });
+    final CollectionReference collection =
+        FirebaseHelper.firebaseFirestore.collection('Posts');
+    final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
+
+    final postId = collection.doc().id;
+
+    final postReference =
+        collection.doc(postId);
+    post.userId = userFirebaseAuth!.uid;
+    await postReference.set(
+      post.toJson(),
+    );
 
     print('''
 Datasource: 
