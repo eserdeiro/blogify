@@ -55,36 +55,26 @@ class PostNotifier extends StateNotifier<PostState> {
     }
   }
 
-  Future<void> getAllPostsByUserId(
+  Stream<Resource<List<PostEntity>>> getAllPostsByUserId(
     String userId,
-  ) async {
-    final allPosts = await postRepositoryImpl.getAllPostsByUser(userId);
-    switch (allPosts) {
-      case Loading _:
-        state = state.copyWith(
-          post: allPosts,
-        );
-      case Success _:
-        state = state.copyWith(
-          post: allPosts,
-        );
-      case Error _:
-        state = state.copyWith(
-          post: allPosts,
-        );
-    }
+  ) {
+    final allPosts = postRepositoryImpl.getAllPostsByUser(userId);
+    state = state.copyWith(
+      post: allPosts,
+    );
+    return postRepositoryImpl.getAllPostsByUser(userId);
   }
 }
 
 class PostState {
-  final Resource? post;
+  final dynamic post;
 
   PostState({
     this.post,
   });
 
   PostState copyWith({
-    Resource? post,
+    dynamic post,
   }) =>
       PostState(
         post: post ?? this.post,

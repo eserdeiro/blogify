@@ -7,5 +7,5 @@ abstract class PostRepository {
 
  Future<Resource<List<PostEntity>>> getAllPosts();
 
- Future<Resource<List<PostEntity>>> getAllPostsByUser(String userId);
+ Stream<Resource<List<PostEntity>>> getAllPostsByUser(String userId);
 }

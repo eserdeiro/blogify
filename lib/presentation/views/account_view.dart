@@ -2,12 +2,13 @@ import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/features/post/domain/entities/post_entity.dart';
+import 'package:blogify/features/post/presentation/index.dart';
 import 'package:blogify/features/post/presentation/providers/post_provider.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-//import 'package:timeago/timeago.dart' as timeago;
+import 'package:timeago/timeago.dart' as timeago;
 
 class AccountView extends ConsumerStatefulWidget {
   const AccountView({super.key});
@@ -22,7 +23,7 @@ String lastname = 'unkwnown';
 String email = 'unkwnown';
 String image = '';
 String id = '';
-//List<PostEntity>? posts = [];
+List<PostEntity> posts = [];
 late TextEditingController nameController;
 late TextEditingController lastnameController;
 late TextEditingController usernameController;
@@ -67,12 +68,11 @@ class AccountViewState extends ConsumerState<AccountView> {
             setState(() {
               final resultData = result.data;
               username = resultData.username;
-              name = resultData.name;
+              name     = resultData.name;
               lastname = resultData.lastname;
-              email = resultData.email;
-              image = resultData.image;
-              id = resultData.id;
-              // posts = resultData.posts;
+              email    = resultData.email;
+              image    = resultData.image;
+              id       = resultData.id;
 
               nameController.text = name;
               lastnameController.text = lastname;
@@ -86,6 +86,23 @@ class AccountViewState extends ConsumerState<AccountView> {
         }
       },
     );
+
+    //  ref.read(postProvider.notifier).getAllPostsByUserId('iONDDLugRLRr6x0qwV3hlEgVxIt1').listen(
+    //   (result) {
+    //     if (result is Success<List<PostEntity>>) {
+    //       if (mounted) {
+    //         setState(() {
+    //           final resultData = result.data;
+    //           posts = resultData;
+    //           print('posts en set state ${posts[0].title}');
+    //         });
+    //       }
+    //     } else if (result is Error<dynamic>) {
+    //       showSnackBar(context, (result as Error).getErrorMessage());
+    //       print('Error ${(result as Error).getErrorMessage()}');
+    //     }
+    //   },
+    // );
   }
 
   @override
@@ -100,23 +117,6 @@ class AccountViewState extends ConsumerState<AccountView> {
 
   @override
   Widget build(BuildContext context) {
-//     final getAllPostsByUserProvider = ref.watch(postProvider);
-//     final getAllPostsByUserNotifier =
-//         ref.read(postProvider.notifier).getAllPostsByUserId(id);
-
-// // Verificar si el resultado es de tipo Success y si hay datos
-//     if (getAllPostsByUserProvider.post is Success<List<PostEntity>>) {
-//       final postsList =
-//           (getAllPostsByUserProvider.post! as Success<List<PostEntity>>).data;
-
-//       // Imprimir los títulos
-//       for (final post in postsList) {
-//         print('Title: ${post.title}');
-//       }
-//     } else {
-//       // Manejar casos de Loading o Error si es necesario
-//       print('Hubo un error o está en estado de carga');
-//     }
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -196,23 +196,23 @@ class AccountViewState extends ConsumerState<AccountView> {
                 ),
               ),
               const Divider(),
-              // if (posts != null)
-              //   Expanded(
-              //     child: ListView.builder(
-              //       itemCount: posts!.length,
-              //       itemBuilder: (context, index) {
-              //         final postIndex = posts!.reversed.toList()[index];
-              //         return PostContent(
-              //           profileUsername: username,
-              //           createdAt: timeago.format(postIndex.createdAt),
-              //           title: postIndex.title,
-              //           description: postIndex.description,
-              //           profileImage: image,
-              //           image: postIndex.image,
-              //         );
-              //       },
-              //     ),
-              //   ),
+              if (posts.isNotEmpty)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: posts.length,
+                    itemBuilder: (context, index) {
+                      final postIndex = posts.reversed.toList()[index];
+                      return PostContent(
+                        profileUsername: username,
+                        createdAt: timeago.format(postIndex.createdAt),
+                        title: postIndex.title,
+                        description: postIndex.description,
+                        profileImage: image,
+                        image: postIndex.image,
+                      );
+                    },
+                  ),
+                ),
             ],
           ),
         ),
