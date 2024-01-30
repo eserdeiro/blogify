@@ -23,22 +23,10 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //provider from update data
-    ref.listen(userProvider, (previous, next) {
-      switch (next.user) {
-        case Success _:
-          showSnackBar(context, 'Updated data');
-          return;
-        case Error _:
-          showSnackBar(context, (next.user! as Error).getErrorMessage());
-        case Loading _:
-        //TODO ADD LOADING
-      }
-    });
-
     final userEditForm = ref.watch(userEditFormProvider);
     final userEditNotifier = ref.read(userEditFormProvider.notifier);
     final colors = Theme.of(context).colorScheme;
+
     Future<void> handleImageSelection(
       BuildContext context,
       Future<String?> Function() selectImageFunction,
@@ -51,6 +39,18 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
         ref.read(userProvider.notifier).setError('photo-could-not-be-selected');
       }
     }
+
+        ref.listen(userProvider, (previous, next) {
+      switch (next.user) {
+        case Success _:
+          showSnackBar(context, 'Updated data');
+          return;
+        case Error _:
+          showSnackBar(context, (next.user! as Error).getErrorMessage());
+        case Loading _:
+        //TODO ADD LOADING
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -81,7 +81,6 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                         });
                       },
                       child: ProfileImage(
-                        key: UniqueKey(),
                         height: 120,
                         width: 120,
                         borderRadius: 70,

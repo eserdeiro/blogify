@@ -3,6 +3,7 @@ import 'package:blogify/features/post/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CreatePostScreen extends ConsumerStatefulWidget {
   const CreatePostScreen({super.key});
@@ -13,6 +14,15 @@ class CreatePostScreen extends ConsumerStatefulWidget {
 }
 
 class CreatePostScreenState extends ConsumerState<CreatePostScreen> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final createPostForm = ref.watch(createPostFormProvider);
@@ -58,11 +68,17 @@ class CreatePostScreenState extends ConsumerState<CreatePostScreen> {
             icon: const Icon(Icons.send_outlined),
             onPressed: createPostForm.title.isNotEmpty &&
                     createPostForm.description.isNotEmpty
-                ? () {
-                    createPostNotifier
-                      ..onCreatedAtChange(DateTime.now())
-                      ..onSubmit()
-                      ..reset();
+                ? () async {
+                    createPostNotifier.onCreatedAtChange(DateTime.now());
+                    await createPostNotifier.onSubmit();
+                    createPostNotifier.reset();
+
+                    _titleController.clear();
+                    _descriptionController.clear();
+                    //After
+                    await Future.delayed(Duration.zero, () {
+                      context.push(Strings.homeViewUrl);
+                    });
                   }
                 : null,
           ),
@@ -77,6 +93,7 @@ class CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                 children: [
                   //Clear text when post
                   PostTextFormField(
+                    controller: _titleController,
                     onChanged: createPostNotifier.onTitleChange,
                     maxLenght: 300,
                     hintText: 'Title',
@@ -84,6 +101,7 @@ class CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                     fontWeight: FontWeight.w600,
                   ),
                   PostTextFormField(
+                    controller: _descriptionController,
                     onChanged: createPostNotifier.onDescriptionChange,
                     maxLenght: 1000,
                     hintText: 'Add a description',

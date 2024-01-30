@@ -35,7 +35,7 @@ class AccountViewState extends ConsumerState<AccountView> {
         if (result is Success<UserEntity>) {
           if (mounted) {
             setState(() {
-               final resultData = result.data;
+              final resultData = result.data;
               username = resultData.username;
               name = resultData.name;
               lastname = resultData.lastname;
@@ -86,10 +86,18 @@ class AccountViewState extends ConsumerState<AccountView> {
     });
   }
 
+    @override
+  void dispose() {
+    nameController.dispose();
+    lastnameController.dispose();
+    usernameController.dispose();
+    emailController.dispose();
+    imageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-     print('posts $posts');
-    print('image en view $image');
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -138,7 +146,6 @@ class AccountViewState extends ConsumerState<AccountView> {
                       ],
                     ),
                   ),
-                  //edit this widget
                   ProfileImage(
                     height: 70,
                     width: 70,
@@ -170,7 +177,6 @@ class AccountViewState extends ConsumerState<AccountView> {
                 ),
               ),
               const Divider(),
-             
               if (posts != null)
                 Expanded(
                   child: ListView.builder(
@@ -179,8 +185,7 @@ class AccountViewState extends ConsumerState<AccountView> {
                       final postIndex = posts!.reversed.toList()[index];
                       return PostContent(
                         profileUsername: username,
-                        createdAt: timeago
-                            .format(postIndex.createdAt),
+                        createdAt: timeago.format(postIndex.createdAt),
                         title: postIndex.title,
                         description: postIndex.description,
                         profileImage: image,
