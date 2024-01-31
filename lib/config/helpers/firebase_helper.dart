@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:blogify/config/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:http/http.dart' as http;
 
 class FirebaseHelper {
   static final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -62,24 +63,37 @@ class FirebaseHelper {
   }
 
   static Future<String> uploadImageAndReturnUrl(
-      String cacheImage, String collection, String uid,) async {
-    try{
-final firebaseStorage = FirebaseStorage.instance;
-    final storageRef = firebaseStorage.ref().child(collection).child(uid);
-    final file = File(cacheImage);
-    final uploadTask = await storageRef.child(Generate.randomString()).putFile(
-          file,
-          SettableMetadata(
-            contentType: 'image/jpg',
-          ),
-        );
-
-    return uploadTask.ref.getDownloadURL();
-    }
-    catch(e){
+    String cacheImage,
+    String collection,
+    String uid,
+  ) async {
+    try {
+      final firebaseStorage = FirebaseStorage.instance;
+      final storageRef = firebaseStorage.ref().child(collection).child(uid);
+      if (cacheImage.startsWith('blob')) {
+        final response = await http.get(Uri.parse(cacheImage));
+        if (response.statusCode != 200) {
+          throw Exception('Error download image');
+        }
+        final dataUrl =
+            'data:image/jpeg;base64,${base64Encode(response.bodyBytes)}';
+        await storageRef.putString(dataUrl, format: PutStringFormat.dataUrl);
+        final downloadUrl = await storageRef.getDownloadURL();
+        return downloadUrl;
+      } else {
+        final file = File(cacheImage);
+        final uploadTask =
+            await storageRef.child(Generate.randomString()).putFile(
+                  file,
+                  SettableMetadata(
+                    contentType: 'image/jpg',
+                  ),
+                );
+        return uploadTask.ref.getDownloadURL();
+      }
+    } catch (e) {
+      
       return '';
     }
   }
-
-  
 }

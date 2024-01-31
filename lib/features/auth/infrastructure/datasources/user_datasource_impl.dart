@@ -20,7 +20,7 @@ class UserDatasourceImpl extends UserDatasource {
         return Success(userEntity);
       } else {
         // Fix
-        return Init('ignorar esto momentaneamente');
+        return Init('Ignore this momntly');
       }
     });
   }
@@ -110,13 +110,12 @@ class UserDatasourceImpl extends UserDatasource {
       
         await usersCollection.doc(currentUserUid).delete();
         await currentUser.delete();
-        print('account-deleted');
         return Success('account-deleted');
     } on FirebaseAuthException catch (e) {
-      print('Error durante la reautenticación: ${e.message} ${e.code}');
+      print('Error reauth: ${e.message} ${e.code}');
       return Error(e.code);
     } catch(e){
-        print('error $e');
+        print('Error $e');
         return Error(e.toString());
     }
   }

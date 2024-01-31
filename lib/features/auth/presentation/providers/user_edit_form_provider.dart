@@ -32,7 +32,7 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
 
   void onImageChange(String path) {
     state = state.copyWith(
-      image : path,
+      image: path,
     );
   }
 
@@ -165,7 +165,7 @@ class UserEditFormState {
         lastname: lastname ?? this.lastname,
         username: username ?? this.username,
         email: email ?? this.email,
-        image: image?? this.image
+        image: image ?? this.image,
       );
 
   @override

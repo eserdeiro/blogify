@@ -42,7 +42,6 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
 
   Future<void> onSubmit() async {
     //login firebase working
-    print(state.toString());
     await createPostCallback(
       PostEntity(
         title: state.title,
@@ -102,7 +101,7 @@ class CreatePostState {
   @override
   String toString() {
     return '''
-LoginFormState: 
+CreatePostFormState: 
   isPosting: $isPosting
   isFormPosted: $isFormPosted
   title: $title

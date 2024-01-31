@@ -35,7 +35,7 @@ class ImagePost extends StatelessWidget {
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
               child: ImageViewer(
-                child: image.startsWith('https')
+                child: (image.startsWith('blob') || image.startsWith('https'))
                 //Network image
                     ? Image.network(
                         image,

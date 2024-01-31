@@ -5,6 +5,7 @@ import 'package:blogify/features/post/domain/entities/post_entity.dart';
 import 'package:blogify/features/post/presentation/index.dart';
 import 'package:blogify/features/post/presentation/providers/post_provider.dart';
 import 'package:blogify/presentation/index.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -100,11 +101,14 @@ class AccountViewState extends ConsumerState<AccountView> {
 
   @override
   void dispose() {
+
+    if(!kIsWeb){
     nameController.dispose();
     lastnameController.dispose();
     usernameController.dispose();
     emailController.dispose();
     imageController.dispose();
+    }
     super.dispose();
   }
 
