@@ -1,8 +1,6 @@
-import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
-import 'package:blogify/presentation/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 
@@ -29,7 +27,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
         state.password,
         state.lastname,
         state.username,
-        state.gender,
       ]),
     );
   }
@@ -44,7 +41,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
         state.password,
         state.name,
         state.username,
-        state.gender,
       ]),
     );
   }
@@ -59,7 +55,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
         state.email,
         state.password,
         state.name,
-        state.gender,
       ]),
     );
   }
@@ -74,7 +69,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
         state.name,
         state.lastname,
         state.username,
-        state.gender,
       ]),
     );
   }
@@ -89,22 +83,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
         state.name,
         state.lastname,
         state.username,
-        state.gender,
-      ]),
-    );
-  }
-
-  void onGenderChange(GenderType value) {
-    final gender = Gender.dirty(value);
-    state = state.copyWith(
-      gender: gender,
-      isValid: Formz.validate([
-        gender,
-        state.username,
-        state.lastname,
-        state.email,
-        state.password,
-        state.name,
       ]),
     );
   }
@@ -133,17 +111,15 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
     final username = Username.dirty(state.username.value);
     final email = Email.dirty(state.email.value);
     final password = Password.dirty(state.password.value);
-    final gender = Gender.dirty(state.gender.value);
 
     state = state.copyWith(
       isFormPosted: true,
-      isValid: Formz.validate([email, password]),
+      isValid: Formz.validate([email, password, name, lastname, username]),
       name: name,
       lastname: lastname,
       username: username,
       email: email,
       password: password,
-      gender: gender,
     );
   }
 }
@@ -156,7 +132,6 @@ class RegisterFormState {
   final Username username;
   final Email email;
   final Password password;
-  final Gender gender;
 
   RegisterFormState({
     this.isFormPosted = false,
@@ -166,7 +141,6 @@ class RegisterFormState {
     this.username = const Username.pure(),
     this.email = const Email.pure(),
     this.password = const Password.pure(),
-    this.gender = const Gender.pure(),
   });
 
   RegisterFormState copyWith({
@@ -177,7 +151,6 @@ class RegisterFormState {
     Username? username,
     Email? email,
     Password? password,
-    Gender? gender,
   }) =>
       RegisterFormState(
         isFormPosted: isFormPosted ?? this.isFormPosted,
@@ -187,7 +160,6 @@ class RegisterFormState {
         username: username ?? this.username,
         email: email ?? this.email,
         password: password ?? this.password,
-        gender: gender ?? this.gender,
       );
 
   @override
@@ -202,7 +174,6 @@ lastname: $lastname
 username: $username
 email: $email
 password: $password
-gender: ${Formats.getGenderSelected(gender.value)}
 ''';
   }
 }

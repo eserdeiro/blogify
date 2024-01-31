@@ -90,12 +90,6 @@ class RegisterContent extends ConsumerWidget {
               prefixIcon: const Icon(Icons.lock),
             ),
             const SizedBox(height: 12),
-            CustomExpansionTile(
-              onChanged: registerFormNotifier.onGenderChange,
-              errorText: registerForm.isFormPosted
-                  ? registerForm.gender.errorMessage
-                  : null,
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: CustomElevatedButton(

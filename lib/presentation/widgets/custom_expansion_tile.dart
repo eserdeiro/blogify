@@ -35,7 +35,8 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
         key: GlobalKey(),
         shape: const Border(),
         title: Text(
-          Formats.getGenderSelected(gender),
+         // Formats.getGenderSelected(gender),
+         '',
           style: TextStyle(
             color: widget.errorText == Strings.required
                 ? Colors.red
