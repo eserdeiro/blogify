@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserDatasourceImpl extends UserDatasource {
   @override
@@ -13,17 +14,37 @@ class UserDatasourceImpl extends UserDatasource {
         .doc(id)
         .snapshots(includeMetadataChanges: true)
         .map((DocumentSnapshot<Map<String, dynamic>> document) {
-      final userData = document.data()!;
-      final userEntity = UserEntity.fromJson(userData);
-      return Success(userEntity);
+      final userData = document.data();
+      if (userData != null) {
+        final userEntity = UserEntity.fromJson(userData);
+        return Success(userEntity);
+      } else {
+        // Manejar el caso cuando los datos son nulos
+        print('Error');
+        return Error('error');
+      }
     });
+  }
+
+  @override
+  Future<Resource<String>> getCurrentUserId() async {
+    try {
+      final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
+      print('user id ${userFirebaseAuth!.uid}');
+      return Success(userFirebaseAuth.uid);
+    } on FirebaseException catch (e) {
+      return Error(e.code);
+    }
   }
 
   @override
   Future<Resource> edit(UserEntity user) async {
     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
     user.image = await FirebaseHelper.uploadImageAndReturnUrl(
-        user.image, Strings.usersCollection, userFirebaseAuth!.uid);
+      user.image,
+      Strings.usersCollection,
+      userFirebaseAuth!.uid,
+    );
 
     final completer = Completer<Resource>();
     final CollectionReference usersCollection =
@@ -73,32 +94,42 @@ class UserDatasourceImpl extends UserDatasource {
     }
   }
 
-  // @override
-  // Stream<Resource<UserEntity>> getCurrentUSer() {
-  //   try {
-  //     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
-  //     final usersCollection =
-  //         FirebaseHelper.firebaseFirestore.collection(Strings.usersCollection);
-  //     return usersCollection
-  //         .doc(userFirebaseAuth!.uid)
-  //         .snapshots(includeMetadataChanges: true)
-  //         .map((DocumentSnapshot<Map<String, dynamic>> document) {
-  //       final userData = document.data()!;
-  //       final userEntity = UserEntity.fromJson(userData);
-  //       return Success(userEntity);
-  //     });
-  //   } catch (e) {
-  //     return Stream.value(Error(e.toString()));
-  //   }
-  // }
-
   @override
-  Future<Resource<String>> getCurrentUserId() async {
+  Future<Resource> deleteUser(String password) async {
+    final currentUser = FirebaseHelper.firebaseAuth.currentUser;
+    final CollectionReference usersCollection =
+        FirebaseHelper.firebaseFirestore.collection(Strings.usersCollection);
     try {
-      final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
-      print('user id ${userFirebaseAuth!.uid}');
-      return Success(userFirebaseAuth.uid);
-    } on FirebaseException catch (e) {
+      final currentUser = FirebaseHelper.firebaseAuth.currentUser!;
+
+      await currentUser.delete().then((value) async {
+        await usersCollection.doc(currentUser.uid).delete();
+      });
+      print('account-deleted');
+      return Success('account-deleted');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        print('required recent login');
+        try {
+          await currentUser!
+              .reauthenticateWithCredential(
+            EmailAuthProvider.credential(
+              email: currentUser.email!,
+              password: password,
+            ),
+          )
+              .then((value) async {
+            await currentUser.delete();
+            await usersCollection.doc(currentUser.uid).delete();
+          });
+        } on FirebaseAuthException catch (e) {
+          print('error xd ${e.code}');
+          Error(e.code);
+        }
+      } else {
+        print('Error 1 on requires-recent-login');
+        return Error(e.code);
+      }
       return Error(e.code);
     }
   }

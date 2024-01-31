@@ -40,7 +40,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
       }
     }
 
-        ref.listen(userProvider, (previous, next) {
+    ref.listen(userProvider, (previous, next) {
       switch (next.user) {
         case Success _:
           showSnackBar(context, 'Updated data');
@@ -155,6 +155,17 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
               ),
               CustomElevatedButton(
                 text: 'Delete account',
+                onPressed: () async {
+                  await showDialogDeleteAccount(context, (String password) {
+                    print('passsworddd ${password}');
+                    return ref.read(userProvider.notifier).delete(password);
+                  });
+                  final provider = ref.watch(userProvider).user;
+                  if (provider is Success &&
+                      provider.data == 'account-deleted') {
+                    print('holaaaaa ');
+                  }
+                },
                 backgroundColor: colors.error,
               ),
             ],
@@ -163,4 +174,8 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
       ),
     );
   }
+}
+
+Future<void> emptyFunction() async {
+  // No hace nada
 }

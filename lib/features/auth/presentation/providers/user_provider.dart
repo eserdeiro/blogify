@@ -54,6 +54,13 @@ class UserNotifier extends StateNotifier<UserState> {
         );
     }
   }
+
+   Future<Resource> delete(String password) {
+    state = state.copyWith(
+      user: userRepositoryImpl.deleteUser(password),
+    );
+    return userRepositoryImpl.deleteUser(password);
+  }
 }
 
 enum UserStatus { checking, authenticated, notAuthenticated }

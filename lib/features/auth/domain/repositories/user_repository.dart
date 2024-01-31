@@ -11,6 +11,6 @@ abstract class UserRepository {
     UserEntity user,
   );
 
-
+  Future<Resource> deleteUser(String password);
 
 }

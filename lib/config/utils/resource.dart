@@ -34,6 +34,10 @@ class Error<T> extends Resource<T> {
         return 'Account disabled';
       case 'photo-could-not-be-selected':
         return 'The photo could not be selected';
+      case 'too-many-requests':
+        return 'Too many requests';
+      case 'wrong-password': 
+        return 'Incorrect passowrd';  
       default:
         print('error get error $error');
         return 'Something went wrong';

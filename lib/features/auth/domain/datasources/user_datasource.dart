@@ -10,5 +10,5 @@ abstract class UserDatasource {
     UserEntity user,
   );
 
-  // Future<Resource> delete();
+  Future<Resource> deleteUser(String password);
 }
