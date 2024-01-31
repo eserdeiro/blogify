@@ -39,13 +39,13 @@ class AccountViewState extends ConsumerState<AccountView> {
     usernameController = TextEditingController();
     emailController = TextEditingController();
     imageController = TextEditingController();
-    final BuildContext currentContext = context;
+    final currentContext = context;
     Future.delayed(Duration.zero, () {
       if (mounted) {
         try {
           authUserId(currentContext);
         } catch (e) {
-          print('Error en authUserUid ${e.toString()}');
+          print('Error on authUserUid ${e.toString()}');
         }
       }
     });

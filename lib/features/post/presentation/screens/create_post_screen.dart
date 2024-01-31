@@ -3,10 +3,11 @@ import 'package:blogify/features/post/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CreatePostScreen extends ConsumerStatefulWidget {
   const CreatePostScreen({super.key});
-  static String name = Strings.addPostScreenName;
+  static String name = Strings.accountScreenName;
 
   @override
   CreatePostScreenState createState() => CreatePostScreenState();
@@ -74,10 +75,10 @@ class CreatePostScreenState extends ConsumerState<CreatePostScreen> {
 
                     _titleController.clear();
                     _descriptionController.clear();
-                    //After
-                    // await Future.delayed(Duration.zero, () {
-                    //   context.push(Strings.homeViewUrl);
-                    // });
+
+                    await Future.delayed(Duration.zero, () {
+                      context.go(Strings.accountScreenUrl);
+                    });
                   }
                 : null,
           ),

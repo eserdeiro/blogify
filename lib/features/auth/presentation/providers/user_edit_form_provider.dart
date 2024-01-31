@@ -81,7 +81,6 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
     String initialUsername,
     String initialEmail,
   ) async {
-    print('Image provider ${state.image}');
     validateEveryone(
       initialName,
       initialLastname,

@@ -23,10 +23,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
       name: name,
       isValid: Formz.validate([
         name,
-        state.email,
-        state.password,
-        state.lastname,
-        state.username,
       ]),
     );
   }
@@ -37,10 +33,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
       lastname: lastname,
       isValid: Formz.validate([
         lastname,
-        state.email,
-        state.password,
-        state.name,
-        state.username,
       ]),
     );
   }
@@ -51,10 +43,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
       username: username,
       isValid: Formz.validate([
         username,
-        state.lastname,
-        state.email,
-        state.password,
-        state.name,
       ]),
     );
   }
@@ -65,10 +53,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
       email: email,
       isValid: Formz.validate([
         email,
-        state.password,
-        state.name,
-        state.lastname,
-        state.username,
       ]),
     );
   }
@@ -79,10 +63,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
       password: password,
       isValid: Formz.validate([
         password,
-        state.email,
-        state.name,
-        state.lastname,
-        state.username,
       ]),
     );
   }

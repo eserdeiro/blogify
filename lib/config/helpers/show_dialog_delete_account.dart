@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/presentation/providers/user_provider.dart';
 import 'package:blogify/presentation/index.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 import 'package:go_router/go_router.dart';
 
 Future<void> showDialogDeleteAccount(
@@ -14,7 +14,6 @@ Future<void> showDialogDeleteAccount(
 
   final currentContext =
       context; // Captura el contexto antes de la llamada asíncrona
-
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -34,9 +33,6 @@ Future<void> showDialogDeleteAccount(
                 obscureText: true,
                 prefixIcon: const Icon(Icons.lock),
                 controller: passwordController,
-                onChanged: (p0) {
-                  // Puedes realizar alguna lógica aquí si es necesario
-                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -49,6 +45,7 @@ Future<void> showDialogDeleteAccount(
                 ),
               ),
               CustomElevatedButton(
+
                 backgroundColor: colors.error,
                 text: 'Confirm',
                 onPressed: () async {
