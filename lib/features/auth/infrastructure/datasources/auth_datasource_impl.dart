@@ -17,7 +17,7 @@ class AuthDatasourceImpl extends AuthDataSource {
     if (user != null) {
       return Success(user);
     } else {
-      return Init();
+      return Init('');
     }
   }
 

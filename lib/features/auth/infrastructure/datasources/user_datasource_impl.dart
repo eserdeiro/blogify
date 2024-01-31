@@ -19,9 +19,8 @@ class UserDatasourceImpl extends UserDatasource {
         final userEntity = UserEntity.fromJson(userData);
         return Success(userEntity);
       } else {
-        // Manejar el caso cuando los datos son nulos
-        print('Error');
-        return Error('error');
+        // Fix
+        return Init('ignorar esto momentaneamente');
       }
     });
   }
@@ -30,8 +29,7 @@ class UserDatasourceImpl extends UserDatasource {
   Future<Resource<String>> getCurrentUserId() async {
     try {
       final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
-      print('user id ${userFirebaseAuth!.uid}');
-      return Success(userFirebaseAuth.uid);
+      return Success(userFirebaseAuth!.uid);
     } on FirebaseException catch (e) {
       return Error(e.code);
     }
@@ -96,41 +94,30 @@ class UserDatasourceImpl extends UserDatasource {
 
   @override
   Future<Resource> deleteUser(String password) async {
-    final currentUser = FirebaseHelper.firebaseAuth.currentUser;
+    final currentUser = FirebaseHelper.firebaseAuth.currentUser!;
     final CollectionReference usersCollection =
         FirebaseHelper.firebaseFirestore.collection(Strings.usersCollection);
-    try {
-      final currentUser = FirebaseHelper.firebaseAuth.currentUser!;
+    final currentUserUid = currentUser.uid;
 
-      await currentUser.delete().then((value) async {
-        await usersCollection.doc(currentUser.uid).delete();
-      });
-      print('account-deleted');
-      return Success('account-deleted');
+    try {
+      await currentUser
+          .reauthenticateWithCredential(
+        EmailAuthProvider.credential(
+          email: currentUser.email!,
+          password: password,
+        ),
+      );
+      
+        await usersCollection.doc(currentUserUid).delete();
+        await currentUser.delete();
+        print('account-deleted');
+        return Success('account-deleted');
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'requires-recent-login') {
-        print('required recent login');
-        try {
-          await currentUser!
-              .reauthenticateWithCredential(
-            EmailAuthProvider.credential(
-              email: currentUser.email!,
-              password: password,
-            ),
-          )
-              .then((value) async {
-            await currentUser.delete();
-            await usersCollection.doc(currentUser.uid).delete();
-          });
-        } on FirebaseAuthException catch (e) {
-          print('error xd ${e.code}');
-          Error(e.code);
-        }
-      } else {
-        print('Error 1 on requires-recent-login');
-        return Error(e.code);
-      }
+      print('Error durante la reautenticación: ${e.message} ${e.code}');
       return Error(e.code);
+    } catch(e){
+        print('error $e');
+        return Error(e.toString());
     }
   }
 }

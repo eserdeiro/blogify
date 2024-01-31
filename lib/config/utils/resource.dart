@@ -2,8 +2,9 @@ abstract class Resource<T> {
   Resource();
 }
 
-class Init extends Resource {
-  Init();
+class Init<T> extends Resource<T> {
+  final String data;
+  Init(this.data);
 }
 
 class Loading extends Resource {
