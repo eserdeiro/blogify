@@ -22,7 +22,6 @@ class ImagePost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('image en web ${image}');
     final colors = Theme.of(context).colorScheme;
     return Center(
       child: Container(
