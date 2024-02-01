@@ -38,11 +38,14 @@ class UserDatasourceImpl extends UserDatasource {
   @override
   Future<Resource> edit(UserEntity user) async {
     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
-    user.image = await FirebaseHelper.uploadImageAndReturnUrl(
-      user.image,
-      Strings.usersCollection,
-      userFirebaseAuth!.uid,
-    );
+    final userUid = userFirebaseAuth!.uid;
+    if (user.image.isNotEmpty) {
+      user.image = await FirebaseHelper.uploadImageAndReturnUrl(
+        user.image,
+        Strings.usersCollection,
+        userUid,
+      );
+    }
 
     final completer = Completer<Resource>();
     final CollectionReference usersCollection =
@@ -64,7 +67,7 @@ class UserDatasourceImpl extends UserDatasource {
       return Error('email-already-in-use');
     } else {
       final map = <String, dynamic>{
-        'id': userFirebaseAuth.uid,
+        'id': userUid,
         'email': user.email,
         'name': user.name,
         'lastname': user.lastname,
@@ -78,7 +81,7 @@ class UserDatasourceImpl extends UserDatasource {
       );
 
       await usersCollection
-          .doc(userFirebaseAuth.uid)
+          .doc(userUid)
           .update(map)
           .then((value) {
             completer.complete(Success(''));
@@ -100,23 +103,22 @@ class UserDatasourceImpl extends UserDatasource {
     final currentUserUid = currentUser.uid;
 
     try {
-      await currentUser
-          .reauthenticateWithCredential(
+      await currentUser.reauthenticateWithCredential(
         EmailAuthProvider.credential(
           email: currentUser.email!,
           password: password,
         ),
       );
-      
-        await usersCollection.doc(currentUserUid).delete();
-        await currentUser.delete();
-        return Success('account-deleted');
+
+      await usersCollection.doc(currentUserUid).delete();
+      await currentUser.delete();
+      return Success('account-deleted');
     } on FirebaseAuthException catch (e) {
       print('Error reauth: ${e.message} ${e.code}');
       return Error(e.code);
-    } catch(e){
-        print('Error $e');
-        return Error(e.toString());
+    } catch (e) {
+      print('Error $e');
+      return Error(e.toString());
     }
   }
 }

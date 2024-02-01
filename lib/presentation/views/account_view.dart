@@ -88,7 +88,7 @@ class AccountViewState extends ConsumerState<AccountView> {
             if (mounted) {
               setState(() {
                 final resultData = result.data;
-                posts = resultData;
+                posts = PostHelper.sortByRecentness(resultData);
               });
             }
           } else if (result is Error<dynamic>) {
@@ -101,13 +101,12 @@ class AccountViewState extends ConsumerState<AccountView> {
 
   @override
   void dispose() {
-
-    if(!kIsWeb){
-    nameController.dispose();
-    lastnameController.dispose();
-    usernameController.dispose();
-    emailController.dispose();
-    imageController.dispose();
+    if (!kIsWeb) {
+      nameController.dispose();
+      lastnameController.dispose();
+      usernameController.dispose();
+      emailController.dispose();
+      imageController.dispose();
     }
     super.dispose();
   }
@@ -200,6 +199,8 @@ class AccountViewState extends ConsumerState<AccountView> {
                     itemBuilder: (context, index) {
                       final postIndex = posts.reversed.toList()[index];
                       return PostContent(
+                        isOwner: PostHelper.isPostCreatedByUser(
+                            postIndex.userId!, id,),
                         profileUsername: username,
                         createdAt: timeago.format(postIndex.createdAt),
                         title: postIndex.title,
