@@ -38,7 +38,9 @@ class Error<T> extends Resource<T> {
       case 'too-many-requests':
         return 'Too many requests';
       case 'wrong-password': 
-        return 'Incorrect passowrd';  
+        return 'Incorrect passowrd'; 
+      case 'user-not-found': 
+        return 'User not found'; 
       default:
         print('error get error $error');
         return 'Something went wrong';

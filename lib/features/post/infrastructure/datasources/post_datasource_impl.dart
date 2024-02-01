@@ -13,33 +13,41 @@ class PostDataSourceImpl extends PostDataSource {
         FirebaseHelper.firebaseFirestore.collection('Posts');
     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
 
+    final postImage = await FirebaseHelper.uploadImageAndReturnUrl(
+      post.image,
+      'Posts',
+      userFirebaseAuth!.uid,
+    );
+
     final postId = collection.doc().id;
 
     final postReference = collection.doc(postId);
-    post..userId = userFirebaseAuth!.uid
-        ..postId = postId;
+    post
+      ..userId = userFirebaseAuth.uid
+      ..postId = postId
+      ..image = postImage;
     await postReference.set(
       post.toJson(),
     );
     return Success('data');
   }
 
-      @override
-    Future<Resource> deletePost(String postId) async {
-  try {
-    final CollectionReference collection =
-        FirebaseHelper.firebaseFirestore.collection('Posts');
+  @override
+  Future<Resource> deletePost(String postId) async {
+    try {
+      final CollectionReference collection =
+          FirebaseHelper.firebaseFirestore.collection('Posts');
 
-    final postReference = collection.doc(postId);
+      final postReference = collection.doc(postId);
 
-    await postReference.delete();
-    print('Post deleted');
-    return Success('post-deleted');
-  }on FirebaseAuthException catch (e) {
-    print('error when deleting');
-    return Error(e.code);
+      await postReference.delete();
+      print('Post deleted');
+      return Success('post-deleted');
+    } on FirebaseAuthException catch (e) {
+      print('error when deleting');
+      return Error(e.code);
+    }
   }
-}
 
   @override
   Future<Resource<List<PostEntity>>> getAllPosts() async {
@@ -78,7 +86,7 @@ class PostDataSourceImpl extends PostDataSource {
               (post) => PostEntity.fromJson(post.data()),
             )
             .toList();
-          
+
         return Success(dataMap);
       });
     } on FirebaseException catch (e) {
@@ -87,5 +95,4 @@ class PostDataSourceImpl extends PostDataSource {
       return Stream.value(Error(e.toString()));
     }
   }
-  
 }
