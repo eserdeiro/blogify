@@ -34,13 +34,18 @@ class HomeViewState extends ConsumerState<HomeView> {
           }
           ref.read(userProvider.notifier).getUserById(userId).listen(
             (result) {
-             if(mounted){
-               if (result is Success<UserEntity>) {
-                print('result ${result.data}');
+              if (mounted) {
+                if (result is Success<UserEntity>) {
+                  print('result ${result.data}');
+                }
               }
-             }
             },
           );
+
+          final postState = ref.watch(postProvider).post;
+          if (postState != null && postState is Success) {
+            posts = postState.data as List<PostEntity>;
+          }
         } catch (e) {
           print('Error on authUserUid ${e.toString()}');
         }
@@ -50,14 +55,6 @@ class HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final postState = ref.watch(postProvider).post;
-    // final userIdState = ref.watch(userProvider).user;
-    //   print('userid state ${userIdState}');
-    if (postState != null && postState is Success) {
-      posts = postState.data as List<PostEntity>;
-      print('post state ${postState.data}');
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home screen'),

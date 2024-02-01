@@ -2,7 +2,7 @@ import 'package:blogify/features/post/presentation/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart';
 
-class PostContent extends StatelessWidget {
+class PostContent extends StatefulWidget {
   final String profileImage;
   final String profileUsername;
   final String createdAt;
@@ -24,6 +24,11 @@ class PostContent extends StatelessWidget {
   });
 
   @override
+  State<PostContent> createState() => _PostContentState();
+}
+
+class _PostContentState extends State<PostContent> {
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,38 +40,38 @@ class PostContent extends StatelessWidget {
               child: ProfileImage(
                 height: 40,
                 width: 40,
-                urlFileImage: profileImage,
+                urlFileImage: widget.profileImage,
                 borderRadius: 30,
               ),
             ),
             const SizedBox(width: 8),
             Text(
-              profileUsername,
+              widget.profileUsername,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const Spacer(),
-            Text(createdAt),
-            if (isOwner)
+            Text(widget.createdAt),
+            if (widget.isOwner)
               IconButton(
                 tooltip: 'Delete post',
                 icon: const Icon(Icons.delete_outline_rounded),
-                onPressed: onPressedDelete,
+                onPressed: widget.onPressedDelete,
               ),
           ],
         ),
         const SizedBox(height: 8),
         Text(
-          title,
+          widget.title,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         Text(
-          description,
+          widget.description,
           style: const TextStyle(fontSize: 14),
         ),
         const SizedBox(height: 8),
-        if (image.isNotEmpty)
+        if (widget.image.isNotEmpty)
           ImagePost(
-            image: image,
+            image: widget.image,
           ),
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 12),
