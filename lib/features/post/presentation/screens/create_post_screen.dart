@@ -77,6 +77,7 @@ class CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                     _descriptionController.clear();
 
                     await Future.delayed(Duration.zero, () {
+                      FocusManager.instance.primaryFocus?.unfocus();
                       context.go(Strings.accountScreenUrl);
                     });
                   }
