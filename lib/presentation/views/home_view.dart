@@ -1,5 +1,6 @@
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
+import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/features/auth/presentation/providers/user_provider.dart';
 import 'package:blogify/features/post/domain/entities/post_entity.dart';
 import 'package:blogify/features/post/presentation/index.dart';
@@ -27,36 +28,33 @@ class HomeViewState extends ConsumerState<HomeView> {
     super.initState();
 
     Future.delayed(Duration.zero, () async {
-      if (mounted) {
-        try {
-          await ref.read(postProvider.notifier).getAllPosts();
-          await ref.read(userProvider.notifier).getCurrentUserId();
- 
+      try {
+        await ref.read(postProvider.notifier).getAllPosts();
 
-          final postState = ref.watch(postProvider).post;
-          if (postState != null && postState is Success) {
-            //Set posts
-            setState(() {
-              posts = postState.data as List<PostEntity>;
-            });
-            for (final post in posts) {
-              //Get users by post
-              ref.read(userProvider.notifier).getUserById(post.userId!).listen(
-                (result) {
-                  if (mounted) {
-                    if (result is Success<UserEntity>) {
-                      setState(() {
+        final postState = ref.watch(postProvider).post;
+        if (postState != null && postState is Success<List<PostEntity>>) {
+          setState(() {
+            users.clear();
+            posts = postState.data;
+          });
+          for (final post in posts) {
+            ref.read(userProvider.notifier).getUserById(post.userId!).listen(
+              (result) {
+                if (mounted) {
+                  if (result is Success<UserEntity>) {
+                    setState(() {
+                      if (!users.contains(result.data)) {
                         users.add(result.data);
-                      });
-                    }
+                      }
+                    });
                   }
-                },
-              );
-            }
+                }
+              },
+            );
           }
-        } catch (e) {
-          print('Error ${e.toString()}');
         }
+      } catch (e) {
+        print('Error ${e.toString()}');
       }
     });
   }
@@ -73,7 +71,6 @@ class HomeViewState extends ConsumerState<HomeView> {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Column(
             children: [
-              const Divider(),
               if (posts.isNotEmpty)
                 Expanded(
                   child: ListView.builder(
@@ -81,8 +78,8 @@ class HomeViewState extends ConsumerState<HomeView> {
                     itemBuilder: (context, index) {
                       final postIndex = posts.toList()[index];
                       if (users.isNotEmpty && index < users.length) {
-                          ownerPostUsernameUser = users[index].username;
-                          ownerPostImageUser = users[index].image;
+                        ownerPostUsernameUser = users[index].username;
+                        ownerPostImageUser = users[index].image;
                       }
                       return PostContent(
                         profileUsername: ownerPostUsernameUser,

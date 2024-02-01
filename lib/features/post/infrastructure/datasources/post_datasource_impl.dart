@@ -33,11 +33,11 @@ class PostDataSourceImpl extends PostDataSource {
     final postReference = collection.doc(postId);
 
     await postReference.delete();
-    print('post elimnado');
-    return Success('Post eliminado exitosamente');
+    print('Post deleted');
+    return Success('post-deleted');
   }on FirebaseAuthException catch (e) {
-    print('error al eliminar');
-    return Error('Error al eliminar el post: ${e.code}');
+    print('error when deleting');
+    return Error(e.code);
   }
 }
 
@@ -56,8 +56,6 @@ class PostDataSourceImpl extends PostDataSource {
           allPosts.add(postEntity);
         }
       }
-      //Sort by most recent
-      // allPosts.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       return Success(allPosts);
     } on FirebaseException catch (e) {
       return Error(e.code);
