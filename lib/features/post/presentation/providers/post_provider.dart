@@ -37,6 +37,28 @@ class PostNotifier extends StateNotifier<PostState> {
     }
   }
 
+  Future<void> deletePost(
+    String postId,
+  ) async {
+    final postToDelete = await postRepositoryImpl.deletePost(
+      postId,
+    );
+    switch (postToDelete) {
+      case Loading _:
+        state = state.copyWith(
+          post: postToDelete,
+        );
+      case Success _:
+        state = state.copyWith(
+          post: postToDelete,
+        );
+      case Error _:
+        state = state.copyWith(
+          post: postToDelete,
+        );
+    }
+  }
+
   Future<void> getAllPosts() async {
     final allPosts = await postRepositoryImpl.getAllPosts();
     switch (allPosts) {

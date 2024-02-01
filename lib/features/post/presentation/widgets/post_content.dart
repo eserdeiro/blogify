@@ -9,7 +9,8 @@ class PostContent extends StatelessWidget {
   final String description;
   final String image;
   final String title;
-  final bool   isOwner;
+  final bool isOwner;
+  final Function()? onPressedDelete;
   const PostContent({
     required this.profileUsername,
     required this.createdAt,
@@ -17,8 +18,9 @@ class PostContent extends StatelessWidget {
     required this.profileImage,
     required this.image,
     required this.title,
-    super.key, 
+    super.key,
     this.isOwner = false,
+    this.onPressedDelete,
   });
 
   @override
@@ -44,12 +46,12 @@ class PostContent extends StatelessWidget {
             ),
             const Spacer(),
             Text(createdAt),
-            if(isOwner)
-             IconButton(
-              icon: const Icon(Icons.more_horiz),
-              onPressed: () {
-                
-              },),
+            if (isOwner)
+              IconButton(
+                tooltip: 'Delete post',
+                icon: const Icon(Icons.delete_outline_rounded),
+                onPressed: onPressedDelete,
+              ),
           ],
         ),
         const SizedBox(height: 8),

@@ -2,6 +2,7 @@ import 'package:blogify/config/index.dart';
 import 'package:blogify/features/post/domain/datasources/post_datasource.dart';
 import 'package:blogify/features/post/domain/entities/post_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class PostDataSourceImpl extends PostDataSource {
   @override
@@ -15,12 +16,30 @@ class PostDataSourceImpl extends PostDataSource {
     final postId = collection.doc().id;
 
     final postReference = collection.doc(postId);
-    post.userId = userFirebaseAuth!.uid;
+    post..userId = userFirebaseAuth!.uid
+        ..postId = postId;
     await postReference.set(
       post.toJson(),
     );
     return Success('data');
   }
+
+      @override
+    Future<Resource> deletePost(String postId) async {
+  try {
+    final CollectionReference collection =
+        FirebaseHelper.firebaseFirestore.collection('Posts');
+
+    final postReference = collection.doc(postId);
+
+    await postReference.delete();
+    print('post elimnado');
+    return Success('Post eliminado exitosamente');
+  }on FirebaseAuthException catch (e) {
+    print('error al eliminar');
+    return Error('Error al eliminar el post: ${e.code}');
+  }
+}
 
   @override
   Future<Resource<List<PostEntity>>> getAllPosts() async {
@@ -69,4 +88,5 @@ class PostDataSourceImpl extends PostDataSource {
       return Stream.value(Error(e.toString()));
     }
   }
+  
 }

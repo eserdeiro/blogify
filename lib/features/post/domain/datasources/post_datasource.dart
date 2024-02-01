@@ -5,6 +5,8 @@ abstract class PostDataSource {
 
   Future<Resource> publishPost( PostEntity post,);
 
+  Future<Resource> deletePost (String postId);
+
   Future<Resource<List<PostEntity>>> getAllPosts();
 
   Stream<Resource<List<PostEntity>>> getAllPostsByUser(String userId);

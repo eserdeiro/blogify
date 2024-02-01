@@ -25,4 +25,9 @@ class PostRepositoryImpl extends PostRepository {
   Stream<Resource<List<PostEntity>>> getAllPostsByUser(String userId) {
     return datasource.getAllPostsByUser(userId);
   }
+  
+  @override
+  Future<Resource> deletePost(String postId) {
+    return datasource.deletePost(postId);
+  }
 }

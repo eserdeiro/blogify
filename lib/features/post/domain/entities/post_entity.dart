@@ -1,5 +1,6 @@
 class PostEntity {
   String? userId;
+  String? postId;
   String title;
   String description;
   bool edited;
@@ -13,10 +14,12 @@ class PostEntity {
     required this.createdAt,
     required this.image,
     this.userId,
+    this.postId,
   });
 
   factory PostEntity.fromJson(Map<String, dynamic> json) => PostEntity(
         userId: json['userId'] ?? '',
+        postId: json['postId'] ?? '',
         title: json['title'] ?? '',
         description: json['description'] ?? '',
         edited: json['edited'] ?? false,
@@ -26,6 +29,7 @@ class PostEntity {
 
   Map<String, dynamic> toJson() => {
         'userId': userId,
+        'postId': postId,
         'title': title,
         'description': description,
         'edited': edited,

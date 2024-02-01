@@ -200,7 +200,14 @@ class AccountViewState extends ConsumerState<AccountView> {
                       final postIndex = posts.reversed.toList()[index];
                       return PostContent(
                         isOwner: PostHelper.isPostCreatedByUser(
-                            postIndex.userId!, id,),
+                          postIndex.userId!,
+                          id,
+                        ),
+                        onPressedDelete: () {
+                          ref
+                              .read(postProvider.notifier)
+                              .deletePost(postIndex.postId!);
+                        },
                         profileUsername: username,
                         createdAt: timeago.format(postIndex.createdAt),
                         title: postIndex.title,
