@@ -16,7 +16,10 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 List<PostEntity> posts = [];
+List<UserEntity> users = [];
 String userId = '';
+String ownerPostUsernameUser = '';
+String ownerPostImageUser = '';
 
 class HomeViewState extends ConsumerState<HomeView> {
   @override
@@ -32,22 +35,26 @@ class HomeViewState extends ConsumerState<HomeView> {
           if (userProv is Success<String>) {
             userId = userProv.data;
           }
-          ref.read(userProvider.notifier).getUserById(userId).listen(
-            (result) {
-              if (mounted) {
-                if (result is Success<UserEntity>) {
-                  print('result ${result.data}');
-                }
-              }
-            },
-          );
 
           final postState = ref.watch(postProvider).post;
           if (postState != null && postState is Success) {
+            //Set posts
             posts = postState.data as List<PostEntity>;
+            for (final post in posts) {
+              //Get users by post
+              ref.read(userProvider.notifier).getUserById(post.userId!).listen(
+                (result) {
+                  if (mounted) {
+                    if (result is Success<UserEntity>) {
+                      users.add(result.data);
+                    }
+                  }
+                },
+              );
+            }
           }
         } catch (e) {
-          print('Error on authUserUid ${e.toString()}');
+          print('Error ${e.toString()}');
         }
       }
     });
@@ -72,12 +79,12 @@ class HomeViewState extends ConsumerState<HomeView> {
                     itemCount: posts.length,
                     itemBuilder: (context, index) {
                       final postIndex = posts.toList()[index];
-                      // ref
-                      //     .read(userProvider.notifier)
-                      //     .getUserById(postIndex.userId!);
-
-                      // final UserEntity sdf = ref.watch(userProvider).user;
-                      // print('user $sdf');
+                      if (users.isNotEmpty && index < users.length) {
+                  
+                          ownerPostUsernameUser = users[index].username;
+                          ownerPostImageUser = users[index].image;
+                     
+                      }
                       return PostContent(
                         isOwner: PostHelper.isPostCreatedByUser(
                           postIndex.userId!,
@@ -88,11 +95,11 @@ class HomeViewState extends ConsumerState<HomeView> {
                               .read(postProvider.notifier)
                               .deletePost(postIndex.postId!);
                         },
-                        profileUsername: 'username',
+                        profileUsername: ownerPostUsernameUser,
                         createdAt: timeago.format(postIndex.createdAt),
                         title: postIndex.title,
                         description: postIndex.description,
-                        profileImage: '',
+                        profileImage: ownerPostImageUser,
                         image: postIndex.image,
                       );
                     },

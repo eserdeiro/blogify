@@ -18,47 +18,34 @@ class ProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const borderWidth = 1.0;
-    final totalSize = height + borderWidth * 2;
     return SizedBox(
-      height: totalSize,
-      width: totalSize,
-      child: Container(
-        width: totalSize,
-        height: totalSize,
-        padding: const EdgeInsets.all(borderWidth), // Ajusta el espacio aquí
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: Colors.white,
-          ),
-        ),
-        child: ClipOval(
-          child: ImageViewer(
-            child: urlFileImage.isEmpty
-                //Local image
-                ? Image.asset(
-                    Strings.assetProfileUrl,
-                    fit: BoxFit.cover,
-                  )
-                //Network image
-                : urlFileImage.startsWith('https')
-                    ? Image.network(
-                        urlFileImage,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) {
-                          return Image.asset(
-                            Strings.assetProfileUrl,
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      )
-                    //Cache image
-                    : Image.file(
-                        File(urlFileImage),
-                        fit: BoxFit.cover,
-                      ),
-          ),
+      width: width,
+      height: height,
+      child: ClipOval(
+        child: ImageViewer(
+          child: urlFileImage.isEmpty
+              //Local image
+              ? Image.asset(
+                  Strings.assetProfileUrl,
+                  fit: BoxFit.cover,
+                )
+              //Network image
+              : urlFileImage.startsWith('https')
+                  ? Image.network(
+                      urlFileImage,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) {
+                        return Image.asset(
+                          Strings.assetProfileUrl,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    )
+                  //Cache image
+                  : Image.file(
+                      File(urlFileImage),
+                      fit: BoxFit.cover,
+                    ),
         ),
       ),
     );
