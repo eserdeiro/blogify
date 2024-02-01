@@ -31,22 +31,23 @@ class HomeViewState extends ConsumerState<HomeView> {
         try {
           await ref.read(postProvider.notifier).getAllPosts();
           await ref.read(userProvider.notifier).getCurrentUserId();
-          final userProv = await ref.watch(userProvider).user;
-          if (userProv is Success<String>) {
-            userId = userProv.data;
-          }
+ 
 
           final postState = ref.watch(postProvider).post;
           if (postState != null && postState is Success) {
             //Set posts
-            posts = postState.data as List<PostEntity>;
+            setState(() {
+              posts = postState.data as List<PostEntity>;
+            });
             for (final post in posts) {
               //Get users by post
               ref.read(userProvider.notifier).getUserById(post.userId!).listen(
                 (result) {
                   if (mounted) {
                     if (result is Success<UserEntity>) {
-                      users.add(result.data);
+                      setState(() {
+                        users.add(result.data);
+                      });
                     }
                   }
                 },
@@ -80,21 +81,10 @@ class HomeViewState extends ConsumerState<HomeView> {
                     itemBuilder: (context, index) {
                       final postIndex = posts.toList()[index];
                       if (users.isNotEmpty && index < users.length) {
-                  
                           ownerPostUsernameUser = users[index].username;
                           ownerPostImageUser = users[index].image;
-                     
                       }
                       return PostContent(
-                        isOwner: PostHelper.isPostCreatedByUser(
-                          postIndex.userId!,
-                          userId,
-                        ),
-                        onPressedDelete: () {
-                          ref
-                              .read(postProvider.notifier)
-                              .deletePost(postIndex.postId!);
-                        },
                         profileUsername: ownerPostUsernameUser,
                         createdAt: timeago.format(postIndex.createdAt),
                         title: postIndex.title,
