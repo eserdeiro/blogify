@@ -6,7 +6,6 @@ class UserEntity {
   String lastname;
   String username;
   String image;
-  //List<PostEntity>? posts;
 
   UserEntity({
     required this.id,
@@ -16,7 +15,6 @@ class UserEntity {
     required this.lastname,
     required this.username,
     required this.image,
-   // this.posts,
   });
 
   factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
@@ -27,13 +25,6 @@ class UserEntity {
         lastname: json['lastname'] ?? '',
         username: json['username'] ?? '',
         image: json['image'] ?? '',
-      //   posts: json['posts'] == null
-      //       ? []
-      //       : List<PostEntity>.from(
-      //           (json['posts'] as List<dynamic>).map(
-      //             (postJson) => PostEntity.fromJson(postJson),
-      //           ),
-      //         ),
       );
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -42,8 +33,5 @@ class UserEntity {
         'lastname': lastname,
         'username': username,
         'image': image,
-      //   'posts':
-      //       posts == null ? [] : List<PostEntity>.from(posts!.map((x) => x)),
-      //
        };
 }

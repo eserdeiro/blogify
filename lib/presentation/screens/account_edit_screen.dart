@@ -101,9 +101,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                       label: Strings.name,
                       initialValue: nameController.text,
                       onChanged: userEditNotifier.onNameChange,
-                      errorText: userEditForm.isFormPosted
-                          ? userEditForm.name.errorMessage
-                          : null,
+                      errorText: userEditForm.name.errorMessage,
                       prefixIcon: const Icon(Icons.person),
                     ),
                   ),
@@ -113,9 +111,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                       label: Strings.lastname,
                       initialValue: lastnameController.text,
                       onChanged: userEditNotifier.onLastnameChange,
-                      errorText: userEditForm.isFormPosted
-                          ? userEditForm.lastname.errorMessage
-                          : null,
+                      errorText: userEditForm.lastname.errorMessage,
                       prefixIcon: const Icon(Icons.person),
                     ),
                   ),
@@ -126,9 +122,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                 label: Strings.username,
                 initialValue: usernameController.text,
                 onChanged: userEditNotifier.onUsernameChange,
-                errorText: userEditForm.isFormPosted
-                    ? userEditForm.username.errorMessage
-                    : null,
+                errorText: userEditForm.username.errorMessage,
                 prefixIcon: const Icon(Icons.account_circle),
               ),
               const SizedBox(height: 12),
@@ -136,9 +130,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                 label: Strings.email,
                 initialValue: emailController.text,
                 onChanged: userEditNotifier.onEmailChange,
-                errorText: userEditForm.isFormPosted
-                    ? userEditForm.email.errorMessage
-                    : null,
+                errorText: userEditForm.email.errorMessage,
                 prefixIcon: const Icon(Icons.mail_outlined),
               ),
               Padding(
