@@ -1,38 +1,108 @@
+import 'package:blogify/config/index.dart';
+import 'package:blogify/features/auth/domain/index.dart';
+import 'package:blogify/features/auth/presentation/providers/user_provider.dart';
+import 'package:blogify/features/post/domain/entities/post_entity.dart';
 import 'package:blogify/features/post/presentation/index.dart';
+import 'package:blogify/features/post/presentation/providers/post_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class HomeView extends StatelessWidget {
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
   @override
+  HomeViewState createState() => HomeViewState();
+}
+
+List<PostEntity> posts = [];
+String userId = '';
+
+class HomeViewState extends ConsumerState<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration.zero, () async {
+      if (mounted) {
+        try {
+          await ref.read(postProvider.notifier).getAllPosts();
+          await ref.read(userProvider.notifier).getCurrentUserId();
+          final userProv = await ref.watch(userProvider).user;
+          if (userProv is Success<String>) {
+            userId = userProv.data;
+          }
+          ref.read(userProvider.notifier).getUserById(userId).listen(
+            (result) {
+             if(mounted){
+               if (result is Success<UserEntity>) {
+                print('result ${result.data}');
+              }
+             }
+            },
+          );
+        } catch (e) {
+          print('Error on authUserUid ${e.toString()}');
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final postState = ref.watch(postProvider).post;
+    // final userIdState = ref.watch(userProvider).user;
+    //   print('userid state ${userIdState}');
+    if (postState != null && postState is Success) {
+      posts = postState.data as List<PostEntity>;
+      print('post state ${postState.data}');
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home screen'),
       ),
-      body: SingleChildScrollView(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                children: [
-                  PostContent(
-                    profileImage:
-                        'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2Fe0zqL1VrxIYBhLXDZA5esw9lE5r1%2FVoftmQ?alt=media&token=b96089b9-cdba-4eb9-a9d5-0f95b58b0a40',
-                    profileUsername: 'eserdeiro',
-                    createdAt: timeago.format(DateTime.now()),
-                    title: 'ejej',
-                    description:
-                        'Laboris exercitation ea fugiat labore id amet consequat esse. Irure aliqua culpa exercitation do. Magna deserunt proident nisi ad occaecat. Eu excepteur exercitation irure labore est quis voluptate consectetur. Elit culpa proident enim cillum laboris deserunt consequat velit veniam ut. Tempor do Lorem cillum proident nulla ullamco magna cillum sit ex aliqua.',
-                    image:
-                        'https://firebasestorage.googleapis.com/v0/b/blogify-66154.appspot.com/o/Users%2Fe0zqL1VrxIYBhLXDZA5esw9lE5r1%2FVoftmQ?alt=media&token=b96089b9-cdba-4eb9-a9d5-0f95b58b0a40',
+      body: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            children: [
+              const Divider(),
+              if (posts.isNotEmpty)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: posts.length,
+                    itemBuilder: (context, index) {
+                      final postIndex = posts.toList()[index];
+                      // ref
+                      //     .read(userProvider.notifier)
+                      //     .getUserById(postIndex.userId!);
+
+                      // final UserEntity sdf = ref.watch(userProvider).user;
+                      // print('user $sdf');
+                      return PostContent(
+                        isOwner: PostHelper.isPostCreatedByUser(
+                          postIndex.userId!,
+                          userId,
+                        ),
+                        onPressedDelete: () {
+                          ref
+                              .read(postProvider.notifier)
+                              .deletePost(postIndex.postId!);
+                        },
+                        profileUsername: 'username',
+                        createdAt: timeago.format(postIndex.createdAt),
+                        title: postIndex.title,
+                        description: postIndex.description,
+                        profileImage: '',
+                        image: postIndex.image,
+                      );
+                    },
                   ),
-                ],
-              ),
-            );
-          },
+                ),
+            ],
+          ),
         ),
       ),
     );

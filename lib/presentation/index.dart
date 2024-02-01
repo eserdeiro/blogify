@@ -1,8 +1,7 @@
 export 'package:blogify/presentation/screens/account_edit_screen.dart'; 
 export 'package:blogify/presentation/screens/error_screen.dart';
 export 'package:blogify/presentation/screens/home_screen.dart';
-export 'package:blogify/presentation/views/account_view.dart';
-export 'package:blogify/presentation/views/home_view.dart';
+export 'package:blogify/presentation/views/account_view.dart'; 
 export 'package:blogify/presentation/widgets/custom_expansion_tile.dart';
 export 'package:blogify/presentation/widgets/custom_text_form_field.dart';
 export 'package:blogify/presentation/widgets/shared/app_title.dart';

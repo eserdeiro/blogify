@@ -80,6 +80,7 @@ class PostDataSourceImpl extends PostDataSource {
               (post) => PostEntity.fromJson(post.data()),
             )
             .toList();
+          
         return Success(dataMap);
       });
     } on FirebaseException catch (e) {

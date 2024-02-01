@@ -59,7 +59,7 @@ class PostNotifier extends StateNotifier<PostState> {
     }
   }
 
-  Future<void> getAllPosts() async {
+  Future<Resource<List<PostEntity>>> getAllPosts() async {
     final allPosts = await postRepositoryImpl.getAllPosts();
     switch (allPosts) {
       case Loading _:
@@ -75,6 +75,7 @@ class PostNotifier extends StateNotifier<PostState> {
           post: allPosts,
         );
     }
+    return allPosts;
   }
 
   Stream<Resource<List<PostEntity>>> getAllPostsByUserId(
