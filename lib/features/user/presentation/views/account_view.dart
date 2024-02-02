@@ -1,9 +1,8 @@
-import 'package:blogify/config/index.dart'; 
+import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
-import 'package:blogify/features/post/domain/index.dart'; 
+import 'package:blogify/features/post/domain/index.dart';
 import 'package:blogify/features/post/presentation/index.dart';
-import 'package:blogify/features/user/domain/index.dart';
-import 'package:blogify/features/user/presentation/index.dart'; 
+import 'package:blogify/features/user/presentation/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -55,14 +54,14 @@ class AccountViewState extends ConsumerState<AccountView> {
   Future<void> authUserId(BuildContext currentContext) async {
     final userIdResource =
         await ref.read(userProvider.notifier).getCurrentUserId();
-    if (userIdResource is Success<String>) {
+    if (userIdResource.status == ResourceStatus.success) {
       final currentUserId = userIdResource.data;
-      ref.read(userProvider.notifier).getUserById(currentUserId).listen(
+      ref.read(userProvider.notifier).getUserById(currentUserId!).listen(
         (result) {
-          if (result is Success<UserEntity>) {
+          if (result.status == ResourceStatus.success) {
             if (mounted) {
               setState(() {
-                final resultData = result.data;
+                final resultData = result.data!;
                 username = resultData.username;
                 name = resultData.name;
                 lastname = resultData.lastname;
@@ -77,22 +76,28 @@ class AccountViewState extends ConsumerState<AccountView> {
                 imageController.text = image;
               });
             }
-          } else if (result is Error<dynamic>) {
-            showSnackBar(context, (result as Error).getErrorMessage());
+          } else if (result.status == ResourceStatus.error) {
+            showSnackBar(
+              context,
+              Resource.getErrorMessage(result.status, result.error),
+            );
           }
         },
       );
       ref.read(postProvider.notifier).getAllPostsByUserId(currentUserId).listen(
         (result) {
-          if (result is Success<List<PostEntity>>) {
+          if (result.status == ResourceStatus.success) {
             if (mounted) {
               setState(() {
                 final resultData = result.data;
-                posts = PostHelper.sortByRecentness(resultData);
+                posts = PostHelper.sortByRecentness(resultData!);
               });
             }
-          } else if (result is Error<dynamic>) {
-            showSnackBar(context, (result as Error).getErrorMessage());
+          } else if (result.status == ResourceStatus.error) {
+            showSnackBar(
+              context,
+              Resource.getErrorMessage(result.status, result.error),
+            );
           }
         },
       );

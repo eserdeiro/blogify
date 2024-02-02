@@ -1,6 +1,6 @@
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/post/domain/index.dart';
-import 'package:blogify/features/post/presentation/index.dart'; 
+import 'package:blogify/features/post/presentation/index.dart';
 import 'package:blogify/features/user/domain/index.dart';
 import 'package:blogify/features/user/presentation/index.dart';
 import 'package:flutter/material.dart';
@@ -30,22 +30,21 @@ class HomeViewState extends ConsumerState<HomeView> {
         await ref.read(postProvider.notifier).getAllPosts();
 
         final postState = ref.watch(postProvider).post;
-        if (postState != null && postState is Success<List<PostEntity>>) {
+        if (postState is Resource<List<PostEntity>>) {
           setState(() {
             users.clear();
-            posts = postState.data;
+            posts = postState.data!;
           });
           for (final post in posts) {
             ref.read(userProvider.notifier).getUserById(post.userId!).listen(
               (result) {
-                if (mounted) {
-                  if (result is Success<UserEntity>) {
-                    setState(() {
-                      if (!users.contains(result.data)) {
-                        users.add(result.data);
-                      }
-                    });
-                  }
+                if (mounted &&
+                    result.status == ResourceStatus.success) {
+                  setState(() {
+                    if (!users.contains(result.data)) {
+                      users.add(result.data!);
+                    }
+                  });
                 }
               },
             );

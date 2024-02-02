@@ -6,33 +6,42 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class PostDataSourceImpl extends PostDataSource {
   @override
-  Future<Resource> publishPost(PostEntity post) async {
-    //Publish post into Posts/postid/ postdata:
-    final CollectionReference collection =
-        FirebaseHelper.firebaseFirestore.collection('Posts');
-    final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
+  @override
+  Future<Resource<String>> publishPost(PostEntity post) async {
+    try {
+      final CollectionReference collection =
+          FirebaseHelper.firebaseFirestore.collection('Posts');
 
-    final postImage = await FirebaseHelper.uploadImageAndReturnUrl(
-      post.image,
-      'Posts',
-      userFirebaseAuth!.uid,
-    );
+      final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
 
-    final postId = collection.doc().id;
+      final postImage = await FirebaseHelper.uploadImageAndReturnUrl(
+        post.image,
+        'Posts',
+        userFirebaseAuth!.uid,
+      );
 
-    final postReference = collection.doc(postId);
-    post
-      ..userId = userFirebaseAuth.uid
-      ..postId = postId
-      ..image = postImage;
-    await postReference.set(
-      post.toJson(),
-    );
-    return Success('data');
+      final postId = collection.doc().id;
+
+      final postReference = collection.doc(postId);
+
+      post
+        ..userId = userFirebaseAuth.uid
+        ..postId = postId
+        ..image = postImage;
+
+      // Guardar el post en la colección
+      await postReference.set(
+        post.toJson(),
+      );
+
+      return Resource<String>(ResourceStatus.success, data: 'data');
+    } catch (e) {
+      return Resource<String>(ResourceStatus.error, error: e.toString());
+    }
   }
 
   @override
-  Future<Resource> deletePost(String postId) async {
+  Future<Resource<String>> deletePost(String postId) async {
     try {
       final CollectionReference collection =
           FirebaseHelper.firebaseFirestore.collection('Posts');
@@ -41,10 +50,10 @@ class PostDataSourceImpl extends PostDataSource {
 
       await postReference.delete();
       print('Post deleted');
-      return Success('post-deleted');
+      return Resource<String>(ResourceStatus.success, data: 'post-deleted');
     } on FirebaseAuthException catch (e) {
       print('Error deleting');
-      return Error(e.code);
+      return Resource<String>(ResourceStatus.error, error: e.code);
     }
   }
 
@@ -63,9 +72,9 @@ class PostDataSourceImpl extends PostDataSource {
           allPosts.add(postEntity);
         }
       }
-      return Success(allPosts);
+      return Resource<List<PostEntity>>(ResourceStatus.success, data: allPosts);
     } on FirebaseException catch (e) {
-      return Error(e.code);
+      return Resource<List<PostEntity>>(ResourceStatus.error, error: e.code);
     }
   }
 
@@ -86,12 +95,25 @@ class PostDataSourceImpl extends PostDataSource {
             )
             .toList();
 
-        return Success(dataMap);
+        return Resource<List<PostEntity>>(
+          ResourceStatus.success,
+          data: dataMap,
+        );
       });
     } on FirebaseException catch (e) {
-      return Stream.value(Error(e.code));
+      return Stream.value(
+        Resource<List<PostEntity>>(
+          ResourceStatus.error,
+          error: e.code,
+        ),
+      );
     } catch (e) {
-      return Stream.value(Error(e.toString()));
+      return Stream.value(
+        Resource<List<PostEntity>>(
+          ResourceStatus.error,
+          error: e.toString(),
+        ),
+      );
     }
   }
 }

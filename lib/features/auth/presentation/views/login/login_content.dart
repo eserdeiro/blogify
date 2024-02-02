@@ -13,13 +13,19 @@ class LoginContent extends ConsumerWidget {
     ref.watch(authProvider.notifier).checkAuthStatus();
 
     ref.listen(authProvider, (previous, next) {
-      switch (next.user) {
-        case Success _:
-        context.go(Strings.homeViewUrl);
-          return;
-        case Error _:
-          showSnackBar(context, (next.user! as Error).getErrorMessage());
-        case Loading _:
+      switch (next.user?.status) {
+        case ResourceStatus.success:
+          context.go(Strings.homeViewUrl);
+        case ResourceStatus.error:
+          showSnackBar(
+            context,
+            Resource.getErrorMessage(next.user!.status, next.user!.error),
+          );
+        case ResourceStatus.loading:
+          print('loadingg..');
+        default:
+          // Puedes manejar otros estados si es necesario
+          break;
       }
     });
     final loginForm = ref.watch(loginFormProvider);

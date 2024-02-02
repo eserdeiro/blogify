@@ -20,42 +20,32 @@ class UserNotifier extends StateNotifier<UserState> {
     );
     return userRepositoryImpl.getUserById(id);
   }
-  
-    Future<Resource<String>> getCurrentUserId() {
+
+  Future<Resource<String>> getCurrentUserId() {
     state = state.copyWith(
       user: userRepositoryImpl.getCurrentUserId(),
     );
     return userRepositoryImpl.getCurrentUserId();
   }
 
-   void setError(String errorMessage) {
+  void setError(String errorMessage) {
     state = state.copyWith(
-      user: Error(errorMessage),
+      user: Resource<String>(
+        ResourceStatus.error,
+        error: errorMessage,
+      ),
     );
   }
 
-  Future<void> edit(UserEntity user) async {
+  Future<Resource> edit(UserEntity user) async {
     final userEdit = await userRepositoryImpl.edit(user);
-    switch (userEdit) {
-      case Loading _:
-        state = state.copyWith(
-          user: userEdit,
-          userStatus: UserStatus.checking,
-        );
-      case Success _:
-        state = state.copyWith(
-          user: userEdit,
-          userStatus: UserStatus.authenticated,
-        );
-      case Error _:
-        state = state.copyWith(
-          user: userEdit,
-          userStatus: UserStatus.notAuthenticated,
-        );
-    }
+    state = state.copyWith(
+      user: userEdit,
+    );
+    return userEdit;
   }
 
-   Future<Resource> delete(String password) {
+  Future<Resource> delete(String password) {
     state = state.copyWith(
       user: userRepositoryImpl.deleteUser(password),
     );
@@ -63,23 +53,17 @@ class UserNotifier extends StateNotifier<UserState> {
   }
 }
 
-enum UserStatus { checking, authenticated, notAuthenticated }
-
 class UserState {
-  final UserStatus userStatus;
   final dynamic user;
 
   UserState({
-    this.userStatus = UserStatus.checking,
     this.user,
   });
 
   UserState copyWith({
-    UserStatus? userStatus,
     dynamic user,
   }) =>
       UserState(
-        userStatus: userStatus ?? this.userStatus,
         user: user ?? this.user,
       );
 }

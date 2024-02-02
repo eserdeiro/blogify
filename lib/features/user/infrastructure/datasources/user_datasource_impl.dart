@@ -17,10 +17,13 @@ class UserDatasourceImpl extends UserDatasource {
       final userData = document.data();
       if (userData != null) {
         final userEntity = UserEntity.fromJson(userData);
-        return Success(userEntity);
+        return Resource<UserEntity>(ResourceStatus.success, data: userEntity);
       } else {
         // Fix
-        return Init('Ignore this momntly');
+        return Resource<UserEntity>(
+          ResourceStatus.init,
+          error: 'ignore this momently',
+        );
       }
     });
   }
@@ -29,14 +32,15 @@ class UserDatasourceImpl extends UserDatasource {
   Future<Resource<String>> getCurrentUserId() async {
     try {
       final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
-      return Success(userFirebaseAuth!.uid);
+      final uid = userFirebaseAuth!.uid;
+      return Resource<String>(ResourceStatus.success, data: uid);
     } on FirebaseException catch (e) {
-      return Error(e.code);
+      return Resource<String>(ResourceStatus.error, error: e.code);
     }
   }
 
   @override
-  Future<Resource> edit(UserEntity user) async {
+  Future<Resource<String>> edit(UserEntity user) async {
     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
     final userUid = userFirebaseAuth!.uid;
     if (user.image.isNotEmpty) {
@@ -47,7 +51,7 @@ class UserDatasourceImpl extends UserDatasource {
       );
     }
 
-    final completer = Completer<Resource>();
+    final completer = Completer<Resource<String>>();
     final CollectionReference usersCollection =
         FirebaseHelper.firebaseFirestore.collection(Strings.usersCollection);
     final emailExists = await FirebaseHelper.isDataInCollection(
@@ -62,9 +66,15 @@ class UserDatasourceImpl extends UserDatasource {
     );
 
     if (usernameExists) {
-      return Error('username-already-in-use');
+      return Resource<String>(
+        ResourceStatus.error,
+        error: 'username-already-in-use',
+      );
     } else if (emailExists) {
-      return Error('email-already-in-use');
+      return Resource<String>(
+        ResourceStatus.error,
+        error: 'email-already-in-use',
+      );
     } else {
       final map = <String, dynamic>{
         'id': userUid,
@@ -84,19 +94,22 @@ class UserDatasourceImpl extends UserDatasource {
           .doc(userUid)
           .update(map)
           .then((value) {
-            completer.complete(Success(''));
+            completer.complete(
+              Resource<String>(ResourceStatus.success, data: 'dataMap'),
+            );
           })
           .timeout(const Duration(seconds: 5))
           .catchError((e) {
-            completer.complete(Error(e.toString()));
+            completer.complete(
+              Resource<String>(ResourceStatus.error, error: e.toString()),
+            );
           });
-
       return completer.future;
     }
   }
 
   @override
-  Future<Resource> deleteUser(String password) async {
+  Future<Resource<String>> deleteUser(String password) async {
     final currentUser = FirebaseHelper.firebaseAuth.currentUser!;
     final CollectionReference usersCollection =
         FirebaseHelper.firebaseFirestore.collection(Strings.usersCollection);
@@ -109,16 +122,15 @@ class UserDatasourceImpl extends UserDatasource {
           password: password,
         ),
       );
-
       await usersCollection.doc(currentUserUid).delete();
       await currentUser.delete();
-      return Success('account-deleted');
+      return Resource<String>(ResourceStatus.success, data: 'account-deleted');
     } on FirebaseAuthException catch (e) {
       print('Error reauth: ${e.message} ${e.code}');
-      return Error(e.code);
+      return Resource<String>(ResourceStatus.error, error: e.code);
     } catch (e) {
       print('Error $e');
-      return Error(e.toString());
+      return Resource<String>(ResourceStatus.error, error: e.toString());
     }
   }
 }

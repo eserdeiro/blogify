@@ -20,8 +20,6 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
     _formKey.currentState?.reset();
   }
 
-  
-
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -44,14 +42,20 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
     }
 
     ref.listen(userProvider, (previous, next) {
-      switch (next.user) {
-        case Success _:
+      switch (next.user?.status) {
+        case ResourceStatus.success:
           showSnackBar(context, 'Updated data');
-          return;
-        case Error _:
-          showSnackBar(context, (next.user! as Error).getErrorMessage());
-        case Loading _:
-        //TODO ADD LOADING
+        case ResourceStatus.error:
+          showSnackBar(
+            context,
+            Resource.getErrorMessage(next.user!.status, next.user!.error),
+          );
+        case ResourceStatus.loading:
+          
+          break;
+        default:
+          
+          break;
       }
     });
 
@@ -150,8 +154,8 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
               ),
               CustomElevatedButton(
                 text: 'Delete account',
-                onPressed: () async{
-                    final providerNotifier = ref.watch(userProvider.notifier);
+                onPressed: () async {
+                  final providerNotifier = ref.watch(userProvider.notifier);
                   await showDialogDeleteAccount(context, providerNotifier);
                 },
                 backgroundColor: colors.error,

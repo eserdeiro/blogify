@@ -54,10 +54,9 @@ class FirebaseHelper {
     final firebaseAuth = FirebaseAuth.instance;
     final userFirebaseAuth = firebaseAuth.currentUser;
     if (userFirebaseAuth != null) {
-      //cambiar update email por verifyBeforeUpdateEmail
-      //, y agregar la validacion de correo
+      //Change updateEmail from verifyBeforeUpdateEmail
       await userFirebaseAuth.updateEmail(newEmail).onError((error, _) {
-        Error(error.toString());
+        Resource(ResourceStatus.error, error: error.toString());
       });
     }
   }

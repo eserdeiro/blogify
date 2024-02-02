@@ -12,15 +12,21 @@ class RegisterContent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(authProvider.notifier).checkAuthStatus();
     ref.listen(authProvider, (previous, next) {
-      switch (next.user) {
-        case Success _:
+      switch (next.user?.status) {
+        case ResourceStatus.success:
           context.go(Strings.homeViewUrl);
-          return;
-        case Error _:
-          showSnackBar(context, (next.user! as Error).getErrorMessage());
-        case Loading _:
+        case ResourceStatus.error:
+          showSnackBar(
+            context,
+            Resource.getErrorMessage(next.user!.status, next.user!.error),
+          );
+        case ResourceStatus.loading:
+          break;
+        default:
+          break;
       }
     });
+
     final titleStyle = Theme.of(context).textTheme;
     final registerForm = ref.watch(registerFormProvider);
     final registerFormNotifier = ref.read(registerFormProvider.notifier);

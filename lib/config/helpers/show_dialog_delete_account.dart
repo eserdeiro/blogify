@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:blogify/config/index.dart';
+import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/features/user/presentation/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart'; 
@@ -13,7 +14,7 @@ Future<void> showDialogDeleteAccount(
   final passwordController = TextEditingController();
 
   final currentContext =
-      context; // Captura el contexto antes de la llamada asíncrona
+      context;
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -49,14 +50,18 @@ Future<void> showDialogDeleteAccount(
                 backgroundColor: colors.error,
                 text: 'Confirm',
                 onPressed: () async {
-                  currentContext.pop(); // Usa el contexto capturado
+                  currentContext.pop();
                   final result =
                       await providerNotifier.delete(passwordController.text);
                       
-                  if (result is Success &&
+                if (result.status == ResourceStatus.success &&
                       result.data is String &&
                       result.data == 'account-deleted') {
                     Future.delayed(Duration.zero, () {
+                      showSnackBar(
+                        currentContext,
+                        Resource.getErrorMessage(result.status, result.error),
+                      );
                       currentContext.push(Strings.loginUrl);
                     });
                   }

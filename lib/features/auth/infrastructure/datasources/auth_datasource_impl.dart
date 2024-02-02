@@ -13,30 +13,37 @@ class AuthDatasourceImpl extends AuthDataSource {
   }
 
   @override
-  Future<Resource> checkAuthStatus() async {
-    final user = FirebaseHelper.firebaseAuth.currentUser;
-    if (user != null) {
-      return Success(user);
-    } else {
-      return Init('');
+  Future<Resource<User?>> checkAuthStatus() async {
+    try {
+      final user = FirebaseHelper.firebaseAuth.currentUser;
+      if (user != null) {
+        return Resource<User?>(ResourceStatus.success, data: user);
+      } else {
+        // Indicar que no hay usuario autenticado (init)
+        return Resource<User?>(ResourceStatus.init);
+      }
+    } catch (e) {
+      // Indicar que hubo un error durante la autenticación (error)
+      return Resource<User?>(ResourceStatus.error, error: e.toString());
     }
   }
 
   @override
-  Future<Resource> login(String email, String password) async {
+  Future<Resource<UserCredential?>> login(String email, String password) async {
     try {
       final data = await FirebaseHelper.firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return Success(data);
+
+      return Resource<UserCredential?>(ResourceStatus.success, data: data);
     } on FirebaseAuthException catch (e) {
-      return Error(e.code);
+      return Resource<UserCredential?>(ResourceStatus.error, error: e.code);
     }
   }
 
   @override
-  Future<Resource> register(UserEntity user) async {
+  Future<Resource<UserCredential>> register(UserEntity user) async {
     try {
       final usernameExists = await FirebaseHelper.isDataInCollection(
         Strings.usersCollection,
@@ -57,12 +64,15 @@ class AuthDatasourceImpl extends AuthDataSource {
         await usersCollection.doc(data.user?.uid ?? '').set(
               user.toJson(),
             );
-        return Success(data);
+        return Resource<UserCredential>(ResourceStatus.success, data: data);
       } else {
-        return Error('username-already-in-use');
+        return Resource<UserCredential>(
+          ResourceStatus.error,
+          error: 'username-already-in-use',
+        );
       }
     } on FirebaseAuthException catch (e) {
-      return Error(e.code);
+      return Resource<UserCredential>(ResourceStatus.error, error: e.code);
     }
   }
 }

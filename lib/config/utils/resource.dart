@@ -1,27 +1,14 @@
-abstract class Resource<T> {
-  Resource();
-}
+enum ResourceStatus { loading, success, error, init }
 
-class Init<T> extends Resource<T> {
-  final String data;
-  Init(this.data);
-}
+class Resource<T> {
+  final ResourceStatus status;
+  final T? data;
+  final String? error;
 
-class Loading extends Resource {
-  Loading();
-}
+  Resource(this.status, {this.data, this.error});
 
-class Success<T> extends Resource<T> {
-  final T data;
-  Success(this.data);
-}
-
-class Error<T> extends Resource<T> {
-  final String error;
-
-  Error(this.error);
-
-  String getErrorMessage() {
+  static String getErrorMessage(ResourceStatus status, String? error) {
+  if (status == ResourceStatus.error && error != null) {
     switch (error) {
       case 'network-request-failed':
         return 'Timeout';
@@ -37,13 +24,16 @@ class Error<T> extends Resource<T> {
         return 'The photo could not be selected';
       case 'too-many-requests':
         return 'Too many requests';
-      case 'wrong-password': 
-        return 'Incorrect passowrd'; 
-      case 'user-not-found': 
-        return 'User not found'; 
+      case 'wrong-password':
+        return 'Incorrect password';
+      case 'user-not-found':
+        return 'User not found';
       default:
         print('Error resource $error');
         return 'Something went wrong';
     }
+  } else {
+    return ''; // No send error message when is other status
   }
+}
 }
