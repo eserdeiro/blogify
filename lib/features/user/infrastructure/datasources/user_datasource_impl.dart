@@ -43,17 +43,13 @@ class UserDatasourceImpl extends UserDatasource {
   Future<Resource<String>> edit(UserEntity user) async {
     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
     final userUid = userFirebaseAuth!.uid;
-    print('user image is not empty? 1 ${user.image.trim().isNotEmpty}');
     if (user.image.isNotEmpty) {
-      print('user image is not empty ${user.image.trim().isNotEmpty}');
       user.image = await FirebaseHelper.uploadImageAndReturnUrl(
         user.image,
         Strings.usersCollection,
         userUid,
       );
     }
-    print('user image db ${user.image}');
-
     final completer = Completer<Resource<String>>();
     final CollectionReference usersCollection =
         FirebaseHelper.firebaseFirestore.collection(Strings.usersCollection);

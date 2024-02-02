@@ -148,6 +148,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
                       lastnameController.text,
                       usernameController.text,
                       emailController.text,
+                      imageController.text,
                     );
                   },
                 ),

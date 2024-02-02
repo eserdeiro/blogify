@@ -80,14 +80,18 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
     String initialLastname,
     String initialUsername,
     String initialEmail,
+    String initImage,
   ) async {
     validateEveryone(
       initialName,
       initialLastname,
       initialUsername,
       initialEmail,
+      initImage,
     );
+
     if (!state.isValid) return;
+        print('state ${state.toString()}');
     await userEditCallback(
       UserEntity(
         id: '',
@@ -106,6 +110,7 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
     String initialLastname,
     String initialUsername,
     String initialEmail,
+    String initialImage,
   ) {
     final name = state.name.value.isEmpty
         ? Name.dirty(initialName)
@@ -119,6 +124,9 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
     final email = state.email.value.isEmpty
         ? Email.dirty(initialEmail)
         : Email.dirty(state.email.value);
+    final image = state.image.isEmpty ? 
+    initialImage : state.image;
+
     state = state.copyWith(
       isFormPosted: true,
       isValid: Formz.validate([email, name, lastname, username]),
@@ -126,6 +134,7 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
       lastname: lastname,
       username: username,
       email: email,
+      image: image,
     );
   }
 }
@@ -179,6 +188,7 @@ name: $name
 lastname: $lastname
 username: $username
 email: $email
+image: $image
 ''';
   }
 }
