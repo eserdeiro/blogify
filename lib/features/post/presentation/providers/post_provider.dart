@@ -15,7 +15,7 @@ class PostNotifier extends StateNotifier<PostState> {
 
   PostNotifier({required this.postRepositoryImpl}) : super(PostState());
 
-  Future<Resource> publish(
+  Future<Resource<String>> publish(
     PostEntity post,
   ) async {
     final publishPost = await postRepositoryImpl.publishPost(

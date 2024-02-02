@@ -91,7 +91,6 @@ class UserEditFormNotifier extends StateNotifier<UserEditFormState> {
     );
 
     if (!state.isValid) return;
-        print('state ${state.toString()}');
     await userEditCallback(
       UserEntity(
         id: '',

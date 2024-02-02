@@ -12,7 +12,7 @@ class PostRepositoryImpl extends PostRepository {
   }) : datasource = datasource ?? PostDataSourceImpl();
 
   @override
-  Future<Resource> publishPost(PostEntity post) {
+  Future<Resource<String>> publishPost(PostEntity post) {
     return datasource.publishPost(post);
   }
   

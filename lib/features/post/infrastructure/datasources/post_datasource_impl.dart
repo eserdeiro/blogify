@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/post/domain/datasources/post_datasource.dart';
 import 'package:blogify/features/post/domain/entities/post_entity.dart';
@@ -34,27 +36,33 @@ class PostDataSourceImpl extends PostDataSource {
         post.toJson(),
       );
 
-      return Resource<String>(ResourceStatus.success, data: 'data');
+      return Resource<String>(
+        ResourceStatus.success,
+        data: 'post-created-successfully',
+      );
     } catch (e) {
-      return Resource<String>(ResourceStatus.error, error: e.toString());
+      return Resource<String>(ResourceStatus.error, message: e.toString());
     }
   }
 
   @override
   Future<Resource<String>> deletePost(String postId) async {
-    try {
-      final CollectionReference collection =
-          FirebaseHelper.firebaseFirestore.collection('Posts');
+    final completer = Completer<Resource<String>>();
 
-      final postReference = collection.doc(postId);
+    final CollectionReference collection =
+        FirebaseHelper.firebaseFirestore.collection('Posts');
+    final postReference = collection.doc(postId);
+    await postReference
+        .delete()
+        .then((value) => completer.complete(
+            Resource<String>(ResourceStatus.success, message: 'post-deleted')))
+        .timeout(const Duration(seconds: 10))
+        .catchError((e) {
+      completer.complete(
+          Resource<String>(ResourceStatus.error, message: e.toString()));
+    });
 
-      await postReference.delete();
-      print('Post deleted');
-      return Resource<String>(ResourceStatus.success, data: 'post-deleted');
-    } on FirebaseAuthException catch (e) {
-      print('Error deleting');
-      return Resource<String>(ResourceStatus.error, error: e.code);
-    }
+    return completer.future;
   }
 
   @override
@@ -74,7 +82,7 @@ class PostDataSourceImpl extends PostDataSource {
       }
       return Resource<List<PostEntity>>(ResourceStatus.success, data: allPosts);
     } on FirebaseException catch (e) {
-      return Resource<List<PostEntity>>(ResourceStatus.error, error: e.code);
+      return Resource<List<PostEntity>>(ResourceStatus.error, message: e.code);
     }
   }
 
@@ -104,14 +112,14 @@ class PostDataSourceImpl extends PostDataSource {
       return Stream.value(
         Resource<List<PostEntity>>(
           ResourceStatus.error,
-          error: e.code,
+          message: e.code,
         ),
       );
     } catch (e) {
       return Stream.value(
         Resource<List<PostEntity>>(
           ResourceStatus.error,
-          error: e.toString(),
+          message: e.toString(),
         ),
       );
     }

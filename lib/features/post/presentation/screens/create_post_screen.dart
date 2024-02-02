@@ -1,4 +1,5 @@
 import 'package:blogify/config/index.dart';
+import 'package:blogify/features/auth/presentation/index.dart';
 import 'package:blogify/features/post/presentation/index.dart';
 import 'package:blogify/infrastructure/index.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,22 @@ class CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         print('Catch $e');
       }
     }
+
+    ref.listen(postProvider, (previous, next) {
+      if (next.post is Resource<String>) {
+        switch (next.post.status) {
+          case ResourceStatus.success:
+            showSnackBar(context, next.post.data);
+          case ResourceStatus.error:
+            showSnackBar(
+              context,
+              Resource.getMessage(next.post!.message),
+            );
+          case ResourceStatus.loading:
+            break;
+        }
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(

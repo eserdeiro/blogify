@@ -48,13 +48,11 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
         case ResourceStatus.error:
           showSnackBar(
             context,
-            Resource.getErrorMessage(next.user!.status, next.user!.error),
+            Resource.getMessage(next.user!.error),
           );
-        case ResourceStatus.loading:
-          
+        case ResourceStatus.loading: 
           break;
         default:
-          
           break;
       }
     });

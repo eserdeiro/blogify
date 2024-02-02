@@ -79,7 +79,7 @@ class AccountViewState extends ConsumerState<AccountView> {
           } else if (result.status == ResourceStatus.error) {
             showSnackBar(
               context,
-              Resource.getErrorMessage(result.status, result.error),
+              Resource.getMessage(result.message),
             );
           }
         },
@@ -96,7 +96,7 @@ class AccountViewState extends ConsumerState<AccountView> {
           } else if (result.status == ResourceStatus.error) {
             showSnackBar(
               context,
-              Resource.getErrorMessage(result.status, result.error),
+              Resource.getMessage(result.message),
             );
           }
         },
@@ -118,6 +118,23 @@ class AccountViewState extends ConsumerState<AccountView> {
 
   @override
   Widget build(BuildContext context) {
+      ref.listen(postProvider, (previous, next) {
+      if (next.post is Resource<String>) {
+        switch (next.post.status) {
+          case ResourceStatus.success:
+            showSnackBar(
+              context,
+              Resource.getMessage(next.post.data),);
+          case ResourceStatus.error:
+            showSnackBar(
+              context,
+              Resource.getMessage(next.post!.error),
+            );
+          case ResourceStatus.loading:
+            break;
+        }
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         actions: [

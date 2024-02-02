@@ -3,7 +3,7 @@ import 'package:blogify/features/post/domain/entities/post_entity.dart';
 
 abstract class PostDataSource {
 
-  Future<Resource> publishPost( PostEntity post,);
+  Future<Resource<String>> publishPost( PostEntity post,);
 
   Future<Resource> deletePost (String postId);
 

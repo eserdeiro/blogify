@@ -32,7 +32,7 @@ class UserNotifier extends StateNotifier<UserState> {
     state = state.copyWith(
       user: Resource<String>(
         ResourceStatus.error,
-        error: errorMessage,
+        message: errorMessage,
       ),
     );
   }

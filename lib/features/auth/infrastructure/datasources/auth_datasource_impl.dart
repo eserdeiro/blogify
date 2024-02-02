@@ -24,7 +24,7 @@ class AuthDatasourceImpl extends AuthDataSource {
       }
     } catch (e) {
       // Indicar que hubo un error durante la autenticación (error)
-      return Resource<User?>(ResourceStatus.error, error: e.toString());
+      return Resource<User?>(ResourceStatus.error, message: e.toString());
     }
   }
 
@@ -38,7 +38,7 @@ class AuthDatasourceImpl extends AuthDataSource {
 
       return Resource<UserCredential?>(ResourceStatus.success, data: data);
     } on FirebaseAuthException catch (e) {
-      return Resource<UserCredential?>(ResourceStatus.error, error: e.code);
+      return Resource<UserCredential?>(ResourceStatus.error, message: e.code);
     }
   }
 
@@ -68,11 +68,11 @@ class AuthDatasourceImpl extends AuthDataSource {
       } else {
         return Resource<UserCredential>(
           ResourceStatus.error,
-          error: 'username-already-in-use',
+          message: 'username-already-in-use',
         );
       }
     } on FirebaseAuthException catch (e) {
-      return Resource<UserCredential>(ResourceStatus.error, error: e.code);
+      return Resource<UserCredential>(ResourceStatus.error, message: e.code);
     }
   }
 }

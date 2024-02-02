@@ -60,7 +60,7 @@ Future<void> showDialogDeleteAccount(
                     Future.delayed(Duration.zero, () {
                       showSnackBar(
                         currentContext,
-                        Resource.getErrorMessage(result.status, result.error),
+                        Resource.getMessage(result.message),
                       );
                       currentContext.push(Strings.loginUrl);
                     });

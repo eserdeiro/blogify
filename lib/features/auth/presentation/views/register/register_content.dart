@@ -18,7 +18,7 @@ class RegisterContent extends ConsumerWidget {
         case ResourceStatus.error:
           showSnackBar(
             context,
-            Resource.getErrorMessage(next.user!.status, next.user!.error),
+            Resource.getMessage(next.user!.message),
           );
         case ResourceStatus.loading:
           break;

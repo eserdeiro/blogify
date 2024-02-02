@@ -22,7 +22,7 @@ class UserDatasourceImpl extends UserDatasource {
         // Fix
         return Resource<UserEntity>(
           ResourceStatus.init,
-          error: 'ignore this momently',
+          message: 'ignore this momently',
         );
       }
     });
@@ -35,7 +35,7 @@ class UserDatasourceImpl extends UserDatasource {
       final uid = userFirebaseAuth!.uid;
       return Resource<String>(ResourceStatus.success, data: uid);
     } on FirebaseException catch (e) {
-      return Resource<String>(ResourceStatus.error, error: e.code);
+      return Resource<String>(ResourceStatus.error, message: e.code);
     }
   }
 
@@ -67,12 +67,12 @@ class UserDatasourceImpl extends UserDatasource {
     if (usernameExists) {
       return Resource<String>(
         ResourceStatus.error,
-        error: 'username-already-in-use',
+        message: 'username-already-in-use',
       );
     } else if (emailExists) {
       return Resource<String>(
         ResourceStatus.error,
-        error: 'email-already-in-use',
+        message: 'email-already-in-use',
       );
     } else {
       final map = <String, dynamic>{
@@ -97,10 +97,10 @@ class UserDatasourceImpl extends UserDatasource {
               Resource<String>(ResourceStatus.success, data: 'Updated data'),
             );
           })
-          .timeout(const Duration(seconds: 5))
+          .timeout(const Duration(seconds: 15))
           .catchError((e) {
             completer.complete(
-              Resource<String>(ResourceStatus.error, error: e.toString()),
+              Resource<String>(ResourceStatus.error, message: e.toString()),
             );
           });
       return completer.future;
@@ -125,9 +125,9 @@ class UserDatasourceImpl extends UserDatasource {
       await currentUser.delete();
       return Resource<String>(ResourceStatus.success, data: 'account-deleted');
     } on FirebaseAuthException catch (e) {
-      return Resource<String>(ResourceStatus.error, error: e.code);
+      return Resource<String>(ResourceStatus.error, message: e.code);
     } catch (e) {
-      return Resource<String>(ResourceStatus.error, error: e.toString());
+      return Resource<String>(ResourceStatus.error, message: e.toString());
     }
   }
 }

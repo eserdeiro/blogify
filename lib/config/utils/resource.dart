@@ -3,13 +3,13 @@ enum ResourceStatus { loading, success, error, init }
 class Resource<T> {
   final ResourceStatus status;
   final T? data;
-  final String? error;
+  final String? message;
 
-  Resource(this.status, {this.data, this.error});
+  Resource(this.status, {this.data, this.message});
 
-  static String getErrorMessage(ResourceStatus status, String? error) {
-  if (status == ResourceStatus.error && error != null) {
-    switch (error) {
+  static String getMessage( String? message) {
+  if ( message != null) {
+    switch (message) {
       case 'network-request-failed':
         return 'Timeout';
       case 'invalid-credential':
@@ -28,8 +28,12 @@ class Resource<T> {
         return 'Incorrect password';
       case 'user-not-found':
         return 'User not found';
+      case 'post-deleted': 
+        return 'Post deleted';
+      case 'post-created-successfully':
+        return 'Post created successfully';
       default:
-        print('Error resource $error');
+        print('Error resource $message');
         return 'Something went wrong';
     }
   } else {
