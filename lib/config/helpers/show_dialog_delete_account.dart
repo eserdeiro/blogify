@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:blogify/config/index.dart';
-import 'package:blogify/features/auth/presentation/providers/user_provider.dart';
+import 'package:blogify/features/user/presentation/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/material.dart'; 
 import 'package:go_router/go_router.dart';

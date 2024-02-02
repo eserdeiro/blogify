@@ -1,7 +1,7 @@
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/post/presentation/index.dart';
+import 'package:blogify/features/user/presentation/index.dart';
 import 'package:blogify/presentation/index.dart';
-import 'package:blogify/presentation/views/home_view.dart';
 import 'package:flutter/material.dart';
 
 class MenuItem {

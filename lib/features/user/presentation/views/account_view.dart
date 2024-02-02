@@ -1,9 +1,9 @@
-import 'package:blogify/config/index.dart';
-import 'package:blogify/features/auth/domain/index.dart';
+import 'package:blogify/config/index.dart'; 
 import 'package:blogify/features/auth/presentation/index.dart';
-import 'package:blogify/features/post/domain/entities/post_entity.dart';
+import 'package:blogify/features/post/domain/index.dart'; 
 import 'package:blogify/features/post/presentation/index.dart';
-import 'package:blogify/features/post/presentation/providers/post_provider.dart';
+import 'package:blogify/features/user/domain/index.dart';
+import 'package:blogify/features/user/presentation/index.dart'; 
 import 'package:blogify/presentation/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +46,7 @@ class AccountViewState extends ConsumerState<AccountView> {
         try {
           authUserId(currentContext);
         } catch (e) {
-          print('Error on authUserUid ${e.toString()}');
+          print('Error on authUserUid $e');
         }
       }
     });

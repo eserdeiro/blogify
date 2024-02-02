@@ -1,5 +1,6 @@
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
+import 'package:blogify/features/user/domain/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

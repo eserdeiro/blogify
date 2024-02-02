@@ -1,5 +1,6 @@
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/presentation/index.dart';
+import 'package:blogify/features/user/presentation/index.dart';
 import 'package:blogify/presentation/index.dart';
 import 'package:go_router/go_router.dart';
 

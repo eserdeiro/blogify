@@ -1,10 +1,8 @@
 import 'package:blogify/config/index.dart';
-import 'package:blogify/features/auth/domain/index.dart';
-import 'package:blogify/features/auth/presentation/index.dart';
-import 'package:blogify/features/auth/presentation/providers/user_provider.dart';
-import 'package:blogify/features/post/domain/entities/post_entity.dart';
-import 'package:blogify/features/post/presentation/index.dart';
-import 'package:blogify/features/post/presentation/providers/post_provider.dart';
+import 'package:blogify/features/post/domain/index.dart';
+import 'package:blogify/features/post/presentation/index.dart'; 
+import 'package:blogify/features/user/domain/index.dart';
+import 'package:blogify/features/user/presentation/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -54,7 +52,7 @@ class HomeViewState extends ConsumerState<HomeView> {
           }
         }
       } catch (e) {
-        print('Error ${e.toString()}');
+        print('Error $e)}');
       }
     });
   }
