@@ -43,13 +43,16 @@ class UserDatasourceImpl extends UserDatasource {
   Future<Resource<String>> edit(UserEntity user) async {
     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
     final userUid = userFirebaseAuth!.uid;
+    print('user image is not empty? 1 ${user.image.trim().isNotEmpty}');
     if (user.image.isNotEmpty) {
+      print('user image is not empty ${user.image.trim().isNotEmpty}');
       user.image = await FirebaseHelper.uploadImageAndReturnUrl(
         user.image,
         Strings.usersCollection,
         userUid,
       );
     }
+    print('user image db ${user.image}');
 
     final completer = Completer<Resource<String>>();
     final CollectionReference usersCollection =
@@ -95,7 +98,7 @@ class UserDatasourceImpl extends UserDatasource {
           .update(map)
           .then((value) {
             completer.complete(
-              Resource<String>(ResourceStatus.success, data: 'dataMap'),
+              Resource<String>(ResourceStatus.success, data: 'Updated data'),
             );
           })
           .timeout(const Duration(seconds: 5))
@@ -126,10 +129,8 @@ class UserDatasourceImpl extends UserDatasource {
       await currentUser.delete();
       return Resource<String>(ResourceStatus.success, data: 'account-deleted');
     } on FirebaseAuthException catch (e) {
-      print('Error reauth: ${e.message} ${e.code}');
       return Resource<String>(ResourceStatus.error, error: e.code);
     } catch (e) {
-      print('Error $e');
       return Resource<String>(ResourceStatus.error, error: e.toString());
     }
   }

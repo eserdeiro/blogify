@@ -44,7 +44,7 @@ class AccountEditScreenState extends ConsumerState<AccountEditScreen> {
     ref.listen(userProvider, (previous, next) {
       switch (next.user?.status) {
         case ResourceStatus.success:
-          showSnackBar(context, 'Updated data');
+          showSnackBar(context, next.user.data);
         case ResourceStatus.error:
           showSnackBar(
             context,
