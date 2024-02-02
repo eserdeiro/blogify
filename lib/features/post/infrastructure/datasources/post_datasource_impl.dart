@@ -8,7 +8,6 @@ class PostDataSourceImpl extends PostDataSource {
   @override
   Future<Resource> publishPost(PostEntity post) async {
     //Publish post into Posts/postid/ postdata:
-
     final CollectionReference collection =
         FirebaseHelper.firebaseFirestore.collection('Posts');
     final userFirebaseAuth = FirebaseHelper.firebaseAuth.currentUser;
@@ -44,7 +43,7 @@ class PostDataSourceImpl extends PostDataSource {
       print('Post deleted');
       return Success('post-deleted');
     } on FirebaseAuthException catch (e) {
-      print('error when deleting');
+      print('Error deleting');
       return Error(e.code);
     }
   }

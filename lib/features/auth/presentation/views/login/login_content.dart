@@ -10,7 +10,6 @@ class LoginContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //Esto mantiene el estado del login
     ref.watch(authProvider.notifier).checkAuthStatus();
 
     ref.listen(authProvider, (previous, next) {
@@ -21,7 +20,6 @@ class LoginContent extends ConsumerWidget {
         case Error _:
           showSnackBar(context, (next.user! as Error).getErrorMessage());
         case Loading _:
-          //TODO ADD LOADING 
       }
     });
     final loginForm = ref.watch(loginFormProvider);

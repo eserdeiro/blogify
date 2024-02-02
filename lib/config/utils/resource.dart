@@ -42,7 +42,7 @@ class Error<T> extends Resource<T> {
       case 'user-not-found': 
         return 'User not found'; 
       default:
-        print('error get error $error');
+        print('Error resource $error');
         return 'Something went wrong';
     }
   }

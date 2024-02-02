@@ -15,66 +15,35 @@ class PostNotifier extends StateNotifier<PostState> {
 
   PostNotifier({required this.postRepositoryImpl}) : super(PostState());
 
-  Future<void> publish(
+  Future<Resource> publish(
     PostEntity post,
   ) async {
     final publishPost = await postRepositoryImpl.publishPost(
       post,
     );
-    switch (publishPost) {
-      case Loading _:
-        state = state.copyWith(
-          post: publishPost,
-        );
-      case Success _:
-        state = state.copyWith(
-          post: publishPost,
-        );
-      case Error _:
-        state = state.copyWith(
-          post: publishPost,
-        );
-    }
+    state = state.copyWith(
+      post: publishPost,
+    );
+    return publishPost;
   }
 
-  Future<void> deletePost(
+  Future<Resource> deletePost(
     String postId,
   ) async {
     final postToDelete = await postRepositoryImpl.deletePost(
       postId,
     );
-    switch (postToDelete) {
-      case Loading _:
-        state = state.copyWith(
-          post: postToDelete,
-        );
-      case Success _:
-        state = state.copyWith(
-          post: postToDelete,
-        );
-      case Error _:
-        state = state.copyWith(
-          post: postToDelete,
-        );
-    }
+    state = state.copyWith(
+      post: postToDelete,
+    );
+    return postToDelete;
   }
 
   Future<Resource<List<PostEntity>>> getAllPosts() async {
     final allPosts = await postRepositoryImpl.getAllPosts();
-    switch (allPosts) {
-      case Loading _:
-        state = state.copyWith(
-          post: allPosts,
-        );
-      case Success _:
-        state = state.copyWith(
-          post: allPosts,
-        );
-      case Error _:
-        state = state.copyWith(
-          post: allPosts,
-        );
-    }
+    state = state.copyWith(
+      post: allPosts,
+    );
     return allPosts;
   }
 
@@ -85,9 +54,8 @@ class PostNotifier extends StateNotifier<PostState> {
     state = state.copyWith(
       post: allPosts,
     );
-    return postRepositoryImpl.getAllPostsByUser(userId);
+    return allPosts;
   }
-
 }
 
 class PostState {

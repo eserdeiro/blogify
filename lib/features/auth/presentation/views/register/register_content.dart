@@ -10,6 +10,7 @@ class RegisterContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(authProvider.notifier).checkAuthStatus();
     ref.listen(authProvider, (previous, next) {
       switch (next.user) {
         case Success _:

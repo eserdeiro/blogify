@@ -1,7 +1,7 @@
 import 'package:blogify/config/index.dart';
 import 'package:blogify/features/auth/domain/index.dart';
 import 'package:blogify/features/auth/infrastructure/index.dart';
-import 'package:blogify/features/user/domain/index.dart'; 
+import 'package:blogify/features/user/domain/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
@@ -19,94 +19,46 @@ class AuthNotifier extends StateNotifier<AuthState> {
     return authRepositoryImpl.logout();
   }
 
-  Future<void> checkAuthStatus() async {
+  Future<Resource> checkAuthStatus() async {
     final user = await authRepositoryImpl.checkAuthStatus();
-    switch (user) {
-      case Loading _:
-        state = state.copyWith(
-          user: user,
-          authStatus: AuthStatus.checking,
-        );
-      case Success _:
-        state = state.copyWith(
-          user: user,
-          authStatus: AuthStatus.authenticated,
-        );
-      case Error _:
-        state = state.copyWith(
-          user: user,
-          authStatus: AuthStatus.notAuthenticated,
-        );
-    }
+    state = state.copyWith(
+      user: user,
+    );
+    return user;
   }
 
-  Future<void> login(String email, String password) async {
+  Future<Resource> login(String email, String password) async {
     final user = await authRepositoryImpl.login(email, password);
-
-    switch (user) {
-      case Loading _:
-        state = state.copyWith(
-          user: user,
-          authStatus: AuthStatus.checking,
-        );
-      case Success _:
-        state = state.copyWith(
-          user: user,
-          authStatus: AuthStatus.authenticated,
-        );
-      case Error _:
-        state = state.copyWith(
-          user: user,
-          authStatus: AuthStatus.notAuthenticated,
-        );
-    }
+    state = state.copyWith(
+      user: user,
+    );
+    return user;
   }
 
-  Future<void> register(
+  Future<Resource> register(
     UserEntity user,
   ) async {
     final userRegister = await authRepositoryImpl.register(
       user,
     );
-    switch (userRegister) {
-      case Loading _:
-        state = state.copyWith(
-          user: userRegister,
-          authStatus: AuthStatus.checking,
-        );
-      case Success _:
-        state = state.copyWith(
-          user: userRegister,
-          authStatus: AuthStatus.authenticated,
-        );
-      case Error _:
-        state = state.copyWith(
-          user: userRegister,
-          authStatus: AuthStatus.notAuthenticated,
-        );
-    }
+    state = state.copyWith(
+      user: userRegister,
+    );
+    return userRegister;
   }
-
-
 }
 
-enum AuthStatus { checking, authenticated, notAuthenticated }
-
 class AuthState {
-  final AuthStatus authStatus;
   final Resource? user;
 
   AuthState({
-    this.authStatus = AuthStatus.checking,
     this.user,
   });
 
   AuthState copyWith({
-    AuthStatus? authStatus,
     Resource? user,
   }) =>
       AuthState(
-        authStatus: authStatus ?? this.authStatus,
         user: user ?? this.user,
       );
 }

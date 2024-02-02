@@ -41,7 +41,6 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   }
 
   Future<void> onSubmit() async {
-    //login firebase working
     await createPostCallback(
       PostEntity(
         title: state.title,
@@ -64,7 +63,6 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
 }
 
 class CreatePostState {
-  final bool isPosting;
   final bool isFormPosted;
   final String title;
   final String description;
@@ -73,7 +71,6 @@ class CreatePostState {
 
   CreatePostState({
         DateTime? createdAt,
-    this.isPosting = false,
     this.isFormPosted = false,
     this.title = '',
     this.description = '',
@@ -82,7 +79,6 @@ class CreatePostState {
   }) : createdAt = createdAt ?? DateTime.now();
 
   CreatePostState copyWith({
-    bool? isPosting,
     bool? isFormPosted,
     String? title,
     String? description,
@@ -90,7 +86,6 @@ class CreatePostState {
     DateTime? createdAt,
   }) =>
       CreatePostState(
-        isPosting: isPosting ?? this.isPosting,
         isFormPosted: isFormPosted ?? this.isFormPosted,
         title: title ?? this.title,
         description: description ?? this.description,
@@ -102,7 +97,6 @@ class CreatePostState {
   String toString() {
     return '''
 CreatePostFormState: 
-  isPosting: $isPosting
   isFormPosted: $isFormPosted
   title: $title
   description: $description
