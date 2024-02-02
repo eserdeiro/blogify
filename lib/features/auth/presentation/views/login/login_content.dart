@@ -24,7 +24,7 @@ class LoginContent extends ConsumerWidget {
         case ResourceStatus.loading:
           print('loadingg..');
         default:
-          // Puedes manejar otros estados si es necesario
+        
           break;
       }
     });
