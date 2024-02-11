@@ -1,5 +1,5 @@
 name: blogify
-description: A new Flutter project.
+description: Explore, learn, and share on our blog app.
 publish_to: 'eserdeiro'
 version: 0.1.0
 
@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.1.5 <4.0.0'
 
 dependencies:
+  change_app_package_name: ^1.1.0
   cloud_firestore: ^4.14.0
   equatable: ^2.0.5
   firebase_auth: ^4.15.3
@@ -32,6 +33,7 @@ flutter:
 
   assets:
     - lib/assets/images/
+    - lib/assets/images/icons/
     - lib/assets/fonts/
 
   fonts:
