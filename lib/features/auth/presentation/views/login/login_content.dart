@@ -22,7 +22,6 @@ class LoginContent extends ConsumerWidget {
             Resource.getMessage(next.user!.message),
           );
         case ResourceStatus.loading:
-          print('loadingg..');
         default:
         
           break;

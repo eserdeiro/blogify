@@ -33,7 +33,6 @@ class Resource<T> {
       case 'post-created-successfully':
         return 'Post created successfully';
       default:
-        print('Error resource $message');
         return 'Something went wrong';
     }
   } else {

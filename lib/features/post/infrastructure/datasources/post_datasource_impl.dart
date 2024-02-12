@@ -4,7 +4,6 @@ import 'package:blogify/config/index.dart';
 import 'package:blogify/features/post/domain/datasources/post_datasource.dart';
 import 'package:blogify/features/post/domain/entities/post_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class PostDataSourceImpl extends PostDataSource {
   @override
@@ -54,12 +53,16 @@ class PostDataSourceImpl extends PostDataSource {
     final postReference = collection.doc(postId);
     await postReference
         .delete()
-        .then((value) => completer.complete(
-            Resource<String>(ResourceStatus.success, message: 'post-deleted')))
+        .then(
+          (value) => completer.complete(
+            Resource<String>(ResourceStatus.success, message: 'post-deleted'),
+          ),
+        )
         .timeout(const Duration(seconds: 10))
         .catchError((e) {
       completer.complete(
-          Resource<String>(ResourceStatus.error, message: e.toString()));
+        Resource<String>(ResourceStatus.error, message: e.toString()),
+      );
     });
 
     return completer.future;

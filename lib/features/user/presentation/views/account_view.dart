@@ -45,7 +45,9 @@ class AccountViewState extends ConsumerState<AccountView> {
         try {
           authUserId(currentContext);
         } catch (e) {
-          print('Error on authUserUid $e');
+          if (kDebugMode) {
+            print('Error on authUserUid $e');
+          }
         }
       }
     });
